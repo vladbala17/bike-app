@@ -7,15 +7,21 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
 private val DarkColorPalette = darkColors(
-    primary = Purple200,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    primary = DarkBlue,
+    primaryVariant = GrayBlue,
+    secondary = White,
+    background = Black,
+    surface = Blue,
+    onPrimary = Blue,
+    onSecondary = Blue,
+    onBackground = Blue,
+    onSurface = Blue,
 )
 
 private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    primary = Blue,
+    primaryVariant = Blue,
+    secondary = Blue
 
     /* Other default colors to override
     background = Color.White,
@@ -32,7 +38,7 @@ fun BikeGarageTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Compos
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {
-        LightColorPalette
+        DarkColorPalette
     }
 
     MaterialTheme(
