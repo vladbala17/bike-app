@@ -84,4 +84,7 @@ dependencies {
     //Compose
     implementation "androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_compose_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_compose_version"
+
+    //Material3
+    implementation "androidx.compose.material3:material3:$material3_version"
 }
