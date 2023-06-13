@@ -115,7 +115,8 @@ fun BottomNavigationBar(
                             colorResource(R.color.blue)
                         } else {
                             colorResource(R.color.white)
-                        }
+                        },
+                        style = androidx.compose.material.MaterialTheme.typography.h1
                     )
                 },
                 colors = NavigationBarItemDefaults.colors(
