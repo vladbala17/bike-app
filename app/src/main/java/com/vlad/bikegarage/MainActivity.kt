@@ -4,19 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Colors
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -65,7 +62,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun NavigationScreen(navController: NavHostController) {
-    NavHost(navController, startDestination = Route.RIDES) {
+    NavHost(navController, startDestination = Route.BIKES) {
         composable(Route.BIKES) {
             BikesScreen()
         }
@@ -87,7 +84,7 @@ fun BottomNavigationBar(
 ) {
     val backstackEntry = navController.currentBackStackEntryAsState()
     NavigationBar(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().height(75.dp),
         containerColor = colorResource(R.color.dark_blue),
         tonalElevation = 5.dp,
     ) {
@@ -100,20 +97,30 @@ fun BottomNavigationBar(
                     if (selected) {
                         Icon(
                             painter = painterResource(destination.selectedIcon),
-                            contentDescription = stringResource(destination.titleId)
+                            contentDescription = stringResource(destination.titleId),
+                            tint = colorResource(R.color.blue)
                         )
                     } else {
                         Icon(
                             painter = painterResource(destination.unselectedIcon),
-                            contentDescription = stringResource(destination.titleId)
+                            contentDescription = stringResource(destination.titleId),
+                            tint = colorResource(R.color.white)
                         )
                     }
                 },
                 label = {
                     Text(
-                        text = stringResource(destination.titleId)
+                        text = stringResource(destination.titleId),
+                        color = if (selected) {
+                            colorResource(R.color.blue)
+                        } else {
+                            colorResource(R.color.white)
+                        }
                     )
-                }
+                },
+                colors = NavigationBarItemDefaults.colors(
+                    indicatorColor = colorResource(R.color.dark_blue)
+                    )
             )
         }
     }
