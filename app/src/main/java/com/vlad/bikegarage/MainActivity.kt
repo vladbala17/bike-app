@@ -3,16 +3,21 @@ package com.vlad.bikegarage
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -32,6 +37,7 @@ import com.vlad.bikegarage.navigation.Route
 import com.vlad.bikegarage.rides.presentation.RidesScreen
 import com.vlad.bikegarage.settings.presentation.SettingsScreen
 import com.vlad.bikegarage.ui.theme.BikeGarageTheme
+import com.vlad.bikegarage.ui.theme.NoRippleInteractionSource
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -116,12 +122,13 @@ fun BottomNavigationBar(
                         } else {
                             colorResource(R.color.white)
                         },
-                        style = androidx.compose.material.MaterialTheme.typography.h1
+                        style = MaterialTheme.typography.h1
                     )
                 },
                 colors = NavigationBarItemDefaults.colors(
                     indicatorColor = colorResource(R.color.dark_blue)
-                    )
+                    ),
+                interactionSource = NoRippleInteractionSource()
             )
         }
     }
