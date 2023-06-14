@@ -12,9 +12,11 @@
         android:theme="@style/Theme.BikeGarage"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".main.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.BikeGarage">
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.BikeGarage"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

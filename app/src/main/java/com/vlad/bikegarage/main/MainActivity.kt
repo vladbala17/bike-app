@@ -1,11 +1,9 @@
-package com.vlad.bikegarage
+package com.vlad.bikegarage.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,23 +11,27 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.vlad.bikegarage.R
 import com.vlad.bikegarage.bikes.presentation.BikesScreen
 import com.vlad.bikegarage.navigation.BOTTOM_NAV_ITEM_LIST
 import com.vlad.bikegarage.navigation.BottomNavItem
@@ -46,14 +48,23 @@ class MainActivity : ComponentActivity() {
             BikeGarageTheme {
                 // A surface container using the 'background' color from the theme
                 val navController = rememberNavController()
-
+                val viewModel: MainActivityViewModel by viewModels()
+                val state = viewModel.state.collectAsStateWithLifecycle()
                 Scaffold(
+                    topBar = {
+                        TopNavigationBar(
+                            navController = navController,
+                            title = state.value.title,
+                            onClick = {}
+                        )
+                    },
                     bottomBar = {
                         BottomNavigationBar(
                             items = BOTTOM_NAV_ITEM_LIST,
                             navController = navController,
                             onItemClick = {
                                 navController.navigate(it.route)
+                                viewModel.onEvent(MainScreenEvent.PageChanged(it.route))
                             }
                         )
                     }
@@ -127,11 +138,29 @@ fun BottomNavigationBar(
                 },
                 colors = NavigationBarItemDefaults.colors(
                     indicatorColor = colorResource(R.color.dark_blue)
-                    ),
+                ),
                 interactionSource = NoRippleInteractionSource()
             )
         }
     }
+}
+
+@Composable
+fun TopNavigationBar(
+    navController: NavController,
+    title: String,
+    onClick: () -> Unit
+) {
+    TopAppBar(
+        title = {
+            Text(
+                text = title,
+                color = Color.White,
+                style = MaterialTheme.typography.body1
+            )
+        },
+        backgroundColor = colorResource(R.color.dark_blue)
+    )
 }
 
 @Composable
