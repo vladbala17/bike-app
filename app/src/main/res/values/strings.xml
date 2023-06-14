@@ -4,4 +4,5 @@
     <string name="bikes_title">Bikes</string>
     <string name="rides_title">Rides</string>
     <string name="settings_title">Settings</string>
+    <string name="distance_units_label">Distance Units</string>
 </resources>

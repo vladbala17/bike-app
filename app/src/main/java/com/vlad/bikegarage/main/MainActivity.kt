@@ -159,7 +159,8 @@ fun TopNavigationBar(
                 style = MaterialTheme.typography.body1
             )
         },
-        backgroundColor = colorResource(R.color.dark_blue)
+        backgroundColor = colorResource(R.color.deep_dark_blue),
+        elevation = 0.dp
     )
 }
 
