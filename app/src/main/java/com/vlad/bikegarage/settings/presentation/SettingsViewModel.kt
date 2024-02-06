@@ -28,7 +28,13 @@ class SettingsViewModel @Inject constructor(
 
             }
 
-            is SettingsEvent.OnNotifyReminder -> TODO()
+            is SettingsEvent.OnNotifyReminder -> {
+                _state.update { newState ->
+                    newState.copy(isServiceNotifyEnabled = _state.value.isServiceNotifyEnabled.not())
+                }
+                preferences.saveEnabledNotifications(_state.value.isServiceNotifyEnabled)
+            }
+
             is SettingsEvent.OnServiceIntervalReminderSet -> {
                 _state.update { newState ->
                     newState.copy(serviceIntervalReminder = filterOutDigits(event.distanceIntervalReminder))

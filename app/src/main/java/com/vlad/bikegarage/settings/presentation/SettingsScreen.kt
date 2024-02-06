@@ -78,7 +78,13 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
                 },
                 modifier = Modifier.weight(1f)
             )
-            DefaultSwitch(modifier = Modifier.align(Alignment.CenterVertically))
+            DefaultSwitch(
+                state.value.isServiceNotifyEnabled,
+                onCheckedChanged = {
+                    viewModel.onEvent(SettingsEvent.OnNotifyReminder)
+                },
+                modifier = Modifier.align(Alignment.CenterVertically)
+            )
         }
         Label(
             stringResource(R.string.default_bike_label),
@@ -207,13 +213,10 @@ fun NumericTextField(
 }
 
 @Composable
-fun DefaultSwitch(modifier: Modifier) {
-    var checked by remember {
-        mutableStateOf(true)
-    }
+fun DefaultSwitch(checked: Boolean, onCheckedChanged: (Boolean) -> Unit, modifier: Modifier) {
 
     Switch(checked = checked, onCheckedChange = {
-        checked = it
+        onCheckedChanged(it)
     }, modifier = modifier)
 }
 
