@@ -71,7 +71,13 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
             modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
         )
         Row(modifier = Modifier.fillMaxWidth()) {
-            NumericTextField(modifier = Modifier.weight(1f))
+            NumericTextField(
+                state.value.serviceReminder,
+                onServiceReminderAdded = { distanceReminder ->
+                    viewModel.onEvent(SettingsEvent.OnServiceReminderSet(distanceReminder))
+                },
+                modifier = Modifier.weight(1f)
+            )
             DefaultSwitch(modifier = Modifier.align(Alignment.CenterVertically))
         }
         Label(
@@ -173,19 +179,19 @@ fun DropDownField(listItems: List<String>, icon: Int, modifier: Modifier = Modif
 }
 
 @Composable
-fun NumericTextField(modifier: Modifier = Modifier) {
-    var selectedItem by remember {
-        mutableStateOf("100")
-    }
+fun NumericTextField(
+    value: String = "100",
+    onServiceReminderAdded: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
 
     Row(
         modifier = modifier
     ) {
         TextField(
-
-            value = "$selectedItem",
+            value = value,
             onValueChange = {
-                selectedItem = it
+                onServiceReminderAdded(it)
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number

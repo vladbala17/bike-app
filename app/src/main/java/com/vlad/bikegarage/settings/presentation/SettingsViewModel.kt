@@ -20,9 +20,17 @@ class SettingsViewModel @Inject constructor(private val preferences: Preferences
     fun onEvent(event: SettingsEvent) {
         when (event) {
             is SettingsEvent.OnDefaultBikeSet -> TODO()
-            is SettingsEvent.OnDistanceUnitSet -> TODO()
+            is SettingsEvent.OnDistanceUnitSet -> {
+
+            }
+
             is SettingsEvent.OnNotifyReminder -> TODO()
-            is SettingsEvent.OnServiceReminderSet -> TODO()
+            is SettingsEvent.OnServiceReminderSet -> {
+                _state.update { newState ->
+                    newState.copy(serviceReminder = event.distanceReminder)
+                }
+                preferences.saveServiceInterval(event.distanceReminder)
+            }
         }
     }
 

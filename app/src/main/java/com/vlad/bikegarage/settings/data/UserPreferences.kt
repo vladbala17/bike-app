@@ -5,16 +5,16 @@ import com.vlad.bikegarage.settings.domain.Preferences
 
 class UserPreferences(
     private val sharedPreferences: SharedPreferences
-): Preferences {
+) : Preferences {
     override fun saveDistanceUnit(distanceUnit: String) {
         sharedPreferences.edit()
             .putString(Preferences.KEY_DISTANCE_UNIT, distanceUnit)
             .apply()
     }
 
-    override fun saveServiceInterval(distance: Int) {
+    override fun saveServiceInterval(distance: String) {
         sharedPreferences.edit()
-            .putInt(Preferences.KEY_SERVICE_INTERVAL, distance)
+            .putString(Preferences.KEY_SERVICE_INTERVAL, distance)
             .apply()
     }
 
@@ -34,8 +34,8 @@ class UserPreferences(
         return sharedPreferences.getString(Preferences.KEY_DISTANCE_UNIT, "km") ?: "km"
     }
 
-    override fun getServiceInterval(): Int {
-        return sharedPreferences.getInt(Preferences.KEY_SERVICE_INTERVAL, 0)
+    override fun getServiceInterval(): String {
+        return sharedPreferences.getString(Preferences.KEY_SERVICE_INTERVAL, "100") ?: "100"
     }
 
     override fun areNotificationsEnabled(): Boolean {

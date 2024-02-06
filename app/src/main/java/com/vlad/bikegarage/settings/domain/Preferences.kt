@@ -2,12 +2,12 @@ package com.vlad.bikegarage.settings.domain
 
 interface Preferences {
     fun saveDistanceUnit(distanceUnit: String)
-    fun saveServiceInterval(distance: Int)
+    fun saveServiceInterval(distance: String)
     fun saveEnabledNotifications(enabled: Boolean)
     fun saveDefaultBike(bikeName: String)
 
     fun getDistanceUnit(): String
-    fun getServiceInterval(): Int
+    fun getServiceInterval(): String
     fun areNotificationsEnabled(): Boolean
     fun getDefaultBikeName(): String
 
