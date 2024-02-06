@@ -25,11 +25,11 @@ class SettingsViewModel @Inject constructor(private val preferences: Preferences
             }
 
             is SettingsEvent.OnNotifyReminder -> TODO()
-            is SettingsEvent.OnServiceReminderSet -> {
+            is SettingsEvent.OnServiceIntervalReminderSet -> {
                 _state.update { newState ->
-                    newState.copy(serviceReminder = event.distanceReminder)
+                    newState.copy(serviceIntervalReminder = event.distanceIntervalReminder)
                 }
-                preferences.saveServiceInterval(event.distanceReminder)
+                preferences.saveServiceInterval(event.distanceIntervalReminder)
             }
         }
     }
@@ -38,7 +38,7 @@ class SettingsViewModel @Inject constructor(private val preferences: Preferences
         _state.update {
             it.copy(
                 distanceUnit = preferences.getDistanceUnit(),
-                serviceReminder = preferences.getServiceInterval(),
+                serviceIntervalReminder = preferences.getServiceInterval(),
                 isServiceNotifyEnabled = preferences.areNotificationsEnabled(),
                 defaultBike = preferences.getDefaultBikeName()
             )

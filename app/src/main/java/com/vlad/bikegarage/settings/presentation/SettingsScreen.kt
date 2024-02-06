@@ -72,9 +72,9 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
         )
         Row(modifier = Modifier.fillMaxWidth()) {
             NumericTextField(
-                state.value.serviceReminder,
+                state.value.serviceIntervalReminder,
                 onServiceReminderAdded = { distanceReminder ->
-                    viewModel.onEvent(SettingsEvent.OnServiceReminderSet(distanceReminder))
+                    viewModel.onEvent(SettingsEvent.OnServiceIntervalReminderSet(distanceReminder))
                 },
                 modifier = Modifier.weight(1f)
             )
