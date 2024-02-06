@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.vlad.bikegarage.settings.data.UserPreferences
 import com.vlad.bikegarage.settings.domain.Preferences
+import com.vlad.bikegarage.settings.domain.use_vase.FilterOutDigits
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,5 +28,11 @@ object AppModule {
     @Singleton
     fun providePreferences(sharedPreferences: SharedPreferences): Preferences {
         return UserPreferences(sharedPreferences)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFilterDigitsUseCase(): FilterOutDigits {
+        return FilterOutDigits()
     }
 }
