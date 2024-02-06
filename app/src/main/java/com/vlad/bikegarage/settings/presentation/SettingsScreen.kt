@@ -35,13 +35,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vlad.bikegarage.R
 import com.vlad.bikegarage.ui.theme.BikeGarageTheme
 import com.vlad.bikegarage.util.SuffixTransformation
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SettingsScreen() {
+fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
+    val state = viewModel.state.collectAsStateWithLifecycle()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -158,7 +162,9 @@ fun DropDownField(listItems: List<String>, icon: Int, modifier: Modifier = Modif
                     Text(
                         text = selectedOption,
                         color = Color.White
+
                     )
+
                 }
             }
         }
@@ -210,7 +216,7 @@ fun DefaultSwitch(modifier: Modifier) {
 @Composable
 fun Development() {
     BikeGarageTheme {
-        NumericTextField(Modifier.fillMaxWidth())
+//        NumericTextField(Modifier.fillMaxWidth())
     }
 }
 

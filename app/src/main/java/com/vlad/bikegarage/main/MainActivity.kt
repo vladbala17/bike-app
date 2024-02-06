@@ -16,7 +16,6 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -40,7 +39,9 @@ import com.vlad.bikegarage.rides.presentation.RidesScreen
 import com.vlad.bikegarage.settings.presentation.SettingsScreen
 import com.vlad.bikegarage.ui.theme.BikeGarageTheme
 import com.vlad.bikegarage.ui.theme.NoRippleInteractionSource
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
