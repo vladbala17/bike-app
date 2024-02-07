@@ -62,6 +62,10 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
                 stringResource(id = R.string.distance_unit_km),
                 stringResource(id = R.string.distance_unit_miles)
             ),
+            selectedItem = state.value.distanceUnit,
+            onSelectedItem = { selectedItem ->
+                viewModel.onEvent(SettingsEvent.OnDistanceUnitSet(selectedItem))
+            },
             R.drawable.icon_dropdown,
             modifier = Modifier.fillMaxWidth()
         )
@@ -99,6 +103,10 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
                 "Bike 4",
                 "Bike 5",
             ),
+            selectedItem = state.value.defaultBike,
+            onSelectedItem = { selectedItem ->
+                viewModel.onEvent(SettingsEvent.OnDefaultBikeSet(selectedItem))
+            },
             R.drawable.icon_dropdown,
             modifier = Modifier.fillMaxWidth()
         )
@@ -125,25 +133,29 @@ fun Label(title: String = "", isMandatory: Boolean = false, modifier: Modifier =
 
 @ExperimentalMaterialApi
 @Composable
-fun DropDownField(listItems: List<String>, icon: Int, modifier: Modifier = Modifier) {
+fun DropDownField(
+    listItems: List<String>,
+    selectedItem: String,
+    onSelectedItem: (String) -> Unit,
+    icon: Int,
+    modifier: Modifier = Modifier
+) {
     var expanded by remember {
         mutableStateOf(false)
     }
 
-    var selectedItem by remember {
-        mutableStateOf(listItems.first())
-    }
-
     ExposedDropdownMenuBox(
-        modifier = modifier,
         expanded = expanded,
         onExpandedChange = {
             expanded = !expanded
-        }
+        },
+        modifier = modifier
     ) {
         TextField(
             value = selectedItem,
-            onValueChange = {},
+            onValueChange = { newValue ->
+                onSelectedItem(newValue)
+            },
             readOnly = true,
             colors = TextFieldDefaults.textFieldColors(
                 textColor = Color.White,
@@ -159,22 +171,21 @@ fun DropDownField(listItems: List<String>, icon: Int, modifier: Modifier = Modif
         )
 
         ExposedDropdownMenu(
-            modifier = modifier,
             expanded = expanded,
-            onDismissRequest = { expanded = false }
+            onDismissRequest = { expanded = false },
+            modifier = modifier
         ) {
             listItems.forEach { selectedOption ->
                 DropdownMenuItem(
                     modifier = modifier,
                     onClick = {
-                        selectedItem = selectedOption
+                        onSelectedItem(selectedOption)
                         expanded = false
                     }
                 ) {
                     Text(
                         text = selectedOption,
                         color = Color.White
-
                     )
 
                 }

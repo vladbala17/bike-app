@@ -31,7 +31,7 @@ class UserPreferences(
     }
 
     override fun getDistanceUnit(): String {
-        return sharedPreferences.getString(Preferences.KEY_DISTANCE_UNIT, "km") ?: "km"
+        return sharedPreferences.getString(Preferences.KEY_DISTANCE_UNIT, "KM") ?: "KM"
     }
 
     override fun getServiceInterval(): String {
@@ -43,6 +43,6 @@ class UserPreferences(
     }
 
     override fun getDefaultBikeName(): String {
-        return sharedPreferences.getString(Preferences.KEY_DISTANCE_UNIT, "Bike") ?: "No bike"
+        return sharedPreferences.getString(Preferences.KEY_DEFAULT_BIKE, "Bike") ?: "No bike"
     }
 }

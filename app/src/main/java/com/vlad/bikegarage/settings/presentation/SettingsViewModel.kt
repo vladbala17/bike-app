@@ -23,9 +23,18 @@ class SettingsViewModel @Inject constructor(
 
     fun onEvent(event: SettingsEvent) {
         when (event) {
-            is SettingsEvent.OnDefaultBikeSet -> TODO()
-            is SettingsEvent.OnDistanceUnitSet -> {
+            is SettingsEvent.OnDefaultBikeSet -> {
+                _state.update { newState ->
+                    newState.copy(defaultBike = event.bike)
+                }
+                preferences.saveDefaultBike(event.bike)
+            }
 
+            is SettingsEvent.OnDistanceUnitSet -> {
+                _state.update { newState ->
+                    newState.copy(distanceUnit = event.unit)
+                }
+                preferences.saveDistanceUnit(event.unit)
             }
 
             is SettingsEvent.OnNotifyReminder -> {
