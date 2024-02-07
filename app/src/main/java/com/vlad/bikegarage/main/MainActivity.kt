@@ -169,22 +169,27 @@ fun TopNavigationBar(
         backgroundColor = colorResource(R.color.deep_dark_blue),
         elevation = 0.dp,
         actions = {
-            IconButton(
-                onClick = onClick
-            ) {
-                Row(
-                    modifier = Modifier.padding(end = 8.dp)
+            if (pageTitle != Route.SETTINGS) {
+                IconButton(
+                    onClick = onClick
                 ) {
-                    Icon(painter = painterResource(R.drawable.icon_add), contentDescription = "Add")
-                    Text(
-                        text = if (pageTitle == Route.BIKES) {
-                            stringResource(R.string.add_bike_label)
-                        } else {
-                            stringResource(R.string.add_ride_label)
-                        },
-                        style = MaterialTheme.typography.body1,
-                        color = Color.White
-                    )
+                    Row(
+                        modifier = Modifier.padding(end = 8.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.icon_add),
+                            contentDescription = "Add"
+                        )
+                        Text(
+                            text = if (pageTitle == Route.BIKES) {
+                                stringResource(R.string.add_bike_label)
+                            } else {
+                                stringResource(R.string.add_ride_label)
+                            },
+                            style = MaterialTheme.typography.body1,
+                            color = Color.White
+                        )
+                    }
                 }
             }
         }
