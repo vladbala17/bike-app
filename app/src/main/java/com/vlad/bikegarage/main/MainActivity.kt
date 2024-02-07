@@ -5,10 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -56,7 +58,7 @@ class MainActivity : ComponentActivity() {
                     topBar = {
                         TopNavigationBar(
                             navController = navController,
-                            title = state.value.title,
+                            pageTitle = state.value.title,
                             onClick = {}
                         )
                     },
@@ -153,19 +155,39 @@ fun BottomNavigationBar(
 @Composable
 fun TopNavigationBar(
     navController: NavController,
-    title: String,
+    pageTitle: String,
     onClick: () -> Unit
 ) {
     TopAppBar(
         title = {
             Text(
-                text = title,
+                text = pageTitle,
                 color = Color.White,
                 style = MaterialTheme.typography.body1
             )
         },
         backgroundColor = colorResource(R.color.deep_dark_blue),
-        elevation = 0.dp
+        elevation = 0.dp,
+        actions = {
+            IconButton(
+                onClick = onClick
+            ) {
+                Row(
+                    modifier = Modifier.padding(end = 8.dp)
+                ) {
+                    Icon(painter = painterResource(R.drawable.icon_add), contentDescription = "Add")
+                    Text(
+                        text = if (pageTitle == Route.BIKES) {
+                            stringResource(R.string.add_bike_label)
+                        } else {
+                            stringResource(R.string.add_ride_label)
+                        },
+                        style = MaterialTheme.typography.body1,
+                        color = Color.White
+                    )
+                }
+            }
+        }
     )
 }
 
