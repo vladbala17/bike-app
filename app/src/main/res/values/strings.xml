@@ -9,4 +9,5 @@
     <string name="distance_unit_km">KM</string>
     <string name="distance_unit_miles">Miles</string>
     <string name="default_bike_label">Default Bike</string>
+    <string name="add_bike_label">Add Bike</string>
 </resources>

@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -70,8 +71,9 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                 ) {
-                    Modifier.padding(it)
-                    NavigationScreen(navController)
+                    Box(modifier = Modifier.padding(it)) {
+                        NavigationScreen(navController)
+                    }
                 }
             }
         }
@@ -102,7 +104,9 @@ fun BottomNavigationBar(
 ) {
     val backstackEntry = navController.currentBackStackEntryAsState()
     NavigationBar(
-        modifier = Modifier.fillMaxWidth().height(75.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(75.dp),
         containerColor = colorResource(R.color.dark_blue),
         tonalElevation = 5.dp,
     ) {
