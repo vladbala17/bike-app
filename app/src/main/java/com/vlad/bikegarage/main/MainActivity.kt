@@ -19,6 +19,7 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -64,14 +65,16 @@ class MainActivity : ComponentActivity() {
                         )
                     },
                     bottomBar = {
-                        BottomNavigationBar(
-                            items = BOTTOM_NAV_ITEM_LIST,
-                            navController = navController,
-                            onItemClick = {
-                                navController.navigate(it.route)
-                                viewModel.onEvent(MainScreenEvent.PageChanged(it.route))
-                            }
-                        )
+                        if (currentRoute(navController = navController) != Route.ADD_BIKES) {
+                            BottomNavigationBar(
+                                items = BOTTOM_NAV_ITEM_LIST,
+                                navController = navController,
+                                onItemClick = {
+                                    navController.navigate(it.route)
+                                    viewModel.onEvent(MainScreenEvent.PageChanged(it.route))
+                                }
+                            )
+                        }
                     }
                 ) {
                     Box(modifier = Modifier.padding(it)) {
@@ -200,6 +203,12 @@ fun TopNavigationBar(
             }
         }
     )
+}
+
+@Composable
+fun currentRoute(navController: NavHostController): String? {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    return navBackStackEntry?.destination?.route
 }
 
 @Composable
