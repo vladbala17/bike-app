@@ -43,7 +43,7 @@ fun BikeScreenPreview() {
     BikesScreen()
 }
 
-@Preview
+@Preview()
 @Composable
 fun EmptyHeader(
     pageTitle: String = "Bikes", icon: Int = R.drawable.missing_bike_card,
@@ -56,31 +56,32 @@ fun EmptyHeader(
             painter = painterResource(id = icon),
             contentDescription = "bike",
             contentScale = ContentScale.FillBounds,
-            modifier = Modifier.heightIn(0.dp, 200.dp)
+            modifier = Modifier.heightIn(0.dp, 250.dp)
         )
         Box(
             modifier = Modifier
-                .align(Alignment.Start)
+                .align(Alignment.CenterHorizontally)
         ) {
             Image(
                 painter = painterResource(id = R.drawable.dotted_line),
                 contentDescription = "dotted line",
                 modifier = Modifier
-                    .padding(start = 20.dp)
+                    .padding(start = 20.dp).heightIn(0.dp,200.dp)
             )
             Text(
-                text = "You don't have any bike added yet.\n Add your first bike and start register \n your" +
-                        "rides in order to jeep your bike \n service cycles up to date.",
+                text = stringResource(id = R.string.no_bikes_info),
                 color = Color.White,
-                modifier = Modifier.align(Alignment.Center),
-            )
-            ActionButton(
-                text = stringResource(R.string.add_bike_label),
+                style = androidx.compose.material.MaterialTheme.typography.h1,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.BottomCenter)
+                    .align(Alignment.Center)
             )
         }
-
+        ActionButton(
+            text = stringResource(R.string.add_bike_label),
+            modifier = Modifier
+                .fillMaxWidth()
+        )
     }
 }
+
+

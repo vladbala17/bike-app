@@ -11,4 +11,6 @@
     <string name="default_bike_label">Default Bike</string>
     <string name="add_bike_label">Add Bike</string>
     <string name="add_ride_label">Add Ride</string>
+    <string name="no_bikes_info">You don\'t have any bike added yet.\n Add your first bike and start register \n your
+                        rides in order to jeep your bike \n service cycles up to date.</string>
 </resources>
