@@ -3,14 +3,18 @@ package com.vlad.bikegarage.bikes.presentation.addbikes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,7 +34,7 @@ import com.vlad.bikegarage.ui.theme.Yellow
 
 @Composable
 fun AddBikesScreen() {
-
+    HorizontalColorPicker()
 }
 
 @Preview
@@ -53,7 +57,9 @@ fun CircularList(
     onItemClick: (String) -> Unit
 ) {
     val listState = rememberLazyListState(0)
-
+    var selectedIndex by remember {
+        mutableStateOf(-1)
+    }
     LazyRow(
         state = listState,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -66,15 +72,18 @@ fun CircularList(
                 .size(36.dp)
                 .border(
                     border =
-                    if (true) {
+                    if (selectedIndex == index) {
                         BorderStroke(2.dp, White)
                     } else {
-                        BorderStroke(0.dp, White)
+                        BorderStroke(width = 0.dp, color = colorList[index])
                     }, shape = CircleShape
                 )
-                .clickable {
-
-                }, onDraw = {
+                .selectable(
+                    selected = selectedIndex == index,
+                    onClick = {
+                        selectedIndex = index
+                    }
+                ), onDraw = {
                 drawCircle(color = colorList[index])
             })
         })
@@ -83,8 +92,7 @@ fun CircularList(
 
 @Preview
 @Composable
-fun testingWeight() {
-
+fun testingSelection() {
 
 }
 

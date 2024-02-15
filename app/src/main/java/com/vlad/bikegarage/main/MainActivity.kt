@@ -35,6 +35,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.vlad.bikegarage.R
 import com.vlad.bikegarage.bikes.presentation.BikesScreen
+import com.vlad.bikegarage.bikes.presentation.addbikes.AddBikesScreen
 import com.vlad.bikegarage.navigation.BOTTOM_NAV_ITEM_LIST
 import com.vlad.bikegarage.navigation.BottomNavItem
 import com.vlad.bikegarage.navigation.Route
@@ -86,13 +87,18 @@ class MainActivity : ComponentActivity() {
 fun NavigationScreen(navController: NavHostController) {
     NavHost(navController, startDestination = Route.BIKES) {
         composable(Route.BIKES) {
-            BikesScreen()
+            BikesScreen(onNavigateToScreen = {
+                navController.navigate(Route.ADD_BIKES)
+            })
         }
         composable(Route.RIDES) {
             RidesScreen()
         }
         composable(Route.SETTINGS) {
             SettingsScreen()
+        }
+        composable(Route.ADD_BIKES) {
+            AddBikesScreen()
         }
     }
 }

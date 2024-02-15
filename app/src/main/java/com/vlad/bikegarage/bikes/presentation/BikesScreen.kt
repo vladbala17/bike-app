@@ -22,7 +22,7 @@ import com.vlad.bikegarage.R
 import com.vlad.bikegarage.bikes.presentation.components.ActionButton
 
 @Composable
-fun BikesScreen() {
+fun BikesScreen(onNavigateToScreen: () -> Unit = {}) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -31,7 +31,9 @@ fun BikesScreen() {
         LazyColumn(
         ) {
             item {
-                EmptyHeader()
+                EmptyHeader(
+                    onButtonClick = onNavigateToScreen
+                )
             }
         }
     }
@@ -47,6 +49,7 @@ fun BikeScreenPreview() {
 @Composable
 fun EmptyHeader(
     pageTitle: String = "Bikes", icon: Int = R.drawable.missing_bike_card,
+    onButtonClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -66,7 +69,8 @@ fun EmptyHeader(
                 painter = painterResource(id = R.drawable.dotted_line),
                 contentDescription = "dotted line",
                 modifier = Modifier
-                    .padding(start = 20.dp).heightIn(0.dp,200.dp)
+                    .padding(start = 20.dp)
+                    .heightIn(0.dp, 200.dp)
             )
             Text(
                 text = stringResource(id = R.string.no_bikes_info),
@@ -78,6 +82,7 @@ fun EmptyHeader(
         }
         ActionButton(
             text = stringResource(R.string.add_bike_label),
+            onButtonClick = onButtonClick,
             modifier = Modifier
                 .fillMaxWidth()
         )
