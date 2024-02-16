@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -126,16 +127,19 @@ fun BikeCreation(bodyColor: Color = Color.Red, bikeName: String = "Electric bike
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
             Image(
                 painter = painterResource(id = R.drawable.bike_electric_big_wheels),
-                contentDescription = "electric bike"
+                contentDescription = "electric bike",
+                modifier = Modifier.aspectRatio(16f / 9f),
             )
             Image(
                 painter = painterResource(id = R.drawable.bike_electric_middle),
                 contentDescription = "electric bike",
                 colorFilter = ColorFilter.tint(bodyColor),
+                modifier = Modifier.aspectRatio(16f / 9f)
             )
             Image(
                 painter = painterResource(id = R.drawable.bike_electric_over),
-                contentDescription = "electric bike"
+                contentDescription = "electric bike",
+                modifier = Modifier.aspectRatio(16f / 9f)
             )
         }
 

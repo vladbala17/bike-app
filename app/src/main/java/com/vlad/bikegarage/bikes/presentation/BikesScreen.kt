@@ -1,11 +1,12 @@
 package com.vlad.bikegarage.bikes.presentation
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Text
@@ -28,11 +29,11 @@ fun BikesScreen(onNavigateToScreen: () -> Unit = {}) {
             .fillMaxSize()
             .padding(all = 8.dp),
     ) {
-        LazyColumn(
-        ) {
+        LazyColumn()
+        {
             item {
                 EmptyHeader(
-                    onButtonClick = onNavigateToScreen
+                    onButtonClick = onNavigateToScreen,
                 )
             }
         }
@@ -53,13 +54,15 @@ fun EmptyHeader(
     modifier: Modifier = Modifier
 ) {
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxSize()
     ) {
         Image(
             painter = painterResource(id = icon),
             contentDescription = "bike",
             contentScale = ContentScale.FillBounds,
-            modifier = Modifier.heightIn(0.dp, 250.dp)
+            modifier = Modifier.aspectRatio(16f / 9f)
         )
         Box(
             modifier = Modifier
@@ -70,7 +73,7 @@ fun EmptyHeader(
                 contentDescription = "dotted line",
                 modifier = Modifier
                     .padding(start = 20.dp)
-                    .heightIn(0.dp, 200.dp)
+                    .aspectRatio(16f / 9f)
             )
             Text(
                 text = stringResource(id = R.string.no_bikes_info),
@@ -88,5 +91,4 @@ fun EmptyHeader(
         )
     }
 }
-
 
