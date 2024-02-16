@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -33,9 +34,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -56,8 +59,15 @@ import com.vlad.bikegarage.ui.theme.Yellow
 import kotlin.math.absoluteValue
 
 @Composable
-fun AddBikesScreen() {
-    Column {
+fun AddBikesScreen(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .paint(
+                painter = painterResource(id = R.drawable.bike_app_background),
+                contentScale = ContentScale.FillBounds
+            )
+    ) {
         HorizontalColorPicker()
         BikesPager()
     }
@@ -124,7 +134,11 @@ fun testingSelection() {
 
 @Preview
 @Composable
-fun BikeCreation(bodyColor: Color = Color.Red, bikeName: String = "Electric bike", modifier: Modifier = Modifier) {
+fun BikeCreation(
+    bodyColor: Color = Color.Red,
+    bikeName: String = "Electric bike",
+    modifier: Modifier = Modifier
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
