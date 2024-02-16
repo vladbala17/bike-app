@@ -1,4 +1,5 @@
 package com.vlad.bikegarage.bikes.presentation.addbikes
 
-class AddBikeEvent {
+sealed class AddBikeEvent {
+    data class Submit(val bikeName: String) : AddBikeEvent()
 }

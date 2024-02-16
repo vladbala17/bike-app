@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalFoundationApi::class)
+@file:OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
 
 package com.vlad.bikegarage.bikes.presentation.addbikes
 
@@ -25,6 +25,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,10 +41,20 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vlad.bikegarage.R
+import com.vlad.bikegarage.bikes.presentation.addbikes.components.TextTextField
+import com.vlad.bikegarage.bikes.presentation.components.ActionButton
+import com.vlad.bikegarage.settings.presentation.DefaultSwitch
+import com.vlad.bikegarage.settings.presentation.DropDownField
+import com.vlad.bikegarage.settings.presentation.Label
 import com.vlad.bikegarage.ui.theme.Brown
 import com.vlad.bikegarage.ui.theme.CoralBlue
 import com.vlad.bikegarage.ui.theme.Green
@@ -59,7 +70,11 @@ import com.vlad.bikegarage.ui.theme.Yellow
 import kotlin.math.absoluteValue
 
 @Composable
-fun AddBikesScreen(modifier: Modifier = Modifier) {
+fun AddBikesScreen(
+    viewModel: AddBikeViewModel = hiltViewModel(),
+    modifier: Modifier = Modifier
+) {
+    val state = viewModel.state.collectAsStateWithLifecycle()
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -70,6 +85,70 @@ fun AddBikesScreen(modifier: Modifier = Modifier) {
     ) {
         HorizontalColorPicker()
         BikesPager()
+        Label(title = stringResource(id = R.string.bike_name_label), isMandatory = true)
+        TextTextField(
+            placeHolder = stringResource(id = R.string.bike_name_label),
+            text = state.value.bikeName,
+            onValueChange = {
+                viewModel.onEvent(AddBikeEvent.Submit(it))
+            },
+            keyboardType = KeyboardType.Email,
+            imeAction = ImeAction.Next,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            singleLine = true,
+            isError = state.value.bikeNameError != null,
+            errorMessage = state.value.bikeNameError,
+        )
+        Label(title = stringResource(R.string.wheel_size_label), isMandatory = true)
+        DropDownField(
+            listOf(
+                "29'", "30'"
+            ),
+            selectedItem = "",
+            onSelectedItem = { selectedItem ->
+//                viewModel.onEvent(SettingsEvent.OnDistanceUnitSet(selectedItem))
+            },
+            R.drawable.icon_dropdown,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Label(title = stringResource(R.string.service_in_label), isMandatory = true)
+        TextTextField(
+            placeHolder = stringResource(id = R.string.bike_name_label),
+            text = state.value.bikeName,
+            onValueChange = {
+                viewModel.onEvent(AddBikeEvent.Submit(it))
+            },
+            keyboardType = KeyboardType.Email,
+            imeAction = ImeAction.Next,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            singleLine = true,
+            isError = state.value.bikeNameError != null,
+            errorMessage = state.value.bikeNameError,
+        )
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Text(
+                text = stringResource(id = R.string.default_bike_label),
+                modifier = Modifier.weight(1f)
+            )
+            DefaultSwitch(
+                true,
+                onCheckedChanged = {
+//                    viewModel.onEvent(SettingsEvent.OnNotifyReminder)
+                },
+                modifier = Modifier.align(Alignment.CenterVertically)
+            )
+        }
+
+        ActionButton(
+            text = stringResource(R.string.add_bike_label),
+            onButtonClick = {},
+            modifier = Modifier
+                .fillMaxWidth()
+        )
     }
 }
 
