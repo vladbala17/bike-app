@@ -11,6 +11,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,9 +35,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.lerp
 import com.vlad.bikegarage.R
 import com.vlad.bikegarage.ui.theme.Brown
 import com.vlad.bikegarage.ui.theme.CoralBlue
@@ -50,6 +53,7 @@ import com.vlad.bikegarage.ui.theme.SimpleGray
 import com.vlad.bikegarage.ui.theme.SkyBlue
 import com.vlad.bikegarage.ui.theme.White
 import com.vlad.bikegarage.ui.theme.Yellow
+import kotlin.math.absoluteValue
 
 @Composable
 fun AddBikesScreen() {
@@ -120,11 +124,11 @@ fun testingSelection() {
 
 @Preview
 @Composable
-fun BikeCreation(bodyColor: Color = Color.Red, bikeName: String = "Electric bike") {
+fun BikeCreation(bodyColor: Color = Color.Red, bikeName: String = "Electric bike", modifier: Modifier = Modifier) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+        Box(modifier = modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
             Image(
                 painter = painterResource(id = R.drawable.bike_electric_big_wheels),
                 contentDescription = "electric bike",
@@ -155,8 +159,24 @@ fun BikesPager() {
         modifier = Modifier.wrapContentHeight(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        HorizontalPager(pageCount = 4, state = pagerState) { page ->
-            BikeCreation()
+        HorizontalPager(
+            pageCount = 4,
+            state = pagerState,
+            contentPadding = PaddingValues(start = 80.dp, end = 80.dp)
+        ) { page ->
+            BikeCreation(modifier = Modifier.graphicsLayer {
+                val pageOffset = (
+                        (pagerState.currentPage - page) + pagerState
+                            .currentPageOffsetFraction
+                        ).absoluteValue
+
+
+                alpha = lerp(
+                    start = 0.5f,
+                    stop = 1f,
+                    fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                )
+            })
         }
         Text(text = "Electric Bike", color = White)
         Row(
