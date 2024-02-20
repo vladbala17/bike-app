@@ -117,8 +117,8 @@ fun BottomNavigationBar(
     NavigationBar(
         modifier = Modifier
             .fillMaxWidth()
-            .height(75.dp),
-        containerColor = colorResource(R.color.dark_blue),
+            .height(70.dp),
+        containerColor = MaterialTheme.colors.surface,
         tonalElevation = 5.dp,
     ) {
         items.forEach { destination ->
@@ -149,7 +149,7 @@ fun BottomNavigationBar(
                         } else {
                             colorResource(R.color.white)
                         },
-                        style = MaterialTheme.typography.h1
+                        style = MaterialTheme.typography.h6
                     )
                 },
                 colors = NavigationBarItemDefaults.colors(
@@ -172,7 +172,7 @@ fun TopNavigationBar(
             Text(
                 text = pageTitle,
                 color = Color.White,
-                style = MaterialTheme.typography.body1
+                style = MaterialTheme.typography.h2
             )
         },
         backgroundColor = colorResource(R.color.deep_dark_blue),
@@ -187,6 +187,7 @@ fun TopNavigationBar(
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.icon_add),
+                            tint = colorResource(id = R.color.white),
                             contentDescription = "Add"
                         )
                         Text(

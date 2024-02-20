@@ -18,6 +18,7 @@ import androidx.compose.material.ExposedDropdownMenuBox
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Switch
+import androidx.compose.material.SwitchDefaults
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
@@ -29,7 +30,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -49,7 +49,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(R.color.deep_dark_blue))
+            .background(MaterialTheme.colors.secondaryVariant)
             .padding(16.dp)
     ) {
         Label(
@@ -118,14 +118,14 @@ fun Label(title: String = "", isMandatory: Boolean = false, modifier: Modifier =
     Row(modifier = modifier) {
         Text(
             text = title,
-            style = MaterialTheme.typography.h1,
-            color = colorResource(R.color.gray),
+            style = MaterialTheme.typography.subtitle1,
+            color = MaterialTheme.colors.onSecondary,
         )
         if (isMandatory) {
             Icon(
                 painter = painterResource(R.drawable.icon_required),
                 contentDescription = stringResource(R.string.distance_units_label),
-                tint = colorResource(R.color.gray)
+                tint = MaterialTheme.colors.onSecondary
             )
         }
     }
@@ -226,9 +226,14 @@ fun NumericTextField(
 @Composable
 fun DefaultSwitch(checked: Boolean, onCheckedChanged: (Boolean) -> Unit, modifier: Modifier) {
 
-    Switch(checked = checked, onCheckedChange = {
+    Switch(checked = checked, colors = SwitchDefaults.colors(
+        checkedThumbColor = MaterialTheme.colors.onPrimary,
+        checkedTrackColor = MaterialTheme.colors.primary,
+        checkedTrackAlpha = 1f
+    ), onCheckedChange = {
         onCheckedChanged(it)
-    }, modifier = modifier)
+    }, modifier = modifier
+    )
 }
 
 @ExperimentalMaterialApi
