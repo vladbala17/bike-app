@@ -10,36 +10,53 @@ import com.vlad.bikegarage.R
 
 
 val fonts = FontFamily(
-    Font(R.font.roboto, weight = FontWeight.Normal),
+    Font(R.font.roboto),
 )
 
 
 // Set of Material typography styles to start with
 val Typography = Typography(
-    body1 = TextStyle(
+    h1 = TextStyle(
+        fontFamily = fonts,
+        fontWeight = FontWeight.Normal,
+        fontSize = 20.sp
+    ),
+    h2 = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.SemiBold,
         fontSize = 20.sp
     ),
-    button = TextStyle(
+    h3 = TextStyle(
+        fontFamily = fonts,
+        fontWeight = FontWeight.Normal,
+        fontSize = 15.sp
+    ),
+    h4 = TextStyle(
+        fontFamily = fonts,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp
+    ),
+    h5 = TextStyle(
+        fontFamily = fonts,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 13.sp
+    ),
+    h6 = TextStyle(
+        fontFamily = fonts,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 12.sp
+    ),
+    body1 = TextStyle(
         fontFamily = fonts,
         fontWeight = FontWeight.Normal,
         fontSize = 17.sp
     ),
-    caption = TextStyle(
+    body2 = TextStyle(
         fontFamily = fonts,
-        fontWeight = FontWeight.Normal,
-        fontSize = 15.sp
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 17.sp
     ),
-    h1 = TextStyle(
-        fontFamily = fonts,
-        fontWeight = FontWeight.Normal,
-        fontSize = 12.sp
-    ),
-    h2 = TextStyle(
-        fontFamily = fonts,
-        fontWeight = FontWeight.Normal,
-        fontSize = 15.sp
+
+
     )
-)
 
