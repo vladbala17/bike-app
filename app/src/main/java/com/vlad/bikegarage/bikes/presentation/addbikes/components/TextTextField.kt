@@ -13,8 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -30,7 +30,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.vlad.bikegarage.ui.theme.Blue
 import com.vlad.bikegarage.util.UiText
 
 
@@ -58,8 +57,8 @@ fun TextTextField(
     val focusRequester = remember {
         FocusRequester()
     }
-    val colorBorder = if (isError) MaterialTheme.colorScheme.error else if (isFocused)
-        MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
+    val colorBorder = if (isError) MaterialTheme.colors.error else if (isFocused)
+        MaterialTheme.colors.primary.copy(alpha = 0.3f) else MaterialTheme.colors.onSecondary
 
     Column {
         BasicTextField(
@@ -71,7 +70,7 @@ fun TextTextField(
                     if (it.isNotEmpty()) onValueChange(it)
                 } else onValueChange(it)
             },
-            textStyle = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.onSurface),
+            textStyle = MaterialTheme.typography.h4.copy(color = MaterialTheme.colors.onPrimary),
             maxLines = maxLine,
             singleLine = singleLine,
             interactionSource = interactionSource,
@@ -85,19 +84,19 @@ fun TextTextField(
                 keyboardType = keyboardType,
                 imeAction = imeAction
             ),
-            cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+            cursorBrush = SolidColor(MaterialTheme.colors.onPrimary),
             decorationBox = { innerTextField ->
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = modifier
                         .border(
                             width = 1.dp,
-                            shape = RoundedCornerShape(8.dp),
+                            shape = RoundedCornerShape(4.dp),
                             color = colorBorder
                         )
                         .background(
-                            color = MaterialTheme.colorScheme.surface,
-                            shape = RoundedCornerShape(8.dp)
+                            color = MaterialTheme.colors.surface,
+                            shape = RoundedCornerShape(4.dp)
                         )
                         .focusRequester(focusRequester)
                 ) {
@@ -114,8 +113,8 @@ fun TextTextField(
                         if (text.isEmpty()) {
                             Text(
                                 text = placeHolder,
-                                style = MaterialTheme.typography.bodySmall,
-                                color = Blue,
+                                style = MaterialTheme.typography.h4,
+                                color = MaterialTheme.colors.onPrimary,
                             )
                         }
                         Box(modifier = Modifier.fillMaxWidth()) {
@@ -132,8 +131,8 @@ fun TextTextField(
         )
         Text(
             text = if (isError) errorMessage!!.asString(context) else "",
-            color = MaterialTheme.colorScheme.error,
-            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colors.error,
+            style = MaterialTheme.typography.h6,
             modifier = modifier
         )
     }
@@ -142,6 +141,5 @@ fun TextTextField(
 @Preview
 @Composable
 fun test() {
-
 
 }

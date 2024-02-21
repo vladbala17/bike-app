@@ -153,7 +153,7 @@ fun BottomNavigationBar(
                     )
                 },
                 colors = NavigationBarItemDefaults.colors(
-                    indicatorColor = colorResource(R.color.dark_blue)
+                    indicatorColor = MaterialTheme.colors.surface
                 ),
                 interactionSource = NoRippleInteractionSource()
             )
@@ -175,7 +175,7 @@ fun TopNavigationBar(
                 style = MaterialTheme.typography.h2
             )
         },
-        backgroundColor = colorResource(R.color.deep_dark_blue),
+        backgroundColor = MaterialTheme.colors.secondaryVariant,
         elevation = 0.dp,
         actions = {
             if (pageTitle != Route.SETTINGS) {
@@ -187,7 +187,7 @@ fun TopNavigationBar(
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.icon_add),
-                            tint = colorResource(id = R.color.white),
+                            tint = MaterialTheme.colors.onPrimary,
                             contentDescription = "Add"
                         )
                         Text(
@@ -196,8 +196,8 @@ fun TopNavigationBar(
                             } else {
                                 stringResource(R.string.add_ride_label)
                             },
-                            style = MaterialTheme.typography.body1,
-                            color = Color.White
+                            style = MaterialTheme.typography.h3,
+                            color = MaterialTheme.colors.onPrimary
                         )
                     }
                 }
