@@ -41,13 +41,16 @@ fun TextTextField(
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Done,
     modifier: Modifier = Modifier,
+    readOnly: Boolean = false,
     errorMessage: UiText? = null,
     isError: Boolean = false,
     isVisible: Boolean = false,
+    requiresDataValidation: Boolean = true,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
     singleLine: Boolean = false,
-    maxLine: Int = 1
+    maxLine: Int = 1,
+    visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
     val isKeyboardTypeNumber =
         keyboardType == KeyboardType.Phone || keyboardType == KeyboardType.Number
@@ -57,19 +60,15 @@ fun TextTextField(
     val focusRequester = remember {
         FocusRequester()
     }
-    val colorBorder = if (isError) MaterialTheme.colors.error else if (isFocused)
-        MaterialTheme.colors.primary.copy(alpha = 0.3f) else MaterialTheme.colors.onSecondary
+    val colorBorder = if (isError) MaterialTheme.colors.error else MaterialTheme.colors.onSecondary
 
     Column {
         BasicTextField(
-            value = if (isKeyboardTypeNumber) {
-                if (text.isNotEmpty()) text else ""
-            } else text,
+            value = text,
             onValueChange = {
-                if (isKeyboardTypeNumber) {
-                    if (it.isNotEmpty()) onValueChange(it)
-                } else onValueChange(it)
+                onValueChange(it)
             },
+            readOnly = readOnly,
             textStyle = MaterialTheme.typography.h4.copy(color = MaterialTheme.colors.onPrimary),
             maxLines = maxLine,
             singleLine = singleLine,
@@ -78,7 +77,11 @@ fun TextTextField(
             if (keyboardType == KeyboardType.Password) {
                 if (isVisible) VisualTransformation.None else PasswordVisualTransformation()
             } else {
-                VisualTransformation.None
+                if (visualTransformation != VisualTransformation.None && keyboardType == KeyboardType.Number) {
+                    visualTransformation
+                } else {
+                    VisualTransformation.None
+                }
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = keyboardType,
@@ -129,12 +132,14 @@ fun TextTextField(
                 }
             },
         )
-        Text(
-            text = if (isError) errorMessage!!.asString(context) else "",
-            color = MaterialTheme.colors.error,
-            style = MaterialTheme.typography.h6,
-            modifier = modifier
-        )
+        if (requiresDataValidation) {
+            Text(
+                text = if (isError) errorMessage!!.asString(context) else "",
+                color = MaterialTheme.colors.error,
+                style = MaterialTheme.typography.h6,
+                modifier = modifier
+            )
+        }
     }
 }
 
