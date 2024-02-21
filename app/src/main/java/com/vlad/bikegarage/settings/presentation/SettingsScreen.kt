@@ -50,12 +50,12 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colors.secondaryVariant)
-            .padding(16.dp)
+            .padding(start = 16.dp, end = 16.dp)
     ) {
         Label(
             stringResource(R.string.distance_units_label),
             true,
-            modifier = Modifier.padding(bottom = 8.dp)
+            modifier = Modifier.padding(bottom = 4.dp)
         )
         DropDownField(
             listOf(
@@ -72,7 +72,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
         Label(
             stringResource(R.string.service_reminder_label),
             false,
-            modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+            modifier = Modifier.padding(top = 16.dp, bottom = 4.dp)
         )
         Row(modifier = Modifier.fillMaxWidth()) {
             NumericTextField(
@@ -93,7 +93,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
         Label(
             stringResource(R.string.default_bike_label),
             true,
-            modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+            modifier = Modifier.padding(top = 16.dp, bottom = 4.dp)
         )
         DropDownField(
             listOf(
@@ -226,13 +226,14 @@ fun NumericTextField(
 @Composable
 fun DefaultSwitch(checked: Boolean, onCheckedChanged: (Boolean) -> Unit, modifier: Modifier) {
 
-    Switch(checked = checked, colors = SwitchDefaults.colors(
-        checkedThumbColor = MaterialTheme.colors.onPrimary,
-        checkedTrackColor = MaterialTheme.colors.primary,
-        checkedTrackAlpha = 1f
-    ), onCheckedChange = {
-        onCheckedChanged(it)
-    }, modifier = modifier
+    Switch(
+        checked = checked, colors = SwitchDefaults.colors(
+            checkedThumbColor = MaterialTheme.colors.onPrimary,
+            checkedTrackColor = MaterialTheme.colors.primary,
+            checkedTrackAlpha = 1f
+        ), onCheckedChange = {
+            onCheckedChanged(it)
+        }, modifier = modifier
     )
 }
 
@@ -248,8 +249,8 @@ fun Development() {
 
 @Preview(showBackground = true)
 @Composable
-fun Development2() {
+fun Development2(viewModel: SettingsViewModel = hiltViewModel()) {
     BikeGarageTheme {
-        SettingsScreen()
+        SettingsScreen(viewModel)
     }
 }
