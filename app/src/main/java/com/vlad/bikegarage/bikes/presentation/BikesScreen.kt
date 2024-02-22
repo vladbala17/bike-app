@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,13 +28,9 @@ fun BikesScreen(onNavigateToScreen: () -> Unit = {}) {
             .fillMaxSize()
             .padding(all = 8.dp),
     ) {
-        LazyColumn()
-        {
-            item {
-                EmptyHeader(
-                    onButtonClick = onNavigateToScreen,
-                )
-            }
+        EmptyHeader(onButtonClick = onNavigateToScreen)
+        LazyColumn {
+
         }
     }
 }
@@ -54,7 +51,7 @@ fun EmptyHeader(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier
     ) {
         Image(
             painter = painterResource(id = icon),
@@ -63,6 +60,7 @@ fun EmptyHeader(
         Box(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
+                .weight(1f)
         ) {
             Image(
                 painter = painterResource(id = R.drawable.dotted_line),
@@ -74,7 +72,7 @@ fun EmptyHeader(
             Text(
                 text = stringResource(id = R.string.no_bikes_info),
                 color = Color.White,
-                style = androidx.compose.material.MaterialTheme.typography.h3,
+                style = MaterialTheme.typography.h3,
                 modifier = Modifier
                     .align(Alignment.Center)
             )
