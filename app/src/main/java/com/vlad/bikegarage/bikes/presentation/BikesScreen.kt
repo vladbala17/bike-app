@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -61,8 +59,6 @@ fun EmptyHeader(
         Image(
             painter = painterResource(id = icon),
             contentDescription = "bike",
-            contentScale = ContentScale.FillBounds,
-            modifier = Modifier.aspectRatio(16f / 9f)
         )
         Box(
             modifier = Modifier
@@ -73,12 +69,12 @@ fun EmptyHeader(
                 contentDescription = "dotted line",
                 modifier = Modifier
                     .padding(start = 20.dp)
-                    .aspectRatio(16f / 9f)
+
             )
             Text(
                 text = stringResource(id = R.string.no_bikes_info),
                 color = Color.White,
-                style = androidx.compose.material.MaterialTheme.typography.h1,
+                style = androidx.compose.material.MaterialTheme.typography.h3,
                 modifier = Modifier
                     .align(Alignment.Center)
             )

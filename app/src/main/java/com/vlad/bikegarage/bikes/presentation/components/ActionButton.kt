@@ -15,9 +15,9 @@ import androidx.compose.ui.tooling.preview.Preview
 fun ActionButton(
     text: String = "Add bike",
     onButtonClick: () -> Unit = {},
-    textStyle: TextStyle = MaterialTheme.typography.h2.copy(
+    textStyle: TextStyle = MaterialTheme.typography.h3.copy(
         textAlign = TextAlign.Center,
-        color = Color.White
+        color = MaterialTheme.colors.onPrimary
     ),
     modifier: Modifier = Modifier
 ) {
