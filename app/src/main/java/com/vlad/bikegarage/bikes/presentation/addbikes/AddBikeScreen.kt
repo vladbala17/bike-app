@@ -177,14 +177,14 @@ fun CircularList(
     }
     LazyRow(
         state = listState,
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(32.dp),
         modifier = Modifier.fillMaxWidth()
     ) {
         items(colorList.size, itemContent = {
             val index = it % colorList.size
             // item composable
             Canvas(modifier = Modifier
-                .size(36.dp)
+                .size(20.dp)
                 .border(
                     border =
                     if (selectedIndex == index) {
@@ -203,12 +203,6 @@ fun CircularList(
             })
         })
     }
-}
-
-@Preview
-@Composable
-fun testingSelection() {
-
 }
 
 @Preview
@@ -247,13 +241,12 @@ fun BikeCreation(
 @Preview
 @Composable
 fun BikesPager() {
-    val pagerState = rememberPagerState()
+    val pagerState = rememberPagerState(pageCount = { 4 })
     Column(
         modifier = Modifier.wrapContentHeight(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         HorizontalPager(
-            pageCount = 4,
             state = pagerState,
             contentPadding = PaddingValues(start = 80.dp, end = 80.dp)
         ) { page ->

@@ -4,7 +4,6 @@ import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -33,6 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -61,7 +61,7 @@ class MainActivity : ComponentActivity() {
             BikeGarageTheme {
                 // A surface container using the 'background' color from the theme
                 val navController = rememberNavController()
-                val viewModel: MainActivityViewModel by viewModels()
+                val viewModel: MainActivityViewModel = hiltViewModel()
                 val state = viewModel.state.collectAsStateWithLifecycle()
                 Scaffold(
                     topBar = {
@@ -85,7 +85,10 @@ class MainActivity : ComponentActivity() {
                     }
                 ) {
                     Box(modifier = Modifier.padding(it)) {
-                        NavigationScreen(navController)
+                        NavigationScreen(navController, onAddBikeClick = {
+                            navController.navigate(Route.ADD_BIKES)
+                            viewModel.onEvent(MainScreenEvent.PageChanged(Route.ADD_BIKES))
+                        })
                     }
                 }
             }
@@ -96,13 +99,11 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun NavigationScreen(navController: NavHostController) {
+fun NavigationScreen(navController: NavHostController, onAddBikeClick: () -> Unit) {
     NavHost(navController, startDestination = Route.BIKES) {
         composable(Route.BIKES) {
             StatusBarColor(color = MaterialTheme.colors.background)
-            BikesScreen(onNavigateToScreen = {
-                navController.navigate(Route.ADD_BIKES)
-            })
+            BikesScreen(onNavigateToScreen = onAddBikeClick)
         }
         composable(Route.RIDES) {
             StatusBarColor(color = MaterialTheme.colors.background)
@@ -188,14 +189,28 @@ fun TopNavigationBar(
                 style = MaterialTheme.typography.h2
             )
         },
-        backgroundColor = if (pageTitle == Route.SETTINGS){
+        backgroundColor = if (pageTitle == Route.SETTINGS) {
             MaterialTheme.colors.secondaryVariant
         } else {
             MaterialTheme.colors.background
         },
         elevation = 0.dp,
         actions = {
-            if (pageTitle != Route.SETTINGS) {
+            if (pageTitle == Route.ADD_BIKES) {
+                IconButton(
+                    onClick = onClick
+                ) {
+                    Row(
+                        modifier = Modifier.padding(end = 8.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.icon_x),
+                            tint = MaterialTheme.colors.onPrimary,
+                            contentDescription = "Close"
+                        )
+                    }
+                }
+            } else if (pageTitle != Route.SETTINGS) {
                 IconButton(
                     onClick = onClick
                 ) {
@@ -219,6 +234,7 @@ fun TopNavigationBar(
                     }
                 }
             }
+
         }
     )
 }
@@ -233,10 +249,12 @@ fun StatusBarColor(color: Color) {
             val window = (view.context as Activity).window
             window.statusBarColor = color.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
-            WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars = !darkTheme
+            WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars =
+                !darkTheme
         }
     }
 }
+
 @Composable
 fun currentRoute(navController: NavHostController): String? {
     val navBackStackEntry by navController.currentBackStackEntryAsState()

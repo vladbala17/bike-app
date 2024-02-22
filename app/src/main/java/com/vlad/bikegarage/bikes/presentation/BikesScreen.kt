@@ -22,13 +22,17 @@ import com.vlad.bikegarage.R
 import com.vlad.bikegarage.bikes.presentation.components.ActionButton
 
 @Composable
-fun BikesScreen(onNavigateToScreen: () -> Unit = {}) {
+fun BikesScreen(
+    onNavigateToScreen: () -> Unit = {},
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(all = 8.dp),
     ) {
-        EmptyHeader(onButtonClick = onNavigateToScreen)
+        EmptyHeader(onButtonClick = {
+            onNavigateToScreen()
+        })
         LazyColumn {
 
         }
