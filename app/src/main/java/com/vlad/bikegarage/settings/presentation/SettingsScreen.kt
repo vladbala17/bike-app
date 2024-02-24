@@ -117,12 +117,14 @@ fun Label(title: String = "", isMandatory: Boolean = false, modifier: Modifier =
             text = title,
             style = MaterialTheme.typography.subtitle1,
             color = MaterialTheme.colors.onSecondary,
+            modifier = Modifier.align(Alignment.CenterVertically)
         )
         if (isMandatory) {
             Icon(
                 painter = painterResource(R.drawable.icon_required),
                 contentDescription = stringResource(R.string.distance_units_label),
-                tint = MaterialTheme.colors.onSecondary
+                tint = MaterialTheme.colors.onSecondary,
+                modifier = Modifier.align(Alignment.CenterVertically)
             )
         }
     }
@@ -232,7 +234,7 @@ fun DefaultSwitch(checked: Boolean, onCheckedChanged: (Boolean) -> Unit, modifie
 @Composable
 fun Development() {
     BikeGarageTheme {
-//        NumericTextField(Modifier.fillMaxWidth())
+        Label("Required Name", isMandatory = true, modifier = Modifier.fillMaxWidth())
     }
 }
 

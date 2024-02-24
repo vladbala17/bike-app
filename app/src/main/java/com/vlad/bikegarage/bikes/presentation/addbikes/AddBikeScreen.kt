@@ -26,6 +26,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,11 +36,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -55,6 +54,7 @@ import com.vlad.bikegarage.bikes.presentation.components.ActionButton
 import com.vlad.bikegarage.settings.presentation.DefaultSwitch
 import com.vlad.bikegarage.settings.presentation.DropDownField
 import com.vlad.bikegarage.settings.presentation.Label
+import com.vlad.bikegarage.settings.presentation.NumericTextField
 import com.vlad.bikegarage.ui.theme.Brown
 import com.vlad.bikegarage.ui.theme.CoralBlue
 import com.vlad.bikegarage.ui.theme.Green
@@ -78,16 +78,14 @@ fun AddBikesScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .paint(
-                painter = painterResource(id = R.drawable.bike_app_background),
-                contentScale = ContentScale.FillBounds
-            )
+            .background(MaterialTheme.colors.background),
+        verticalArrangement = Arrangement.SpaceEvenly
     ) {
         HorizontalColorPicker()
         BikesPager()
-        Label(title = stringResource(id = R.string.bike_name_label), isMandatory = true)
+        Label(title = stringResource(id = R.string.bike_name_label), isMandatory = true, modifier = Modifier.fillMaxWidth())
         TextTextField(
-            placeHolder = stringResource(id = R.string.bike_name_label),
+            placeHolder = "",
             text = state.value.bikeName,
             onValueChange = {
                 viewModel.onEvent(AddBikeEvent.Submit(it))
@@ -95,8 +93,7 @@ fun AddBikesScreen(
             keyboardType = KeyboardType.Email,
             imeAction = ImeAction.Next,
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
+                .fillMaxWidth(),
             singleLine = true,
             isError = state.value.bikeNameError != null,
             errorMessage = state.value.bikeNameError,
@@ -114,25 +111,17 @@ fun AddBikesScreen(
             modifier = Modifier.fillMaxWidth()
         )
         Label(title = stringResource(R.string.service_in_label), isMandatory = true)
-        TextTextField(
-            placeHolder = stringResource(id = R.string.bike_name_label),
-            text = state.value.bikeName,
-            onValueChange = {
-                viewModel.onEvent(AddBikeEvent.Submit(it))
+        NumericTextField(
+            value = "100",
+            onServiceReminderAdded = { distanceReminder ->
+//                viewModel.onEvent(SettingsEvent.OnServiceIntervalReminderSet(distanceReminder))
             },
-            keyboardType = KeyboardType.Email,
-            imeAction = ImeAction.Next,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            singleLine = true,
-            isError = state.value.bikeNameError != null,
-            errorMessage = state.value.bikeNameError,
+
         )
         Row(modifier = Modifier.fillMaxWidth()) {
             Text(
                 text = stringResource(id = R.string.default_bike_label),
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f).align(Alignment.CenterVertically)
             )
             DefaultSwitch(
                 true,
@@ -177,14 +166,14 @@ fun CircularList(
     }
     LazyRow(
         state = listState,
-        horizontalArrangement = Arrangement.spacedBy(32.dp),
+        horizontalArrangement = Arrangement.spacedBy(36.dp),
         modifier = Modifier.fillMaxWidth()
     ) {
         items(colorList.size, itemContent = {
             val index = it % colorList.size
             // item composable
             Canvas(modifier = Modifier
-                .size(20.dp)
+                .size(25.dp)
                 .border(
                     border =
                     if (selectedIndex == index) {
