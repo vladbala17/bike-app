@@ -3,7 +3,7 @@ package com.vlad.bikegarage.di
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import com.vlad.bikegarage.bikes.domain.ValidateBikeName
+import com.vlad.bikegarage.bikes.domain.use_case.ValidateBikeName
 import com.vlad.bikegarage.settings.data.UserPreferences
 import com.vlad.bikegarage.settings.domain.Preferences
 import com.vlad.bikegarage.settings.domain.use_vase.FilterOutDigits

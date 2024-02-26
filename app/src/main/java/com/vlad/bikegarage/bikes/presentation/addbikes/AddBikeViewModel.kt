@@ -1,7 +1,7 @@
 package com.vlad.bikegarage.bikes.presentation.addbikes
 
 import androidx.lifecycle.ViewModel
-import com.vlad.bikegarage.bikes.domain.ValidateBikeName
+import com.vlad.bikegarage.bikes.domain.use_case.ValidateBikeName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,6 +20,8 @@ class AddBikeViewModel @Inject constructor(private val bikeNameUseCase: Validate
             is AddBikeEvent.Submit -> {
                 validateBikeName()
             }
+
+            is AddBikeEvent.OnColorPick -> {}
         }
     }
 

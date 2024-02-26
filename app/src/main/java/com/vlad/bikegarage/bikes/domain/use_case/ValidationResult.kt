@@ -1,4 +1,4 @@
-package com.vlad.bikegarage.bikes.domain
+package com.vlad.bikegarage.bikes.domain.use_case
 
 import com.vlad.bikegarage.util.UiText
 
