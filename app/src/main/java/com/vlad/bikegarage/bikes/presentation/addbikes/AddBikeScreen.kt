@@ -53,6 +53,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vlad.bikegarage.R
 import com.vlad.bikegarage.bikes.domain.model.BikeType
+import com.vlad.bikegarage.bikes.domain.model.PagerBike
 import com.vlad.bikegarage.bikes.presentation.addbikes.components.TextTextField
 import com.vlad.bikegarage.bikes.presentation.components.ActionButton
 import com.vlad.bikegarage.settings.presentation.DefaultSwitch
@@ -90,9 +91,8 @@ fun AddBikesScreen(
             viewModel.onEvent(AddBikeEvent.OnColorPick(color))
         })
         BikesPager(
+            bikesList = viewModel.state.value.bikePagerList,
             bikeName = state.value.bikeTitle,
-            bodyType = state.value.bikeType,
-            bodyColor = Color(state.value.bikeColor),
             onPageChanged = { page ->
                 viewModel.onEvent(AddBikeEvent.OnPageSelected(page))
             })
@@ -330,13 +330,12 @@ fun createHybridBike(bodyColor: Color = Color.Red, modifier: Modifier) {
 @ExperimentalFoundationApi
 @Composable
 fun BikesPager(
-    bodyType: BikeType = BikeType.Electric,
-    bodyColor: Color = Color.Black,
+    bikesList: List<PagerBike>,
     bikeName: String = BikeType.Electric.type,
-    onPageChanged: (Int) -> Unit = {},
-
-    ) {
-    val pagerState = rememberPagerState(pageCount = { 4 })
+    onPageChanged: (Int) -> Unit = {}
+) {
+    val pagerState =
+        rememberPagerState(pageCount = { bikesList.size }, initialPage = bikesList.size / 2)
     LaunchedEffect(key1 = pagerState, block = {
         snapshotFlow { pagerState.currentPage }.collect { page ->
             onPageChanged(page)
@@ -364,8 +363,8 @@ fun BikesPager(
                         fraction = 1f - pageOffset.coerceIn(0f, 1f)
                     )
                 },
-                bodyColor = bodyColor,
-                bodyType = bodyType
+                bodyColor = Color(bikesList[page].color),
+                bodyType = bikesList[page].type
             )
         }
         Text(text = bikeName, color = White)
@@ -373,18 +372,18 @@ fun BikesPager(
             Modifier
                 .wrapContentHeight()
                 .fillMaxWidth()
-                .padding(bottom = 8.dp),
+                .padding(bottom = 8.dp, top = 8.dp),
             horizontalArrangement = Arrangement.Center
         ) {
             repeat(4) { iteration ->
                 val color =
-                    if (pagerState.currentPage == iteration) Color.DarkGray else Color.LightGray
+                    if (pagerState.currentPage == iteration) MaterialTheme.colors.primary else MaterialTheme.colors.onPrimary
                 Box(
                     modifier = Modifier
-                        .padding(2.dp)
+                        .padding(4.dp)
                         .clip(CircleShape)
                         .background(color)
-                        .size(16.dp)
+                        .size(8.dp)
                 )
             }
         }
