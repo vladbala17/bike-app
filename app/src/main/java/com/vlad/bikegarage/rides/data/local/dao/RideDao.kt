@@ -6,7 +6,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.vlad.bikegarage.rides.data.local.entity.RideEntity
-import com.vlad.bikegarage.rides.data.local.entity.RideStatistic
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -19,6 +18,4 @@ interface RideDao {
 
     @Query("select * from rides_table")
     fun getAllRides(): Flow<List<RideEntity>>
-    @Query("select bikeName, SUM(distance) from rides_table group By bikeName")
-    suspend fun getAllRidesByBikeType(): List<RideStatistic>
 }
