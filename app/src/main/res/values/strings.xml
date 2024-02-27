@@ -17,5 +17,9 @@
     <string name="bike_name_label">Bike Name</string>
     <string name="wheel_size_label">Wheel Size</string>
     <string name="service_in_label">Service in</string>
+    <string name="electric_bike_name">electric bike</string>
+    <string name="mtb_bike_name">mtb bike</string>
+    <string name="road_bike_name">road bike</string>
+    <string name="hybrid_bike_name">hybrid bike</string>
 
 </resources>
