@@ -4,7 +4,10 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
+import com.vlad.bikegarage.bikes.data.local.dao.BikeDao
 import com.vlad.bikegarage.bikes.data.local.db.BikesDatabase
+import com.vlad.bikegarage.bikes.data.repo.BikesRepository
+import com.vlad.bikegarage.bikes.domain.BikeRepository
 import com.vlad.bikegarage.bikes.domain.use_case.ValidateBikeName
 import com.vlad.bikegarage.settings.data.UserPreferences
 import com.vlad.bikegarage.settings.domain.Preferences
@@ -54,5 +57,17 @@ object AppModule {
             BikesDatabase::class.java,
             "bikes_db"
         ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideBikeRepository(bikeDao: BikeDao): BikeRepository {
+        return BikesRepository(bikeDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideBikesDao(database: BikesDatabase): BikeDao {
+        return database.bikeDao
     }
 }

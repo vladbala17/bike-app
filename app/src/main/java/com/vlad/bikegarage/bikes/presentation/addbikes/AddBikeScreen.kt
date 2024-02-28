@@ -77,7 +77,8 @@ import kotlin.math.absoluteValue
 @Composable
 fun AddBikesScreen(
     viewModel: AddBikeViewModel = hiltViewModel(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onAddBike: ()->Unit
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
     Column(
@@ -105,7 +106,7 @@ fun AddBikesScreen(
             placeHolder = "",
             text = state.value.bikeName,
             onValueChange = {
-                viewModel.onEvent(AddBikeEvent.Submit(it))
+                viewModel.onEvent(AddBikeEvent.OnBikeNameAdded(it))
             },
             keyboardType = KeyboardType.Email,
             imeAction = ImeAction.Next,
@@ -120,18 +121,18 @@ fun AddBikesScreen(
             listOf(
                 "29'", "30'"
             ),
-            selectedItem = "",
+            selectedItem = state.value.wheelSize,
             onSelectedItem = { selectedItem ->
-//                viewModel.onEvent(SettingsEvent.OnDistanceUnitSet(selectedItem))
+                viewModel.onEvent(AddBikeEvent.OnWheelSizeAdded(selectedItem))
             },
             R.drawable.icon_dropdown,
             modifier = Modifier.fillMaxWidth()
         )
         Label(title = stringResource(R.string.service_in_label), isMandatory = true)
         NumericTextField(
-            value = "100",
-            onServiceReminderAdded = { distanceReminder ->
-//                viewModel.onEvent(SettingsEvent.OnServiceIntervalReminderSet(distanceReminder))
+            value = state.value.serviceIn,
+            onServiceReminderAdded = { serviceInterval ->
+                viewModel.onEvent(AddBikeEvent.OnServiceIntervalAdded(serviceInterval))
             },
 
             )
@@ -143,9 +144,9 @@ fun AddBikesScreen(
                     .align(Alignment.CenterVertically)
             )
             DefaultSwitch(
-                true,
-                onCheckedChanged = {
-//                    viewModel.onEvent(SettingsEvent.OnNotifyReminder)
+                checked = state.value.isDefault,
+                onCheckedChanged = { isDefault ->
+                    viewModel.onEvent(AddBikeEvent.OnDefaultBikeAdded(isDefault))
                 },
                 modifier = Modifier.align(Alignment.CenterVertically)
             )
@@ -153,7 +154,12 @@ fun AddBikesScreen(
 
         ActionButton(
             text = stringResource(R.string.add_bike_label),
-            onButtonClick = {},
+            onButtonClick = {
+                viewModel.onEvent(AddBikeEvent.Submit)
+                if (state.value.isValidatedSuccessfully) {
+                    onAddBike()
+                }
+            },
             modifier = Modifier
                 .fillMaxWidth()
         )

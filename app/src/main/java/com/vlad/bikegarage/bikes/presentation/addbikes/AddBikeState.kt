@@ -17,12 +17,13 @@ data class AddBikeState(
     val bikeTitle: String = BikeType.Electric.type,
     val bikeNameError: UiText? = null,
     val bikeColor: Int = White.toArgb(),
-    val wheelSize: String = "",
+    val wheelSize: String = "29'",
     val serviceIn: String = "1000",
     val defaultUnit: String = "KM",
     val isDefault: Boolean = false,
     val bikePagerList: List<PagerBike> = buildPagerBikeList(),
-    val selectedBike: Int = 0
+    val selectedBike: Int = 0,
+    val isValidatedSuccessfully: Boolean = false
 )
 
 

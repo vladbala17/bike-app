@@ -115,7 +115,9 @@ fun NavigationScreen(navController: NavHostController, onAddBikeClick: () -> Uni
         }
         composable(Route.ADD_BIKES) {
             StatusBarColor(color = MaterialTheme.colors.background)
-            AddBikesScreen()
+            AddBikesScreen(onAddBike = {
+                navController.navigate(Route.BIKES)
+            })
         }
     }
 }
