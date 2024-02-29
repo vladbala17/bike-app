@@ -6,6 +6,7 @@ import com.vlad.bikegarage.bikes.domain.model.BikeType
 
 fun BikeEntity.toBike(): Bike {
     return Bike(
+        id = bikeId,
         name = name,
         wheelSize = wheelSize,
         serviceIn = serviceIn,

@@ -44,7 +44,7 @@ fun BikesScreen(
             })
         }
         LazyColumn {
-            items(state.value.bikes) { item: Bike ->
+            items(items = state.value.bikes, key = {item: Bike -> item.id }) { item: Bike ->
                 BikeListItem(bike = item, modifier = Modifier.padding(8.dp))
             }
         }

@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class AddBikeViewModel @Inject constructor(
@@ -30,6 +31,7 @@ class AddBikeViewModel @Inject constructor(
                     }
 
                     val bike = Bike(
+                        id = Random.nextInt(),
                         name = _state.value.bikeName,
                         wheelSize = _state.value.wheelSize,
                         serviceIn = _state.value.serviceIn,
