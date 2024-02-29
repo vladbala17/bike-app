@@ -28,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import com.vlad.bikegarage.bikes.domain.model.BikeType
 import com.vlad.bikegarage.bikes.domain.model.PagerBike
-import com.vlad.bikegarage.bikes.presentation.addbikes.BikeCreation
 import com.vlad.bikegarage.ui.theme.White
 import kotlin.math.absoluteValue
 
@@ -54,7 +53,7 @@ fun BikesPager(
             state = pagerState,
             contentPadding = PaddingValues(start = 80.dp, end = 80.dp)
         ) { page ->
-            BikeCreation(
+            BikeFactory(
                 modifier = Modifier.graphicsLayer {
                     val pageOffset = (
                             (pagerState.currentPage - page) + pagerState

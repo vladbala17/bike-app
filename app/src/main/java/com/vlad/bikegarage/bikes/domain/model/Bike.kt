@@ -6,5 +6,6 @@ data class Bike(
     val serviceIn: String,
     val isDefault: Boolean,
     val bikeType: BikeType,
-    val bikeColor: Int
+    val bikeColor: Int,
+    val remainingServiceDistance: String = ""
 )

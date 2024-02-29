@@ -21,5 +21,6 @@
     <string name="mtb_bike_name">mtb bike</string>
     <string name="road_bike_name">road bike</string>
     <string name="hybrid_bike_name">hybrid bike</string>
+    <string name="wheels_label">"Wheels: "</string>
 
 </resources>

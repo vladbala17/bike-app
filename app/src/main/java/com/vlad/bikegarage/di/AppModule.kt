@@ -6,7 +6,7 @@ import android.content.SharedPreferences
 import androidx.room.Room
 import com.vlad.bikegarage.bikes.data.local.dao.BikeDao
 import com.vlad.bikegarage.bikes.data.local.db.BikesDatabase
-import com.vlad.bikegarage.bikes.data.repo.BikesRepository
+import com.vlad.bikegarage.bikes.data.repo.BikesRepositoryImpl
 import com.vlad.bikegarage.bikes.domain.BikeRepository
 import com.vlad.bikegarage.bikes.domain.use_case.ValidateBikeName
 import com.vlad.bikegarage.settings.data.UserPreferences
@@ -62,7 +62,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideBikeRepository(bikeDao: BikeDao): BikeRepository {
-        return BikesRepository(bikeDao)
+        return BikesRepositoryImpl(bikeDao)
     }
 
     @Provides
