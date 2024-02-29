@@ -16,8 +16,7 @@ import javax.inject.Inject
 class AddBikeViewModel @Inject constructor(
     private val bikeNameUseCase: ValidateBikeName,
     private val addBike: AddBike
-) :
-    ViewModel() {
+) : ViewModel() {
     private val _state = MutableStateFlow(AddBikeState())
     val state = _state.asStateFlow()
 
@@ -26,6 +25,10 @@ class AddBikeViewModel @Inject constructor(
         when (event) {
             is AddBikeEvent.Submit -> {
                 if (validateBikeName()) {
+                    _state.update { newState ->
+                        newState.copy(isValidatedSuccessfully = true, bikeNameError = null)
+                    }
+
                     val bike = Bike(
                         name = _state.value.bikeName,
                         wheelSize = _state.value.wheelSize,
@@ -37,9 +40,7 @@ class AddBikeViewModel @Inject constructor(
                     viewModelScope.launch {
                         addBike(bike)
                     }
-                    _state.update { newState ->
-                        newState.copy(isValidatedSuccessfully = true)
-                    }
+
                 }
 
 
