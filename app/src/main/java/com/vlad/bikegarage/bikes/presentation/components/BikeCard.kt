@@ -28,6 +28,7 @@ fun BikeCard(
     wheelSize: String = "29'",
     remainingServiceDistance: String = "170",
     bikeType: BikeType = BikeType.Electric,
+    bikeColor: Color = Color.DarkGray,
     backgroundColor: Color = OceanBlue,
     modifier: Modifier = Modifier
 ) {
@@ -39,7 +40,7 @@ fun BikeCard(
                 contentDescription = "bike card menu",
                 modifier = Modifier.align(Alignment.End)
             )
-            BikeFactory(modifier = Modifier.fillMaxWidth())
+            BikeFactory(modifier = Modifier.fillMaxWidth(), bodyType = bikeType, bodyColor = bikeColor)
             Text(
                 text = bikeName,
                 style = MaterialTheme.typography.h2,
