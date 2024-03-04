@@ -14,7 +14,9 @@ import com.vlad.bikegarage.R
 fun CardDropDownMenu(
     displayMenu: Boolean = false,
     modifier: Modifier = Modifier,
-    onDismissRequest: () -> Unit = {}
+    onDismissRequest: () -> Unit = {},
+    onEditBikeClick:() -> Unit = {},
+    onDeleteBikeClick:() -> Unit = {}
 ) {
     DropdownMenu(expanded = displayMenu, onDismissRequest = onDismissRequest) {
         DropdownMenuItem(onClick = { }) {

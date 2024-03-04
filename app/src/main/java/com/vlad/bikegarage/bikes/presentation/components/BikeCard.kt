@@ -36,6 +36,8 @@ fun BikeCard(
     bikeType: BikeType = BikeType.Electric,
     bikeColor: Color = Color.DarkGray,
     backgroundColor: Color = OceanBlue,
+    onEditBikeMenuClick: () -> Unit = {},
+    onDeleteBikeMenuClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Card(backgroundColor = backgroundColor, modifier = modifier) {
@@ -57,6 +59,8 @@ fun BikeCard(
                 CardDropDownMenu(
                     displayMenu = displayMenu,
                     onDismissRequest = { displayMenu = false },
+                    onEditBikeClick = onEditBikeMenuClick,
+                    onDeleteBikeClick = onDeleteBikeMenuClick,
                 )
             }
             BikeFactory(
