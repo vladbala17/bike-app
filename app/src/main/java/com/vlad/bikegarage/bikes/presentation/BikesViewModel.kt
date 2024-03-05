@@ -3,6 +3,7 @@ package com.vlad.bikegarage.bikes.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vlad.bikegarage.bikes.domain.model.Bike
+import com.vlad.bikegarage.bikes.domain.use_case.DeleteBike
 import com.vlad.bikegarage.bikes.domain.use_case.GetBikes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -11,10 +12,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class BikesViewModel @Inject constructor(private val getBikes: GetBikes) : ViewModel() {
+class BikesViewModel @Inject constructor(
+    private val getBikes: GetBikes,
+    private val deleteBike: DeleteBike
+) : ViewModel() {
     private val _state = MutableStateFlow(BikesState())
     val state = _state.asStateFlow()
 
@@ -28,6 +33,12 @@ class BikesViewModel @Inject constructor(private val getBikes: GetBikes) : ViewM
         when (event) {
             BikesEvent.OnAddBike -> {
 
+            }
+
+            is BikesEvent.OnDeleteBike -> {
+                viewModelScope.launch {
+                    deleteBike(event.bikeName)
+                }
             }
         }
     }

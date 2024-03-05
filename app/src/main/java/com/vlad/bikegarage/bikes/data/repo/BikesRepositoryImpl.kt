@@ -18,6 +18,10 @@ class BikesRepositoryImpl @Inject constructor(private val bikeDao: BikeDao) : Bi
         return bikeDao.getBikeById(bikeId).toBike()
     }
 
+    override suspend fun deleteBike(bikeName: String) {
+        bikeDao.deleteBike(bikeName)
+    }
+
     override fun getBikes(): Flow<List<Bike>> {
         return bikeDao.getBikes().map { entities ->
             entities.map { bikeEntity -> bikeEntity.toBike() }

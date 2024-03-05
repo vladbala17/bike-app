@@ -15,15 +15,16 @@ fun CardDropDownMenu(
     displayMenu: Boolean = false,
     modifier: Modifier = Modifier,
     bikeId: Int = 0,
+    bikeName: String = "",
     onDismissRequest: () -> Unit = {},
     onEditBikeClick: (Int) -> Unit = {},
-    onDeleteBikeClick: () -> Unit = {}
+    onDeleteBikeClick: (String) -> Unit = {}
 ) {
     DropdownMenu(expanded = displayMenu, onDismissRequest = onDismissRequest) {
-        DropdownMenuItem(onClick = {onEditBikeClick(bikeId)}) {
+        DropdownMenuItem(onClick = { onEditBikeClick(bikeId) }) {
             Text(text = stringResource(R.string.edit_menu_action))
         }
-        DropdownMenuItem(onClick = { }) {
+        DropdownMenuItem(onClick = {onDeleteBikeClick(bikeName) }) {
             Text(text = stringResource(R.string.delete_menu_action))
         }
     }

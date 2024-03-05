@@ -9,5 +9,7 @@ interface BikeRepository {
 
     suspend fun getBikeById(bikeId: Int): Bike
 
+    suspend fun deleteBike(bikeName: String)
+
     fun getBikes(): Flow<List<Bike>>
 }

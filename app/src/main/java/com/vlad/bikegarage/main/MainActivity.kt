@@ -105,7 +105,7 @@ fun NavigationScreen(navController: NavHostController, onAddBikeClick: () -> Uni
     NavHost(navController, startDestination = Route.BIKES) {
         composable(Route.BIKES) {
             StatusBarColor(color = MaterialTheme.colors.background)
-            BikesScreen(onNavigateToScreen = onAddBikeClick, onEditBike = {bikeId ->
+            BikesScreen(onNavigateToScreen = onAddBikeClick, onEditBike = { bikeId ->
                 navController.navigate(Route.ADD_BIKES + "/$bikeId")
             })
         }
@@ -130,6 +130,15 @@ fun NavigationScreen(navController: NavHostController, onAddBikeClick: () -> Uni
                     navController.navigate(Route.BIKES)
                 })
         }
+        composable(Route.ADD_BIKES) {
+            StatusBarColor(color = MaterialTheme.colors.background)
+            AddBikesScreen(
+                onAddBike = {
+                    navController.navigate(Route.BIKES)
+                })
+        }
+
+
     }
 }
 

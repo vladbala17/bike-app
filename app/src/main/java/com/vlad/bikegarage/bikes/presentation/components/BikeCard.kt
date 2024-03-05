@@ -38,7 +38,7 @@ fun BikeCard(
     bikeColor: Color = Color.DarkGray,
     backgroundColor: Color = OceanBlue,
     onEditBikeMenuClick: (Int) -> Unit = {},
-    onDeleteBikeMenuClick: () -> Unit = {},
+    onDeleteBikeMenuClick: (String) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Card(backgroundColor = backgroundColor, modifier = modifier) {
@@ -62,7 +62,7 @@ fun BikeCard(
                     onDismissRequest = { displayMenu = false },
                     bikeId = bikeId,
                     onEditBikeClick = onEditBikeMenuClick,
-                    onDeleteBikeClick = onDeleteBikeMenuClick,
+                    onDeleteBikeClick = onDeleteBikeMenuClick
                 )
             }
             BikeFactory(
