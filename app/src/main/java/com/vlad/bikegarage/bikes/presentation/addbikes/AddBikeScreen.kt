@@ -34,7 +34,10 @@ import com.vlad.bikegarage.settings.presentation.NumericTextField
 
 @Composable
 fun AddBikesScreen(
-    viewModel: AddBikeViewModel = hiltViewModel(),
+    bikeId: Int = 0,
+    viewModel: AddBikeViewModel = hiltViewModel<AddBikeViewModel,AddBikeViewModel.AddBikeViewModelFactory>{addBikeViewModelFactory ->
+                            addBikeViewModelFactory.create(bikeId)
+    },
     modifier: Modifier = Modifier,
     onAddBike: () -> Unit
 ) {

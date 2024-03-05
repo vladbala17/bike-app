@@ -36,10 +36,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.vlad.bikegarage.R
 import com.vlad.bikegarage.bikes.presentation.BikesScreen
 import com.vlad.bikegarage.bikes.presentation.addbikes.AddBikesScreen
@@ -103,7 +105,9 @@ fun NavigationScreen(navController: NavHostController, onAddBikeClick: () -> Uni
     NavHost(navController, startDestination = Route.BIKES) {
         composable(Route.BIKES) {
             StatusBarColor(color = MaterialTheme.colors.background)
-            BikesScreen(onNavigateToScreen = onAddBikeClick)
+            BikesScreen(onNavigateToScreen = onAddBikeClick, onEditBike = {bikeId ->
+                navController.navigate(Route.ADD_BIKES + "/$bikeId")
+            })
         }
         composable(Route.RIDES) {
             StatusBarColor(color = MaterialTheme.colors.background)
@@ -113,11 +117,18 @@ fun NavigationScreen(navController: NavHostController, onAddBikeClick: () -> Uni
             StatusBarColor(color = MaterialTheme.colors.secondaryVariant)
             SettingsScreen()
         }
-        composable(Route.ADD_BIKES) {
+        composable(route = Route.ADD_BIKES + "/{bikeId}",
+            arguments = listOf(
+                navArgument("bikeId") {
+                    type = NavType.IntType
+                }
+            )) {
+            val bikeId = it.arguments?.getInt("bikeId")!!
             StatusBarColor(color = MaterialTheme.colors.background)
-            AddBikesScreen(onAddBike = {
-                navController.navigate(Route.BIKES)
-            })
+            AddBikesScreen(bikeId = bikeId,
+                onAddBike = {
+                    navController.navigate(Route.BIKES)
+                })
         }
     }
 }

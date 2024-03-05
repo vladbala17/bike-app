@@ -30,13 +30,14 @@ import com.vlad.bikegarage.ui.theme.OceanBlue
 @Preview
 @Composable
 fun BikeCard(
+    bikeId: Int = 0,
     bikeName: String = "Nukeproof Scout 290",
     wheelSize: String = "29'",
     remainingServiceDistance: String = "170",
     bikeType: BikeType = BikeType.Electric,
     bikeColor: Color = Color.DarkGray,
     backgroundColor: Color = OceanBlue,
-    onEditBikeMenuClick: () -> Unit = {},
+    onEditBikeMenuClick: (Int) -> Unit = {},
     onDeleteBikeMenuClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
@@ -59,6 +60,7 @@ fun BikeCard(
                 CardDropDownMenu(
                     displayMenu = displayMenu,
                     onDismissRequest = { displayMenu = false },
+                    bikeId = bikeId,
                     onEditBikeClick = onEditBikeMenuClick,
                     onDeleteBikeClick = onDeleteBikeMenuClick,
                 )

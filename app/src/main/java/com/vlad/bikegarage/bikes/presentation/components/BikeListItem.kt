@@ -6,13 +6,15 @@ import androidx.compose.ui.graphics.Color
 import com.vlad.bikegarage.bikes.domain.model.Bike
 
 @Composable
-fun BikeListItem(bike: Bike, modifier: Modifier) {
+fun BikeListItem(bike: Bike, onEditBikeMenuClick: (Int) -> Unit, modifier: Modifier) {
     BikeCard(
+        bikeId = bike.id,
         bikeName = bike.name,
         wheelSize = bike.wheelSize,
         bikeType = bike.bikeType,
         bikeColor = Color(bike.bikeColor),
-        modifier = modifier
+        modifier = modifier,
+        onEditBikeMenuClick = onEditBikeMenuClick
     )
 }
 

@@ -14,12 +14,13 @@ import com.vlad.bikegarage.R
 fun CardDropDownMenu(
     displayMenu: Boolean = false,
     modifier: Modifier = Modifier,
+    bikeId: Int = 0,
     onDismissRequest: () -> Unit = {},
-    onEditBikeClick:() -> Unit = {},
-    onDeleteBikeClick:() -> Unit = {}
+    onEditBikeClick: (Int) -> Unit = {},
+    onDeleteBikeClick: () -> Unit = {}
 ) {
     DropdownMenu(expanded = displayMenu, onDismissRequest = onDismissRequest) {
-        DropdownMenuItem(onClick = { }) {
+        DropdownMenuItem(onClick = {onEditBikeClick(bikeId)}) {
             Text(text = stringResource(R.string.edit_menu_action))
         }
         DropdownMenuItem(onClick = { }) {

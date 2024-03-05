@@ -30,6 +30,7 @@ import com.vlad.bikegarage.bikes.presentation.components.BikeListItem
 fun BikesScreen(
     viewModel: BikesViewModel = hiltViewModel(),
     onNavigateToScreen: () -> Unit = {},
+    onEditBike: (Int) -> Unit = {}
 ) {
 
     val state = viewModel.state.collectAsStateWithLifecycle()
@@ -44,8 +45,11 @@ fun BikesScreen(
             })
         }
         LazyColumn {
-            items(items = state.value.bikes, key = {item: Bike -> item.id }) { item: Bike ->
-                BikeListItem(bike = item, modifier = Modifier.padding(8.dp))
+            items(items = state.value.bikes, key = { item: Bike -> item.id }) { item: Bike ->
+                BikeListItem(
+                    bike = item,
+                    modifier = Modifier.padding(8.dp),
+                    onEditBikeMenuClick = { onEditBike(item.id) })
             }
         }
     }

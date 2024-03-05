@@ -5,19 +5,34 @@ import androidx.lifecycle.viewModelScope
 import com.vlad.bikegarage.bikes.domain.model.Bike
 import com.vlad.bikegarage.bikes.domain.use_case.AddBike
 import com.vlad.bikegarage.bikes.domain.use_case.ValidateBikeName
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 import kotlin.random.Random
 
-@HiltViewModel
-class AddBikeViewModel @Inject constructor(
+@HiltViewModel(assistedFactory = AddBikeViewModel.AddBikeViewModelFactory::class)
+class AddBikeViewModel @AssistedInject constructor(
+    @Assisted val bikeId: Int,
     private val bikeNameUseCase: ValidateBikeName,
-    private val addBike: AddBike
+    private val addBike: AddBike,
 ) : ViewModel() {
+
+    @AssistedFactory
+    interface AddBikeViewModelFactory {
+        fun create(id: Int): AddBikeViewModel
+    }
+
+    init {
+        if (bikeId > 0) {
+
+        }
+    }
+
     private val _state = MutableStateFlow(AddBikeState())
     val state = _state.asStateFlow()
 
