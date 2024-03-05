@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vlad.bikegarage.bikes.domain.model.Bike
 import com.vlad.bikegarage.bikes.domain.use_case.AddBike
+import com.vlad.bikegarage.bikes.domain.use_case.GetBikeDetail
 import com.vlad.bikegarage.bikes.domain.use_case.ValidateBikeName
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -20,6 +21,7 @@ class AddBikeViewModel @AssistedInject constructor(
     @Assisted val bikeId: Int,
     private val bikeNameUseCase: ValidateBikeName,
     private val addBike: AddBike,
+    private val getBikeDetail: GetBikeDetail
 ) : ViewModel() {
 
     @AssistedFactory
@@ -29,7 +31,10 @@ class AddBikeViewModel @AssistedInject constructor(
 
     init {
         if (bikeId > 0) {
-
+            viewModelScope.launch {
+                val bike = getBikeDetail(bikeId)
+                loadBike(bike)
+            }
         }
     }
 
@@ -115,6 +120,24 @@ class AddBikeViewModel @AssistedInject constructor(
     private fun selectTypeFromPage(page: Int) {
         _state.update { newState ->
             newState.copy(bikeTitle = _state.value.bikePagerList[page].title, selectedBike = page)
+        }
+    }
+
+    private fun loadBike(bike: Bike) {
+        _state.update { newState ->
+            val list = _state.value.bikePagerList.toMutableList()
+            list[_state.value.selectedBike] =
+                list[_state.value.selectedBike].copy(color = bike.bikeColor, type = bike.bikeType)
+            newState.copy(
+                bikeTitle = bike.bikeType.type,
+                bikeName = bike.name,
+                wheelSize = bike.wheelSize,
+                serviceIn = bike.serviceIn,
+                isDefault = bike.isDefault,
+                bikeType = bike.bikeType,
+                bikeColor = bike.bikeColor,
+                bikePagerList = list
+            )
         }
     }
 }

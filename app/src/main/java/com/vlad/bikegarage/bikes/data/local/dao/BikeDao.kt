@@ -15,6 +15,8 @@ interface BikeDao {
 
     @Delete
     suspend fun deleteBike(bikeEntity: BikeEntity)
+    @Query("select * from bikes_table where bikeId = :bikeId")
+    suspend fun getBikeById(bikeId: Int): BikeEntity
 
     @Query("select * from bikes_table")
     fun getBikes(): Flow<List<BikeEntity>>

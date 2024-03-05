@@ -7,5 +7,7 @@ interface BikeRepository {
 
     suspend fun addBike(bike: Bike)
 
+    suspend fun getBikeById(bikeId: Int): Bike
+
     fun getBikes(): Flow<List<Bike>>
 }

@@ -24,12 +24,17 @@ import com.vlad.bikegarage.ui.theme.White
 @Composable
 fun CircularList(
     colorList: List<Color>,
+    goToColor: Int,
     modifier: Modifier = Modifier,
     onItemClick: (Int) -> Unit
 ) {
-    val listState = rememberLazyListState(0)
+    var startingIndex = 0
+    if (goToColor > -1) {
+        startingIndex = colorList.map { it.toArgb() }.indexOf(goToColor)
+    }
+    val listState = rememberLazyListState(startingIndex)
     var selectedIndex by remember {
-        mutableStateOf(-1)
+        mutableStateOf(startingIndex)
     }
     LazyRow(
         state = listState,

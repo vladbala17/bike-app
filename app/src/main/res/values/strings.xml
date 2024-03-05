@@ -24,5 +24,6 @@
     <string name="wheels_label">"Wheels: "</string>
     <string name="delete_menu_action">Delete</string>
     <string name="edit_menu_action">Edit</string>
+    <string name="edit_bike_action">Save</string>
 
 </resources>

@@ -35,8 +35,8 @@ import com.vlad.bikegarage.settings.presentation.NumericTextField
 @Composable
 fun AddBikesScreen(
     bikeId: Int = 0,
-    viewModel: AddBikeViewModel = hiltViewModel<AddBikeViewModel,AddBikeViewModel.AddBikeViewModelFactory>{addBikeViewModelFactory ->
-                            addBikeViewModelFactory.create(bikeId)
+    viewModel: AddBikeViewModel = hiltViewModel<AddBikeViewModel, AddBikeViewModel.AddBikeViewModelFactory> { addBikeViewModelFactory ->
+        addBikeViewModelFactory.create(bikeId)
     },
     modifier: Modifier = Modifier,
     onAddBike: () -> Unit
@@ -49,9 +49,10 @@ fun AddBikesScreen(
             .padding(4.dp),
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
-        HorizontalColorPicker(onColorClicked = { color ->
-            viewModel.onEvent(AddBikeEvent.OnColorPick(color))
-        })
+        HorizontalColorPicker(
+            onColorClicked = { color ->
+                viewModel.onEvent(AddBikeEvent.OnColorPick(color))
+            })
         BikesPager(
             bikesList = viewModel.state.value.bikePagerList,
             bikeName = state.value.bikeTitle,
@@ -112,7 +113,11 @@ fun AddBikesScreen(
         }
 
         ActionButton(
-            text = stringResource(R.string.add_bike_label),
+            text = if (bikeId > 0) {
+                stringResource(R.string.edit_bike_action)
+            } else {
+                stringResource(R.string.add_bike_label)
+            },
             onButtonClick = {
                 viewModel.onEvent(AddBikeEvent.Submit)
             },

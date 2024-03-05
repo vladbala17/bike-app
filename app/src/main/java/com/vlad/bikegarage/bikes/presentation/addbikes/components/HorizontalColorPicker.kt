@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import com.vlad.bikegarage.ui.theme.Brown
 import com.vlad.bikegarage.ui.theme.CoralBlue
@@ -25,10 +26,12 @@ fun HorizontalColorPicker(
         LightBrown, Pink, LightBlue, Brown
     ),
     onColorClicked: (clickedClicked: Int) -> Unit = {},
+    goToColor: Int = Brown.toArgb(),
     modifier: Modifier = Modifier
 ) {
     CircularList(
         colorList = colorList,
+        goToColor = goToColor,
         onItemClick = onColorClicked,
         modifier = Modifier.fillMaxWidth()
     )
