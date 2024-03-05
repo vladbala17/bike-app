@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlin.random.Random
 
 @HiltViewModel(assistedFactory = AddBikeViewModel.AddBikeViewModelFactory::class)
 class AddBikeViewModel @AssistedInject constructor(
@@ -51,7 +50,7 @@ class AddBikeViewModel @AssistedInject constructor(
                     }
 
                     val bike = Bike(
-                        id = Random.nextInt(),
+                        id = bikeId,
                         name = _state.value.bikeName,
                         wheelSize = _state.value.wheelSize,
                         serviceIn = _state.value.serviceIn,
