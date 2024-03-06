@@ -5,5 +5,6 @@ object Route {
     const val RIDES = "Rides"
     const val SETTINGS = "Settings"
     const val ADD_BIKES = "Add bikes"
+    const val BIKE_DETAIL = "Bike detail"
 }
 

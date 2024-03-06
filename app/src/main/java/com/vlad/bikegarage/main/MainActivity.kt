@@ -44,6 +44,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.vlad.bikegarage.R
 import com.vlad.bikegarage.bikes.presentation.addbikes.AddBikesScreen
+import com.vlad.bikegarage.bikes.presentation.detail.BikeDetailScreen
 import com.vlad.bikegarage.bikes.presentation.list.BikesScreen
 import com.vlad.bikegarage.navigation.BOTTOM_NAV_ITEM_LIST
 import com.vlad.bikegarage.navigation.BottomNavItem
@@ -105,9 +106,13 @@ fun NavigationScreen(navController: NavHostController, onAddBikeClick: () -> Uni
     NavHost(navController, startDestination = Route.BIKES) {
         composable(Route.BIKES) {
             StatusBarColor(color = MaterialTheme.colors.background)
-            BikesScreen(onNavigateToScreen = onAddBikeClick, onEditBike = { bikeId ->
-                navController.navigate(Route.ADD_BIKES + "/$bikeId")
-            })
+            BikesScreen(onNavigateToScreen = onAddBikeClick,
+                onEditBike = { bikeId ->
+                    navController.navigate(Route.ADD_BIKES + "/$bikeId")
+                },
+                onBikeClick = { bikeId ->
+                    navController.navigate(Route.BIKE_DETAIL + "/$bikeId")
+                })
         }
         composable(Route.RIDES) {
             StatusBarColor(color = MaterialTheme.colors.background)
@@ -136,6 +141,17 @@ fun NavigationScreen(navController: NavHostController, onAddBikeClick: () -> Uni
                 onAddBike = {
                     navController.navigate(Route.BIKES)
                 })
+        }
+        composable(route = Route.BIKE_DETAIL + "/{bikeId}",
+            arguments = listOf(
+                navArgument("bikeId") {
+                    type = NavType.IntType
+                }
+            )
+        ) {
+            val bikeId = it.arguments?.getInt("bikeId")!!
+            StatusBarColor(color = MaterialTheme.colors.background)
+            BikeDetailScreen(bikeId = bikeId)
         }
 
 

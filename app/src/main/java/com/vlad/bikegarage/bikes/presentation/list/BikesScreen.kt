@@ -32,6 +32,7 @@ fun BikesScreen(
     viewModel: BikesViewModel = hiltViewModel(),
     onNavigateToScreen: () -> Unit = {},
     onEditBike: (Int) -> Unit = {},
+    onBikeClick: (Int) -> Unit = {}
 ) {
 
     val state = viewModel.state.collectAsStateWithLifecycle()
@@ -53,8 +54,9 @@ fun BikesScreen(
                     onEditBikeMenuClick = { onEditBike(bike.id) },
                     onDeleteBike = {
                         viewModel.onEvent(BikesEvent.OnDeleteBike(bike.name))
-
-                    })
+                    },
+                    onBikeItemClick = onBikeClick
+                )
             }
         }
 

@@ -1,5 +1,6 @@
 package com.vlad.bikegarage.bikes.presentation.list.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,11 +40,14 @@ fun BikeCard(
     backgroundColor: Color = OceanBlue,
     onEditBikeMenuClick: (Int) -> Unit = {},
     onDeleteBikeMenuClick: (String) -> Unit = {},
+    onBikeCardClick: (Int) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Card(backgroundColor = backgroundColor, modifier = modifier) {
         var displayMenu by remember { mutableStateOf(false) }
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier
+            .padding(16.dp)
+            .clickable { onBikeCardClick(bikeId) }) {
             Box(
                 modifier = Modifier
                     .align(Alignment.End)

@@ -27,5 +27,8 @@
     <string name="edit_bike_action">Save</string>
     <string name="delete_bike_dialog_text">\n will be deleted.</string>
     <string name="cancel_dialog_action">Cancel</string>
+    <string name="total_rides_label">Rides</string>
+    <string name="total_rides_distance_label">Total rides distance </string>
+    <string name="km_label">km</string>
 
 </resources>
