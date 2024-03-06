@@ -50,6 +50,7 @@ import com.vlad.bikegarage.navigation.BOTTOM_NAV_ITEM_LIST
 import com.vlad.bikegarage.navigation.BottomNavItem
 import com.vlad.bikegarage.navigation.Route
 import com.vlad.bikegarage.rides.presentation.RidesScreen
+import com.vlad.bikegarage.rides.presentation.addride.AddRideScreen
 import com.vlad.bikegarage.settings.presentation.SettingsScreen
 import com.vlad.bikegarage.ui.theme.BikeGarageTheme
 import com.vlad.bikegarage.ui.theme.NoRippleInteractionSource
@@ -91,6 +92,9 @@ class MainActivity : ComponentActivity() {
                         NavigationScreen(navController, onAddBikeClick = {
                             navController.navigate(Route.ADD_BIKES)
                             viewModel.onEvent(MainScreenEvent.PageChanged(Route.ADD_BIKES))
+                        }, onAddRideClick = {
+                            navController.navigate(Route.ADD_RIDES)
+                            viewModel.onEvent(MainScreenEvent.PageChanged(Route.ADD_RIDES))
                         })
                     }
                 }
@@ -102,7 +106,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun NavigationScreen(navController: NavHostController, onAddBikeClick: () -> Unit) {
+fun NavigationScreen(navController: NavHostController, onAddBikeClick: () -> Unit, onAddRideClick: () -> Unit) {
     NavHost(navController, startDestination = Route.BIKES) {
         composable(Route.BIKES) {
             StatusBarColor(color = MaterialTheme.colors.background)
@@ -116,7 +120,7 @@ fun NavigationScreen(navController: NavHostController, onAddBikeClick: () -> Uni
         }
         composable(Route.RIDES) {
             StatusBarColor(color = MaterialTheme.colors.background)
-            RidesScreen()
+            RidesScreen(onNavigateToScreen = onAddRideClick)
         }
         composable(Route.SETTINGS) {
             StatusBarColor(color = MaterialTheme.colors.secondaryVariant)
@@ -152,6 +156,10 @@ fun NavigationScreen(navController: NavHostController, onAddBikeClick: () -> Uni
             val bikeId = it.arguments?.getInt("bikeId")!!
             StatusBarColor(color = MaterialTheme.colors.background)
             BikeDetailScreen(bikeId = bikeId)
+        }
+        composable(Route.ADD_RIDES) {
+            StatusBarColor(color = MaterialTheme.colors.background)
+            AddRideScreen()
         }
 
 
