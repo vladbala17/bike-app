@@ -25,5 +25,7 @@
     <string name="delete_menu_action">Delete</string>
     <string name="edit_menu_action">Edit</string>
     <string name="edit_bike_action">Save</string>
+    <string name="delete_bike_dialog_text">\n will be deleted.</string>
+    <string name="cancel_dialog_action">Cancel</string>
 
 </resources>

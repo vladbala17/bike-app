@@ -36,8 +36,23 @@ class BikesViewModel @Inject constructor(
             }
 
             is BikesEvent.OnDeleteBike -> {
+                _state.update { newState ->
+                    newState.copy(bikeName = event.bikeName, showDialog = true)
+                }
+            }
+
+            BikesEvent.OnDeleteConfirmation -> {
                 viewModelScope.launch {
-                    deleteBike(event.bikeName)
+                    deleteBike(_state.value.bikeName)
+                    _state.update { newState ->
+                        newState.copy(showDialog = false)
+                    }
+                }
+            }
+
+            BikesEvent.OnDismissDialog -> {
+                _state.update { newState ->
+                    newState.copy(showDialog = false)
                 }
             }
         }

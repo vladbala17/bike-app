@@ -25,6 +25,7 @@ import com.vlad.bikegarage.R
 import com.vlad.bikegarage.bikes.domain.model.Bike
 import com.vlad.bikegarage.bikes.presentation.components.ActionButton
 import com.vlad.bikegarage.bikes.presentation.components.BikeListItem
+import com.vlad.bikegarage.bikes.presentation.components.ConfirmationDialog
 
 @Composable
 fun BikesScreen(
@@ -50,8 +51,21 @@ fun BikesScreen(
                     bike = bike,
                     modifier = Modifier.padding(8.dp),
                     onEditBikeMenuClick = { onEditBike(bike.id) },
-                    onDeleteBike = { viewModel.onEvent(BikesEvent.OnDeleteBike(bike.name)) })
+                    onDeleteBike = {
+                        viewModel.onEvent(BikesEvent.OnDeleteBike(bike.name))
+
+                    })
             }
+        }
+
+        if (state.value.showDialog) {
+            ConfirmationDialog(
+                onDismissRequest = { viewModel.onEvent(BikesEvent.OnDismissDialog) },
+                onConfirmation = {
+                    viewModel.onEvent(BikesEvent.OnDeleteConfirmation)
+                },
+                dialogText = state.value.bikeName,
+            )
         }
     }
 }
