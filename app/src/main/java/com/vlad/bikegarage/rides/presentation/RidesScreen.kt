@@ -2,28 +2,36 @@ package com.vlad.bikegarage.rides.presentation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vlad.bikegarage.R
-import com.vlad.bikegarage.bikes.presentation.list.components.ActionButton
+import com.vlad.bikegarage.bikes.presentation.list.EmptyHeader
+import com.vlad.bikegarage.rides.presentation.list.RidesViewModel
 
+@Preview
 @Composable
-fun RidesScreen() {
+fun RidesScreen(
+    viewModel: RidesViewModel = hiltViewModel(),
+    onNavigateToScreen: () -> Unit = {}
+) {
+
+    val state = viewModel.state.collectAsStateWithLifecycle()
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(all = 8.dp),
     ) {
-        ActionButton(
-            text = stringResource(R.string.add_ride_label),
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-        )
+        if (state.value.rides.isEmpty()) {
+            EmptyHeader(
+                icon = R.drawable.missing_ride_card,
+                showText = false,
+                onButtonClick = { onNavigateToScreen() }
+            )
+        }
     }
 }

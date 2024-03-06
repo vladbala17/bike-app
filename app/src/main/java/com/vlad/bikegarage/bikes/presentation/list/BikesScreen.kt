@@ -82,6 +82,7 @@ fun BikeScreenPreview() {
 @Composable
 fun EmptyHeader(
     pageTitle: String = "Bikes", icon: Int = R.drawable.missing_bike_card,
+    showText: Boolean = true,
     onButtonClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
@@ -106,16 +107,22 @@ fun EmptyHeader(
                     .padding(start = 20.dp)
 
             )
-            Text(
-                text = stringResource(id = R.string.no_bikes_info),
-                color = Color.White,
-                style = MaterialTheme.typography.h3,
-                modifier = Modifier
-                    .align(Alignment.Center)
-            )
+            if (showText) {
+                Text(
+                    text = stringResource(id = R.string.no_bikes_info),
+                    color = Color.White,
+                    style = MaterialTheme.typography.h3,
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                )
+            }
         }
         ActionButton(
-            text = stringResource(R.string.add_bike_label),
+            text = if (showText) {
+                stringResource(R.string.add_bike_label)
+            } else {
+                stringResource(R.string.add_ride_label)
+            },
             onButtonClick = onButtonClick,
             modifier = Modifier
                 .fillMaxWidth()
