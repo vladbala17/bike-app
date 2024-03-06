@@ -30,5 +30,10 @@
     <string name="total_rides_label">Rides</string>
     <string name="total_rides_distance_label">Total rides distance </string>
     <string name="km_label">km</string>
+    <string name="ride_title_label">Ride Title</string>
+    <string name="ride_bike_label">Bike</string>
+    <string name="ride_distance_label">Distance</string>
+    <string name="ride_duration_label">Duration</string>
+    <string name="ride_date_label">Date</string>
 
 </resources>
