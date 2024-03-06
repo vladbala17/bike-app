@@ -1,4 +1,4 @@
-package com.vlad.bikegarage.bikes.presentation
+package com.vlad.bikegarage.bikes.presentation.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

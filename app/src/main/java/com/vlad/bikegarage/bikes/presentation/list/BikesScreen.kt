@@ -1,4 +1,4 @@
-package com.vlad.bikegarage.bikes.presentation
+package com.vlad.bikegarage.bikes.presentation.list
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -23,9 +23,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vlad.bikegarage.R
 import com.vlad.bikegarage.bikes.domain.model.Bike
-import com.vlad.bikegarage.bikes.presentation.components.ActionButton
-import com.vlad.bikegarage.bikes.presentation.components.BikeListItem
-import com.vlad.bikegarage.bikes.presentation.components.ConfirmationDialog
+import com.vlad.bikegarage.bikes.presentation.list.components.ActionButton
+import com.vlad.bikegarage.bikes.presentation.list.components.BikeListItem
+import com.vlad.bikegarage.bikes.presentation.list.components.ConfirmationDialog
 
 @Composable
 fun BikesScreen(

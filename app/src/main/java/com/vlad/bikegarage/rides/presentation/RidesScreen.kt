@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.vlad.bikegarage.R
-import com.vlad.bikegarage.bikes.presentation.components.ActionButton
+import com.vlad.bikegarage.bikes.presentation.list.components.ActionButton
 
 @Composable
 fun RidesScreen() {

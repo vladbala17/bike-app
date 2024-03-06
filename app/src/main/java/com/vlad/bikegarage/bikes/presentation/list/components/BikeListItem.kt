@@ -1,4 +1,4 @@
-package com.vlad.bikegarage.bikes.presentation.components
+package com.vlad.bikegarage.bikes.presentation.list.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

@@ -43,8 +43,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.vlad.bikegarage.R
-import com.vlad.bikegarage.bikes.presentation.BikesScreen
 import com.vlad.bikegarage.bikes.presentation.addbikes.AddBikesScreen
+import com.vlad.bikegarage.bikes.presentation.list.BikesScreen
 import com.vlad.bikegarage.navigation.BOTTOM_NAV_ITEM_LIST
 import com.vlad.bikegarage.navigation.BottomNavItem
 import com.vlad.bikegarage.navigation.Route

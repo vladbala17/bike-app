@@ -26,7 +26,7 @@ import com.vlad.bikegarage.R
 import com.vlad.bikegarage.bikes.presentation.addbikes.components.BikesPager
 import com.vlad.bikegarage.bikes.presentation.addbikes.components.HorizontalColorPicker
 import com.vlad.bikegarage.bikes.presentation.addbikes.components.TextTextField
-import com.vlad.bikegarage.bikes.presentation.components.ActionButton
+import com.vlad.bikegarage.bikes.presentation.list.components.ActionButton
 import com.vlad.bikegarage.settings.presentation.DefaultSwitch
 import com.vlad.bikegarage.settings.presentation.DropDownField
 import com.vlad.bikegarage.settings.presentation.Label

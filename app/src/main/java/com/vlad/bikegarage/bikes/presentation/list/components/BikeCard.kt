@@ -1,4 +1,4 @@
-package com.vlad.bikegarage.bikes.presentation.components
+package com.vlad.bikegarage.bikes.presentation.list.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
