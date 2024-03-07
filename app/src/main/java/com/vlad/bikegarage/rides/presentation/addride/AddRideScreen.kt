@@ -29,7 +29,9 @@ import com.vlad.bikegarage.settings.presentation.NumericTextField
 @Composable
 fun AddRideScreen(
     rideId: Int = 0,
-    viewModel: AddRideViewModel = hiltViewModel()
+    viewModel: AddRideViewModel = hiltViewModel<AddRideViewModel, AddRideViewModel.AddRideViewModelFactory> { addRideViewModelFactory ->
+        addRideViewModelFactory.create(rideId)
+    }
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
     Column(
@@ -47,7 +49,7 @@ fun AddRideScreen(
             placeHolder = "",
             text = state.value.rideName,
             onValueChange = {
-//                viewModel.onEvent(AddBikeEvent.OnBikeNameAdded(it))
+                viewModel.onEvent(AddRideEvent.OnRideTitleAdded(it))
             },
             keyboardType = KeyboardType.Email,
             imeAction = ImeAction.Next,
@@ -64,9 +66,9 @@ fun AddRideScreen(
         )
         DropDownField(
             listItems = state.value.bikeNamesList,
-            selectedItem = "",
+            selectedItem = state.value.bikeName,
             onSelectedItem = { selectedItem ->
-//                viewModel.onEvent(AddBikeEvent.OnWheelSizeAdded(selectedItem))
+                viewModel.onEvent(AddRideEvent.OnBikeSelected(selectedItem))
             },
             R.drawable.icon_dropdown,
             modifier = Modifier.fillMaxWidth()
@@ -79,7 +81,7 @@ fun AddRideScreen(
         NumericTextField(
             value = state.value.distance,
             onServiceReminderAdded = { serviceInterval ->
-//                viewModel.onEvent(AddBikeEvent.OnServiceIntervalAdded(serviceInterval))
+                viewModel.onEvent(AddRideEvent.OnRideDistanceAdded(serviceInterval))
             }, modifier = Modifier.padding(bottom = 16.dp)
         )
         Label(
@@ -91,7 +93,7 @@ fun AddRideScreen(
             placeHolder = "",
             text = state.value.duration,
             onValueChange = {
-//                viewModel.onEvent(AddBikeEvent.OnBikeNameAdded(it))
+                viewModel.onEvent(AddRideEvent.OnRideDurationAdded(it))
             },
             keyboardType = KeyboardType.Email,
             imeAction = ImeAction.Next,
@@ -106,7 +108,7 @@ fun AddRideScreen(
         )
         TextTextField(
             placeHolder = "",
-            text = state.value.date,
+            text = state.value.date.toString(),
             onValueChange = {
 //                viewModel.onEvent(AddBikeEvent.OnBikeNameAdded(it))
             },
@@ -125,7 +127,7 @@ fun AddRideScreen(
                 stringResource(R.string.add_ride_label)
             },
             onButtonClick = {
-//                viewModel.onEvent(AddBikeEvent.Submit)
+                viewModel.onEvent(AddRideEvent.Submit)
             },
             modifier = Modifier
                 .fillMaxWidth()

@@ -44,7 +44,7 @@ class AddBikeViewModel @AssistedInject constructor(
     fun onEvent(event: AddBikeEvent) {
         when (event) {
             is AddBikeEvent.Submit -> {
-                if (validateBikeName()) {
+                if (bikeNameIsValid()) {
                     _state.update { newState ->
                         newState.copy(isValidatedSuccessfully = true, bikeNameError = null)
                     }
@@ -107,7 +107,7 @@ class AddBikeViewModel @AssistedInject constructor(
         }
     }
 
-    private fun validateBikeName(): Boolean {
+    private fun bikeNameIsValid(): Boolean {
         val bikeNameValidation = bikeNameUseCase(_state.value.bikeName)
         _state.update { newState ->
             newState.copy(bikeNameError = bikeNameValidation.errorMessage)
