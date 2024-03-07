@@ -64,9 +64,9 @@ fun BikeCard(
                 CardDropDownMenu(
                     displayMenu = displayMenu,
                     onDismissRequest = { displayMenu = false },
-                    bikeId = bikeId,
-                    onEditBikeClick = onEditBikeMenuClick,
-                    onDeleteBikeClick = onDeleteBikeMenuClick
+                    itemId = bikeId,
+                    onEditItemClick = onEditBikeMenuClick,
+                    onDeleteItemClick = onDeleteBikeMenuClick
                 )
             }
             BikeFactory(
