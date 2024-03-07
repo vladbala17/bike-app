@@ -54,6 +54,7 @@ import com.vlad.bikegarage.navigation.BottomNavItem
 import com.vlad.bikegarage.navigation.Route
 import com.vlad.bikegarage.rides.presentation.RidesScreen
 import com.vlad.bikegarage.rides.presentation.addride.AddRideScreen
+import com.vlad.bikegarage.rides.presentation.detail.RideDetailScreen
 import com.vlad.bikegarage.settings.presentation.SettingsScreen
 import com.vlad.bikegarage.ui.theme.BikeGarageTheme
 import com.vlad.bikegarage.ui.theme.NoRippleInteractionSource
@@ -170,7 +171,17 @@ fun NavigationScreen(
             StatusBarColor(color = MaterialTheme.colors.background)
             AddRideScreen()
         }
-
+        composable(route = Route.RIDE_DETAIL + "/{rideId}",
+            arguments = listOf(
+                navArgument("rideId") {
+                    type = NavType.IntType
+                }
+            )
+        ) {
+            val rideId = it.arguments?.getInt("rideId")!!
+            StatusBarColor(color = MaterialTheme.colors.background)
+            RideDetailScreen(rideId = rideId)
+        }
 
     }
 }
