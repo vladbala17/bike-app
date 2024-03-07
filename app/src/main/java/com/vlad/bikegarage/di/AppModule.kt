@@ -9,6 +9,9 @@ import com.vlad.bikegarage.bikes.data.local.db.BikesDatabase
 import com.vlad.bikegarage.bikes.data.repo.BikesRepositoryImpl
 import com.vlad.bikegarage.bikes.domain.BikeRepository
 import com.vlad.bikegarage.bikes.domain.use_case.ValidateBikeName
+import com.vlad.bikegarage.rides.data.local.dao.RideDao
+import com.vlad.bikegarage.rides.data.repository.RidesRepositoryImpl
+import com.vlad.bikegarage.rides.domain.RideRepository
 import com.vlad.bikegarage.settings.data.UserPreferences
 import com.vlad.bikegarage.settings.domain.Preferences
 import com.vlad.bikegarage.settings.domain.use_vase.FilterOutDigits
@@ -63,6 +66,18 @@ object AppModule {
     @Singleton
     fun provideBikeRepository(bikeDao: BikeDao): BikeRepository {
         return BikesRepositoryImpl(bikeDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRideRepository(rideDao: RideDao): RideRepository {
+        return RidesRepositoryImpl(rideDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRidesDao(database: BikesDatabase): RideDao {
+        return database.rideDao
     }
 
     @Provides
