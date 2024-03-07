@@ -79,7 +79,9 @@ class MainActivity : ComponentActivity() {
                         )
                     },
                     bottomBar = {
-                        if (currentRoute(navController = navController) != Route.ADD_BIKES) {
+                        if ((currentRoute(navController = navController) != Route.ADD_BIKES) &&
+                            (currentRoute(navController = navController) != Route.ADD_RIDES)
+                        ) {
                             BottomNavigationBar(
                                 items = BOTTOM_NAV_ITEM_LIST,
                                 navController = navController,
@@ -109,7 +111,11 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun NavigationScreen(navController: NavHostController, onAddBikeClick: () -> Unit, onAddRideClick: () -> Unit) {
+fun NavigationScreen(
+    navController: NavHostController,
+    onAddBikeClick: () -> Unit,
+    onAddRideClick: () -> Unit
+) {
     NavHost(navController, startDestination = Route.BIKES) {
         composable(Route.BIKES) {
             StatusBarColor(color = MaterialTheme.colors.background)
