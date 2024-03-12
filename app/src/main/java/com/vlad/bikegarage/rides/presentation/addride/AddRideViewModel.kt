@@ -69,19 +69,24 @@ class AddRideViewModel @AssistedInject constructor(
 
             AddRideEvent.Submit -> {
                 if (rideNameIsValid()) {
+                    _state.update { newState ->
+                        newState.copy(isValidatedSuccessfully = true, rideNameError = null)
+                    }
                     val id = rideId
                     val rideTitle = _state.value.rideName
                     val bikeName = _state.value.bikeName
-                    val duration = _state.value.duration
+                    val durationHours = _state.value.durationHours
+                    val durationMinutes = _state.value.durationMinutes
                     val distance = _state.value.distance
                     val date = _state.value.date
 
                     val ride = Ride(
                         rideName = rideTitle,
                         bikeName = bikeName,
-                        duration = duration,
+                        durationHours = durationHours,
+                        durationMinutes = durationMinutes,
                         distance = distance,
-                        date = Long.MAX_VALUE,
+                        date = date,
                         id = id
                     )
 

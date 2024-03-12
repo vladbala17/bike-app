@@ -169,7 +169,20 @@ fun NavigationScreen(
         }
         composable(Route.ADD_RIDES) {
             StatusBarColor(color = MaterialTheme.colors.background)
-            AddRideScreen()
+            AddRideScreen(onAddRide = { navController.navigate(Route.RIDES) })
+        }
+        composable(route = Route.ADD_RIDES + "/{rideId}",
+            arguments = listOf(
+                navArgument("rideId") {
+                    type = NavType.IntType
+                }
+            )) {
+            val rideId = it.arguments?.getInt("rideId")!!
+            StatusBarColor(color = MaterialTheme.colors.background)
+            AddRideScreen(rideId = rideId,
+                onAddRide = {
+                    navController.navigate(Route.BIKES)
+                })
         }
         composable(route = Route.RIDE_DETAIL + "/{rideId}",
             arguments = listOf(

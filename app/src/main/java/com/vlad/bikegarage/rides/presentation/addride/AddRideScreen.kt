@@ -23,6 +23,7 @@ import com.vlad.bikegarage.bikes.presentation.addbikes.components.TextTextField
 import com.vlad.bikegarage.bikes.presentation.list.components.ActionButton
 import com.vlad.bikegarage.rides.presentation.addride.components.CustomDatePicker
 import com.vlad.bikegarage.rides.presentation.addride.components.TimeDurationPicker
+import com.vlad.bikegarage.rides.presentation.addride.components.convertMillisToDate
 import com.vlad.bikegarage.settings.presentation.DropDownField
 import com.vlad.bikegarage.settings.presentation.Label
 import com.vlad.bikegarage.settings.presentation.NumericTextField
@@ -34,7 +35,8 @@ fun AddRideScreen(
     rideId: Int = 0,
     viewModel: AddRideViewModel = hiltViewModel<AddRideViewModel, AddRideViewModel.AddRideViewModelFactory> { addRideViewModelFactory ->
         addRideViewModelFactory.create(rideId)
-    }
+    },
+    onAddRide: () -> Unit = {}
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
     Column(
@@ -115,7 +117,7 @@ fun AddRideScreen(
         )
         TextTextField(
             placeHolder = "",
-            text = state.value.date,
+            text = convertMillisToDate(state.value.date),
             onValueChange = {
             },
             keyboardType = KeyboardType.Email,
@@ -157,5 +159,9 @@ fun AddRideScreen(
         }, onDismissDialog = {
             viewModel.onEvent(AddRideEvent.OnDismissDatePicker)
         })
+    }
+
+    if (state.value.isValidatedSuccessfully) {
+        onAddRide()
     }
 }

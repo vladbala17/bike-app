@@ -5,6 +5,7 @@ data class Ride(
     val rideName: String,
     val bikeName: String,
     val distance: String,
-    val duration: String,
+    val durationHours: Int,
+    val durationMinutes: Int,
     val date: Long
 )

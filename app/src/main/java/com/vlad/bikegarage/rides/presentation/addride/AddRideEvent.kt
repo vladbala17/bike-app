@@ -11,7 +11,7 @@ sealed class AddRideEvent() {
     object OnDismissDurationPicker : AddRideEvent()
     object OnDismissDatePicker : AddRideEvent()
     data class OnDurationSet(val hours: Int, val minutes: Int) : AddRideEvent()
-    data class OnDateSet(val date: String) : AddRideEvent()
+    data class OnDateSet(val date: Long) : AddRideEvent()
     object Submit : AddRideEvent()
 
 }

@@ -23,7 +23,7 @@ import java.util.Date
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun CustomDatePicker(onDateSelected: (String) -> Unit = {}, onDismissDialog: () -> Unit = {}) {
+fun CustomDatePicker(onDateSelected: (Long) -> Unit = {}, onDismissDialog: () -> Unit = {}) {
     val datePickerState = rememberDatePickerState(selectableDates = object : SelectableDates {
         override fun isSelectableDate(utcTimeMillis: Long): Boolean {
             return utcTimeMillis <= System.currentTimeMillis()
@@ -31,8 +31,8 @@ fun CustomDatePicker(onDateSelected: (String) -> Unit = {}, onDismissDialog: () 
     })
 
     val selectedDate = datePickerState.selectedDateMillis?.let {
-        convertMillisToDate(it)
-    } ?: ""
+        it
+    } ?: Long.MAX_VALUE
 
     DatePickerDialog(
         onDismissRequest = onDismissDialog,
