@@ -76,7 +76,12 @@ class MainActivity : ComponentActivity() {
                         TopNavigationBar(
                             navController = navController,
                             pageTitle = state.value.title,
-                            onClick = {}
+                            onAddBikeClick = {
+                                navController.navigate(Route.ADD_BIKES)
+                            },
+                            onAddRideClick = {
+                                navController.navigate(Route.ADD_RIDES)
+                            }
                         )
                     },
                     bottomBar = {
@@ -133,7 +138,8 @@ fun NavigationScreen(
             RidesScreen(
                 onNavigateToScreen = onAddRideClick,
                 onEditRide = { rideId ->
-                    navController.navigate(Route.ADD_RIDES + "/$rideId") },
+                    navController.navigate(Route.ADD_RIDES + "/$rideId")
+                },
                 onRideClick = { rideId ->
                     navController.navigate(Route.RIDE_DETAIL + "/$rideId")
                 }
@@ -265,7 +271,8 @@ fun BottomNavigationBar(
 fun TopNavigationBar(
     navController: NavController,
     pageTitle: String,
-    onClick: () -> Unit
+    onAddBikeClick: () -> Unit,
+    onAddRideClick: () -> Unit
 ) {
     TopAppBar(
         title = {
@@ -284,7 +291,7 @@ fun TopNavigationBar(
         actions = {
             if (pageTitle == Route.ADD_BIKES) {
                 IconButton(
-                    onClick = onClick
+                    onClick = {}
                 ) {
                     Row(
                         modifier = Modifier.padding(end = 8.dp)
@@ -298,7 +305,11 @@ fun TopNavigationBar(
                 }
             } else if (pageTitle != Route.SETTINGS) {
                 IconButton(
-                    onClick = onClick
+                    onClick = if (pageTitle == Route.BIKES) {
+                        onAddBikeClick
+                    } else {
+                        onAddRideClick
+                    }
                 ) {
                     Row(
                         modifier = Modifier.padding(end = 8.dp)

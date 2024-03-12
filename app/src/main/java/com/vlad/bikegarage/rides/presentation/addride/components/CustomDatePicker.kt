@@ -37,6 +37,13 @@ fun CustomDatePicker(onDateSelected: (Long) -> Unit = {}, onDismissDialog: () ->
     DatePickerDialog(
         onDismissRequest = onDismissDialog,
         confirmButton = {
+            ActionButton(
+                text = stringResource(id = R.string.set_dialog_action),
+                onButtonClick = { onDateSelected(selectedDate) },
+                modifier = Modifier.padding(8.dp),
+            )
+        },
+        dismissButton = {
             TextButton(
                 onClick = { onDismissDialog() },
                 modifier = Modifier
@@ -44,13 +51,6 @@ fun CustomDatePicker(onDateSelected: (Long) -> Unit = {}, onDismissDialog: () ->
             ) {
                 Text(stringResource(id = R.string.cancel_dialog_action))
             }
-        },
-        dismissButton = {
-            ActionButton(
-                text = stringResource(id = R.string.set_dialog_action),
-                onButtonClick = { onDateSelected(selectedDate) },
-                modifier = Modifier.padding(8.dp),
-            )
         }) {
         DatePicker(
             state = datePickerState, showModeToggle = false, colors = DatePickerDefaults.colors(
