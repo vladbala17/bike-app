@@ -21,6 +21,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vlad.bikegarage.R
 import com.vlad.bikegarage.bikes.presentation.addbikes.components.TextTextField
 import com.vlad.bikegarage.bikes.presentation.list.components.ActionButton
+import com.vlad.bikegarage.rides.presentation.addride.components.CustomDatePicker
 import com.vlad.bikegarage.rides.presentation.addride.components.TimeDurationPicker
 import com.vlad.bikegarage.settings.presentation.DropDownField
 import com.vlad.bikegarage.settings.presentation.Label
@@ -99,7 +100,6 @@ fun AddRideScreen(
                 state.value.durationMinutes
             ),
             onValueChange = {
-//                viewModel.onEvent(AddRideEvent.OnRideDurationAdded(it))
             },
             keyboardType = KeyboardType.Email,
             imeAction = ImeAction.Next,
@@ -115,14 +115,15 @@ fun AddRideScreen(
         )
         TextTextField(
             placeHolder = "",
-            text = state.value.date.toString(),
+            text = state.value.date,
             onValueChange = {
-//                viewModel.onEvent(AddBikeEvent.OnBikeNameAdded(it))
             },
             keyboardType = KeyboardType.Email,
             imeAction = ImeAction.Next,
+            readOnly = true,
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .clickable { viewModel.onEvent(AddRideEvent.OnDateClicked) },
             singleLine = true,
         )
         Spacer(modifier = Modifier.weight(1f))
@@ -148,5 +149,13 @@ fun AddRideScreen(
             onConfirmation = { hours, minutes ->
                 viewModel.onEvent(AddRideEvent.OnDurationSet(hours, minutes))
             })
+    }
+
+    if (state.value.showDatePicker) {
+        CustomDatePicker(onDateSelected = { date ->
+            viewModel.onEvent(AddRideEvent.OnDateSet(date))
+        }, onDismissDialog = {
+            viewModel.onEvent(AddRideEvent.OnDismissDatePicker)
+        })
     }
 }

@@ -9,8 +9,9 @@ data class AddRideState(
     val duration: String = "",
     val durationHours: Int = 2,
     val durationMinutes: Int = 24,
-    val date: Long = Long.MAX_VALUE,
+    val date: String = "",
     val rideNameError: UiText? = null,
     val bikeNamesList: List<String> = emptyList(),
-    val showDurationPicker: Boolean = false
+    val showDurationPicker: Boolean = false,
+    val showDatePicker: Boolean = false
 )

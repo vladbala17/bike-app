@@ -81,7 +81,7 @@ class AddRideViewModel @AssistedInject constructor(
                         bikeName = bikeName,
                         duration = duration,
                         distance = distance,
-                        date = date,
+                        date = Long.MAX_VALUE,
                         id = id
                     )
 
@@ -108,6 +108,24 @@ class AddRideViewModel @AssistedInject constructor(
                         durationMinutes = event.minutes,
                         showDurationPicker = false
                     )
+                }
+            }
+
+            AddRideEvent.OnDateClicked -> {
+                _state.update { newState ->
+                    newState.copy(showDatePicker = true)
+                }
+            }
+
+            is AddRideEvent.OnDateSet -> {
+                _state.update { newState ->
+                    newState.copy(date = event.date, showDatePicker = false)
+                }
+            }
+
+            AddRideEvent.OnDismissDatePicker -> {
+                _state.update { newState ->
+                    newState.copy(showDatePicker = false)
                 }
             }
         }
