@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
@@ -73,7 +74,9 @@ fun RideCard(
                     text = rideTitle,
                     style = MaterialTheme.typography.h2,
                     color = MaterialTheme.colors.onPrimary,
+                    modifier = Modifier.padding(start = 16.dp)
                 )
+                Spacer(modifier = Modifier.weight(1f))
                 Box {
                     IconButton(
                         onClick = {
@@ -95,7 +98,7 @@ fun RideCard(
             }
             Row(modifier = Modifier.padding(top = 8.dp)) {
                 Text(
-                    text = stringResource(R.string.ride_bike_label) + ":",
+                    text = stringResource(R.string.ride_bike_label) + ": ",
                     style = MaterialTheme.typography.body1,
                     color = MaterialTheme.colors.onPrimary
                 )
@@ -119,7 +122,7 @@ fun RideCard(
             }
             Row(modifier = Modifier.padding(top = 8.dp)) {
                 Text(
-                    text = stringResource(R.string.ride_duration_label) + ":",
+                    text = stringResource(R.string.ride_duration_label) + ": ",
                     style = MaterialTheme.typography.body1,
                     color = MaterialTheme.colors.onPrimary
                 )
@@ -135,12 +138,12 @@ fun RideCard(
             }
             Row(modifier = Modifier.padding(top = 8.dp)) {
                 Text(
-                    text = stringResource(R.string.ride_date_label) + ":",
+                    text = stringResource(R.string.ride_date_label) + ": ",
                     style = MaterialTheme.typography.body1,
                     color = MaterialTheme.colors.onPrimary
                 )
                 Text(
-                    text = convertMillisToDate(date) ,
+                    text = convertMillisToDate(date),
                     style = MaterialTheme.typography.body2,
                     color = MaterialTheme.colors.onPrimary
                 )

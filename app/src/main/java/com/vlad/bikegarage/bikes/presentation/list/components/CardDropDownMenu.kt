@@ -1,5 +1,6 @@
 package com.vlad.bikegarage.bikes.presentation.list.components
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
@@ -9,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.vlad.bikegarage.R
 
 @Preview
@@ -27,13 +29,15 @@ fun CardDropDownMenu(
             Icon(
                 painter = painterResource(id = R.drawable.icon_edit),
                 contentDescription = "card menu edit",
+                modifier = Modifier.padding(end = 4.dp)
             )
             Text(text = stringResource(R.string.edit_menu_action))
         }
-        DropdownMenuItem(onClick = {onDeleteItemClick(itemName) }) {
+        DropdownMenuItem(onClick = { onDeleteItemClick(itemName) }) {
             Icon(
                 painter = painterResource(id = R.drawable.icon_delete),
                 contentDescription = "card menu delete",
+                modifier = Modifier.padding(end = 4.dp)
             )
             Text(text = stringResource(R.string.delete_menu_action))
         }
