@@ -130,7 +130,14 @@ fun NavigationScreen(
         }
         composable(Route.RIDES) {
             StatusBarColor(color = MaterialTheme.colors.background)
-            RidesScreen(onNavigateToScreen = onAddRideClick)
+            RidesScreen(
+                onNavigateToScreen = onAddRideClick,
+                onEditRide = { rideId ->
+                    navController.navigate(Route.ADD_RIDES + "/$rideId") },
+                onRideClick = { rideId ->
+                    navController.navigate(Route.RIDE_DETAIL + "/$rideId")
+                }
+            )
         }
         composable(Route.SETTINGS) {
             StatusBarColor(color = MaterialTheme.colors.secondaryVariant)

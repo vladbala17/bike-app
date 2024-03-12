@@ -39,7 +39,7 @@ fun RideDetailScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
-            .background(MaterialTheme.colors.secondaryVariant)
+            .background(MaterialTheme.colors.background)
     ) {
 
         Row(

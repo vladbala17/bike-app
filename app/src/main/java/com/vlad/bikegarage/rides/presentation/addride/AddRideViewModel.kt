@@ -41,7 +41,10 @@ class AddRideViewModel @AssistedInject constructor(
     init {
         loadBikesNames()
         if (rideId > 0) {
-            val ride = viewModelScope.launch { getRideDetail(rideId = rideId) }
+            viewModelScope.launch {
+                val ride = getRideDetail(rideId = rideId)
+                loadRide(ride)
+            }
         }
     }
 
@@ -152,5 +155,18 @@ class AddRideViewModel @AssistedInject constructor(
                 newState.copy(bikeNamesList = bikes.map { bike -> bike.name })
             }
         }.launchIn(viewModelScope)
+    }
+
+    private fun loadRide(ride: Ride) {
+        _state.update { newState ->
+            newState.copy(
+                rideName = ride.rideName,
+                bikeName = ride.bikeName,
+                distance = ride.distance,
+                durationHours = ride.durationHours,
+                durationMinutes = ride.durationMinutes,
+                date = ride.date
+            )
+        }
     }
 }

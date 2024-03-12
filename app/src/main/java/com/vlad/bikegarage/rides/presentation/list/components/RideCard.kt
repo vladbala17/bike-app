@@ -29,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.vlad.bikegarage.R
 import com.vlad.bikegarage.bikes.presentation.list.components.CardDropDownMenu
+import com.vlad.bikegarage.rides.presentation.addride.components.convertMillisToDate
 import com.vlad.bikegarage.ui.theme.OceanBlue
 
 @Preview
@@ -37,8 +38,9 @@ fun RideCard(
     rideId: Int = 0,
     rideTitle: String = "Faget MTB Tour",
     distance: String = "60",
-    duration: String = "2h, 14min",
-    date: String = "29.03.2023",
+    durationHours: Int = 2,
+    durationMinutes: Int = 8,
+    date: Long = System.currentTimeMillis(),
     bikeName: String = "Nukeproof Scout 290",
     backgroundColor: Color = OceanBlue,
     onEditRideMenuClick: (Int) -> Unit = {},
@@ -122,7 +124,11 @@ fun RideCard(
                     color = MaterialTheme.colors.onPrimary
                 )
                 Text(
-                    text = duration,
+                    text = stringResource(
+                        id = R.string.ride_duration,
+                        durationHours,
+                        durationMinutes
+                    ),
                     style = MaterialTheme.typography.body2,
                     color = MaterialTheme.colors.onPrimary
                 )
@@ -134,7 +140,7 @@ fun RideCard(
                     color = MaterialTheme.colors.onPrimary
                 )
                 Text(
-                    text = date,
+                    text = convertMillisToDate(date) ,
                     style = MaterialTheme.typography.body2,
                     color = MaterialTheme.colors.onPrimary
                 )
