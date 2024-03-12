@@ -5,6 +5,8 @@ import com.vlad.bikegarage.bikes.data.local.mapper.toBike
 import com.vlad.bikegarage.bikes.data.local.mapper.toBikeEntity
 import com.vlad.bikegarage.bikes.domain.BikeRepository
 import com.vlad.bikegarage.bikes.domain.model.Bike
+import com.vlad.bikegarage.rides.data.local.mapper.toRide
+import com.vlad.bikegarage.rides.domain.model.Ride
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -20,6 +22,10 @@ class BikesRepositoryImpl @Inject constructor(private val bikeDao: BikeDao) : Bi
 
     override suspend fun deleteBike(bikeName: String) {
         bikeDao.deleteBike(bikeName)
+    }
+
+    override suspend fun getAllRidesForBike(bikeName: String): List<Ride> {
+        return bikeDao.getAllRidesForBike(bikeName).map { entities -> entities.toRide() }
     }
 
     override fun getBikes(): Flow<List<Bike>> {

@@ -7,6 +7,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +30,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vlad.bikegarage.R
 import com.vlad.bikegarage.bikes.presentation.addbikes.components.BikeFactory
 import com.vlad.bikegarage.bikes.presentation.list.components.LinearProgressBar
+import com.vlad.bikegarage.rides.domain.model.Ride
+import com.vlad.bikegarage.rides.presentation.list.components.RideCard
 
 @Preview
 @Composable
@@ -37,7 +42,7 @@ fun BikeDetailScreen(
     }
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
-
+    val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -100,7 +105,7 @@ fun BikeDetailScreen(
                 color = MaterialTheme.colors.onPrimary
             )
             Text(
-                text = state.value.totalRides,
+                text = state.value.totalRides.toString(),
                 style = MaterialTheme.typography.h2,
                 color = MaterialTheme.colors.onPrimary
             )
@@ -119,7 +124,7 @@ fun BikeDetailScreen(
             Text(
                 text = buildAnnotatedString {
                     withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                        append(state.value.totalRidesDistance)
+                        append(state.value.totalRidesDistance.toString())
                     }
                     append(stringResource(id = R.string.km_label))
                 },
@@ -136,5 +141,18 @@ fun BikeDetailScreen(
                 .align(Alignment.Start)
                 .padding(top = 8.dp)
         )
+
+        LazyColumn() {
+            items(state.value.rideList, key = { ride: Ride -> ride.id }) { ride: Ride ->
+                RideCard(
+                    rideTitle = ride.rideName,
+                    bikeName = ride.bikeName,
+                    distance = ride.distance,
+                    durationHours = ride.durationHours,
+                    durationMinutes = ride.durationMinutes,
+                    date = ride.date
+                )
+            }
+        }
     }
 }

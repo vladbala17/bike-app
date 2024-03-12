@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
 import com.vlad.bikegarage.bikes.data.local.entity.BikeEntity
+import com.vlad.bikegarage.rides.data.local.entity.RideEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -19,4 +20,7 @@ interface BikeDao {
 
     @Query("select * from bikes_table")
     fun getBikes(): Flow<List<BikeEntity>>
+
+    @Query("select * from rides_table where bikeName = :bikeName ")
+    suspend fun getAllRidesForBike(bikeName: String): List<RideEntity>
 }
