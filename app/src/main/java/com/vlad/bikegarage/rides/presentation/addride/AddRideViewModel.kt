@@ -88,6 +88,28 @@ class AddRideViewModel @AssistedInject constructor(
                     viewModelScope.launch { addRide(ride) }
                 }
             }
+
+            AddRideEvent.OnDurationClicked -> {
+                _state.update { newState ->
+                    newState.copy(showDurationPicker = true)
+                }
+            }
+
+            AddRideEvent.OnDismissDurationPicker -> {
+                _state.update { newState ->
+                    newState.copy(showDurationPicker = false)
+                }
+            }
+
+            is AddRideEvent.OnDurationSet -> {
+                _state.update { newState ->
+                    newState.copy(
+                        durationHours = event.hours,
+                        durationMinutes = event.minutes,
+                        showDurationPicker = false
+                    )
+                }
+            }
         }
     }
 

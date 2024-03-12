@@ -1,6 +1,7 @@
 package com.vlad.bikegarage.rides.presentation.addride
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +21,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vlad.bikegarage.R
 import com.vlad.bikegarage.bikes.presentation.addbikes.components.TextTextField
 import com.vlad.bikegarage.bikes.presentation.list.components.ActionButton
+import com.vlad.bikegarage.rides.presentation.addride.components.TimeDurationPicker
 import com.vlad.bikegarage.settings.presentation.DropDownField
 import com.vlad.bikegarage.settings.presentation.Label
 import com.vlad.bikegarage.settings.presentation.NumericTextField
@@ -91,14 +93,19 @@ fun AddRideScreen(
         )
         TextTextField(
             placeHolder = "",
-            text = state.value.duration,
+            text = stringResource(
+                id = R.string.ride_duration,
+                state.value.durationHours,
+                state.value.durationMinutes
+            ),
             onValueChange = {
-                viewModel.onEvent(AddRideEvent.OnRideDurationAdded(it))
+//                viewModel.onEvent(AddRideEvent.OnRideDurationAdded(it))
             },
             keyboardType = KeyboardType.Email,
             imeAction = ImeAction.Next,
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .clickable { viewModel.onEvent(AddRideEvent.OnDurationClicked) },
             singleLine = true,
         )
         Label(
@@ -132,5 +139,14 @@ fun AddRideScreen(
             modifier = Modifier
                 .fillMaxWidth()
         )
+    }
+    if (state.value.showDurationPicker) {
+        TimeDurationPicker(
+            hoursValue = state.value.durationHours,
+            minutesValue = state.value.durationMinutes,
+            onDismissRequest = { viewModel.onEvent(AddRideEvent.OnDismissDurationPicker) },
+            onConfirmation = { hours, minutes ->
+                viewModel.onEvent(AddRideEvent.OnDurationSet(hours, minutes))
+            })
     }
 }
