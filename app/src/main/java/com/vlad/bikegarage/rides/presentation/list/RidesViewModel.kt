@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.vlad.bikegarage.rides.domain.model.Ride
 import com.vlad.bikegarage.rides.domain.use_case.DeleteRide
 import com.vlad.bikegarage.rides.domain.use_case.GetRides
+import com.vlad.bikegarage.util.convertMillisToDateMonthName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -57,8 +58,16 @@ class RidesViewModel @Inject constructor(
     private fun loadRides() {
         getRidesJob?.cancel()
         getRidesJob = getRides.invoke().onEach { rides: List<Ride> ->
+
+            val groupedList = rides.groupBy {
+                convertMillisToDateMonthName(it.date).substring(
+                    3,
+                    convertMillisToDateMonthName(it.date).lastIndexOf(".")
+                )
+            }
+            groupedList.size
             _state.update { newState ->
-                newState.copy(rides = rides)
+                newState.copy(rides = groupedList)
             }
         }.launchIn(viewModelScope)
     }

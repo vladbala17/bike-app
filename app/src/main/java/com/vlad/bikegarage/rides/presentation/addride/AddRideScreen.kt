@@ -23,10 +23,10 @@ import com.vlad.bikegarage.bikes.presentation.addbikes.components.TextTextField
 import com.vlad.bikegarage.bikes.presentation.list.components.ActionButton
 import com.vlad.bikegarage.rides.presentation.addride.components.CustomDatePicker
 import com.vlad.bikegarage.rides.presentation.addride.components.TimeDurationPicker
-import com.vlad.bikegarage.rides.presentation.addride.components.convertMillisToDate
 import com.vlad.bikegarage.settings.presentation.DropDownField
 import com.vlad.bikegarage.settings.presentation.Label
 import com.vlad.bikegarage.settings.presentation.NumericTextField
+import com.vlad.bikegarage.util.convertMillisToDateMonthNumber
 
 @Preview
 @ExperimentalMaterialApi
@@ -117,7 +117,7 @@ fun AddRideScreen(
         )
         TextTextField(
             placeHolder = "",
-            text = convertMillisToDate(state.value.date),
+            text = convertMillisToDateMonthNumber(state.value.date),
             onValueChange = {
             },
             keyboardType = KeyboardType.Email,

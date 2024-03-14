@@ -1,10 +1,14 @@
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package com.vlad.bikegarage.rides.presentation
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,17 +45,23 @@ fun RidesScreen(
                 onButtonClick = { onNavigateToScreen() }
             )
         }
+
         LazyColumn {
-            items(items = state.value.rides, key = { ride: Ride -> ride.id }) { ride: Ride ->
-                RideListItem(
-                    ride = ride,
-                    modifier = Modifier.padding(8.dp),
-                    onEditRideMenuClick = { onEditRide(ride.id) },
-                    onDeleteRide = {
-                        viewModel.onEvent(RidesEvent.OnDeleteRide(ride.rideName))
-                    },
-                    onRideItemClick = onRideClick
-                )
+            state.value.rides.forEach { (month, ridesForMonth) ->
+                item {
+                    Text(text = month)
+                }
+                items(ridesForMonth, key = { ride: Ride -> ride.id }) { ride: Ride ->
+                    RideListItem(
+                        ride = ride,
+                        modifier = Modifier.padding(8.dp),
+                        onEditRideMenuClick = { onEditRide(ride.id) },
+                        onDeleteRide = {
+                            viewModel.onEvent(RidesEvent.OnDeleteRide(ride.rideName))
+                        },
+                        onRideItemClick = onRideClick
+                    )
+                }
             }
         }
         if (state.value.showDialog) {

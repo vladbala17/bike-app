@@ -17,8 +17,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.vlad.bikegarage.R
 import com.vlad.bikegarage.bikes.presentation.list.components.ActionButton
-import java.text.SimpleDateFormat
-import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
@@ -63,10 +61,4 @@ fun CustomDatePicker(onDateSelected: (Long) -> Unit = {}, onDismissDialog: () ->
             )
         )
     }
-
-}
-
-fun convertMillisToDate(millis: Long): String {
-    val formatter = SimpleDateFormat("dd.MM.yyyy")
-    return formatter.format(Date(millis))
 }
