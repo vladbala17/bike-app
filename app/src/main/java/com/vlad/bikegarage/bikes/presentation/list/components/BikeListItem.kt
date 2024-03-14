@@ -8,6 +8,8 @@ import com.vlad.bikegarage.bikes.domain.model.Bike
 @Composable
 fun BikeListItem(
     bike: Bike,
+    remainingServiceDistance: Int = 0,
+    usageUntilService: Float = 0.0f,
     onEditBikeMenuClick: (Int) -> Unit,
     onDeleteBike: (String) -> Unit,
     onBikeItemClick: (Int) -> Unit,
@@ -19,6 +21,8 @@ fun BikeListItem(
         wheelSize = bike.wheelSize,
         bikeType = bike.bikeType,
         bikeColor = Color(bike.bikeColor),
+        remainingServiceDistance = remainingServiceDistance,
+        usageUntilService = usageUntilService,
         modifier = modifier,
         onEditBikeMenuClick = onEditBikeMenuClick,
         onDeleteBikeMenuClick = onDeleteBike,

@@ -51,6 +51,8 @@ fun BikesScreen(
                 BikeListItem(
                     bike = bike,
                     modifier = Modifier.padding(8.dp),
+                    remainingServiceDistance = bike.remainingServiceDistance,
+                    usageUntilService = bike.usageUntilService,
                     onEditBikeMenuClick = { onEditBike(bike.id) },
                     onDeleteBike = {
                         viewModel.onEvent(BikesEvent.OnDeleteBike(bike.name))

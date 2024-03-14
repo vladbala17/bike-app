@@ -8,5 +8,6 @@ data class Bike(
     val isDefault: Boolean,
     val bikeType: BikeType,
     val bikeColor: Int,
-    val remainingServiceDistance: String = ""
+    val remainingServiceDistance: Int = 0,
+    val usageUntilService: Float = 0.0f,
 )

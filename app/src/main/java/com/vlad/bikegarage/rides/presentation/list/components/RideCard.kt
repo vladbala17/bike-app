@@ -38,7 +38,7 @@ import com.vlad.bikegarage.ui.theme.OceanBlue
 fun RideCard(
     rideId: Int = 0,
     rideTitle: String = "Faget MTB Tour",
-    distance: String = "60",
+    distance: Int = 0,
     durationHours: Int = 2,
     durationMinutes: Int = 8,
     date: Long = System.currentTimeMillis(),
@@ -118,7 +118,7 @@ fun RideCard(
                     color = MaterialTheme.colors.onPrimary
                 )
                 Text(
-                    text = distance + "km",
+                    text = distance.toString() + "km",
                     style = MaterialTheme.typography.body2,
                     color = MaterialTheme.colors.onPrimary
                 )

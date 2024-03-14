@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.vlad.bikegarage.bikes.domain.model.Bike
 import com.vlad.bikegarage.bikes.domain.use_case.DeleteBike
 import com.vlad.bikegarage.bikes.domain.use_case.GetBikes
+import com.vlad.bikegarage.bikes.domain.use_case.GetRidesForBike
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class BikesViewModel @Inject constructor(
     private val getBikes: GetBikes,
-    private val deleteBike: DeleteBike
+    private val deleteBike: DeleteBike,
+    private val getRidesForBike: GetRidesForBike
 ) : ViewModel() {
     private val _state = MutableStateFlow(BikesState())
     val state = _state.asStateFlow()
@@ -61,8 +63,16 @@ class BikesViewModel @Inject constructor(
     private fun loadBikes() {
         getBikesJob?.cancel()
         getBikesJob = getBikes.invoke().onEach { bikes: List<Bike> ->
+            val bikeRidesList = bikes.map { bike: Bike ->
+                val rideList = getRidesForBike(bike.name)
+                val totalDistance = rideList.sumOf { it.distance }
+                bike.copy(
+                    remainingServiceDistance = bike.serviceIn - totalDistance,
+                    usageUntilService = totalDistance.toFloat() / bike.serviceIn.toFloat()
+                )
+            }
             _state.update { newState ->
-                newState.copy(bikes = bikes)
+                newState.copy(bikes = bikeRidesList)
             }
         }.launchIn(viewModelScope)
     }

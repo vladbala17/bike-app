@@ -95,7 +95,7 @@ class AddBikeViewModel @AssistedInject constructor(
 
             is AddBikeEvent.OnServiceIntervalAdded -> {
                 _state.update { newState ->
-                    newState.copy(serviceIn = event.serviceInterval)
+                    newState.copy(serviceIn = event.serviceInterval.toInt())
                 }
             }
 

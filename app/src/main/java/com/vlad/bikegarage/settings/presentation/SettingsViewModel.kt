@@ -46,9 +46,11 @@ class SettingsViewModel @Inject constructor(
 
             is SettingsEvent.OnServiceIntervalReminderSet -> {
                 _state.update { newState ->
-                    newState.copy(serviceIntervalReminder = filterOutDigits(event.distanceIntervalReminder))
+
+                    //Use case not needed because the value is already a number
+                    newState.copy(serviceIntervalReminder = filterOutDigits(event.distanceIntervalReminder.toString()))
                 }
-                preferences.saveServiceInterval(filterOutDigits(event.distanceIntervalReminder))
+                preferences.saveServiceInterval(filterOutDigits(event.distanceIntervalReminder.toString()))
             }
         }
     }

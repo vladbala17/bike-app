@@ -84,7 +84,7 @@ fun AddRideScreen(
             modifier = Modifier.padding(bottom = 4.dp)
         )
         NumericTextField(
-            value = state.value.distance,
+            value = state.value.distance.toString(),
             onServiceReminderAdded = { serviceInterval ->
                 viewModel.onEvent(AddRideEvent.OnRideDistanceAdded(serviceInterval))
             }, modifier = Modifier.padding(bottom = 16.dp)
