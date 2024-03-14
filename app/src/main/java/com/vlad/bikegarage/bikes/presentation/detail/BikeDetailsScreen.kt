@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -45,7 +45,8 @@ fun BikeDetailScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colors.secondaryVariant)
-            .padding(8.dp),
+            .padding(8.dp)
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         BikeFactory(bodyColor = state.value.bikeColor, bodyType = state.value.bikeType)
@@ -112,7 +113,7 @@ fun BikeDetailScreen(
                 } else {
                     buildAnnotatedString {
                         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                            append(state.value.totalRidesDistance.toString())
+                            append(state.value.totalRides.toString())
                         }
                         append(stringResource(id = R.string.km_label))
                     }
@@ -161,17 +162,18 @@ fun BikeDetailScreen(
                 .padding(top = 8.dp)
         )
 
-        LazyColumn() {
-            items(state.value.rideList, key = { ride: Ride -> ride.id }) { ride: Ride ->
-                RideCard(
-                    rideTitle = ride.rideName,
-                    bikeName = ride.bikeName,
-                    distance = ride.distance,
-                    durationHours = ride.durationHours,
-                    durationMinutes = ride.durationMinutes,
-                    date = ride.date
-                )
-            }
+        state.value.rideList.forEach { ride: Ride ->
+            RideCard(
+                rideTitle = ride.rideName,
+                bikeName = ride.bikeName,
+                distance = ride.distance,
+                modifier = Modifier.padding(top = 8.dp, bottom = 8.dp),
+                withContextMenu = false,
+                backgroundColor = MaterialTheme.colors.background,
+                durationHours = ride.durationHours,
+                durationMinutes = ride.durationMinutes,
+                date = ride.date
+            )
         }
     }
 }

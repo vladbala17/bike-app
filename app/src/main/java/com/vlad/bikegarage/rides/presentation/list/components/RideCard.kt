@@ -47,6 +47,7 @@ fun RideCard(
     onEditRideMenuClick: (Int) -> Unit = {},
     onDeleteRideMenuClick: (String) -> Unit = {},
     onRideCardClick: (Int) -> Unit = {},
+    withContextMenu: Boolean = true,
     modifier: Modifier = Modifier
 ) {
     Card(backgroundColor = backgroundColor, modifier = modifier) {
@@ -77,23 +78,25 @@ fun RideCard(
                     modifier = Modifier.padding(start = 16.dp)
                 )
                 Spacer(modifier = Modifier.weight(1f))
-                Box {
-                    IconButton(
-                        onClick = {
-                            displayMenu = !displayMenu
-                        }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.icon_more),
-                            contentDescription = "bike card menu",
+                if (withContextMenu) {
+                    Box {
+                        IconButton(
+                            onClick = {
+                                displayMenu = !displayMenu
+                            }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.icon_more),
+                                contentDescription = "bike card menu",
+                            )
+                        }
+                        CardDropDownMenu(
+                            displayMenu = displayMenu,
+                            onDismissRequest = { displayMenu = false },
+                            itemId = rideId,
+                            onEditItemClick = onEditRideMenuClick,
+                            onDeleteItemClick = onDeleteRideMenuClick
                         )
                     }
-                    CardDropDownMenu(
-                        displayMenu = displayMenu,
-                        onDismissRequest = { displayMenu = false },
-                        itemId = rideId,
-                        onEditItemClick = onEditRideMenuClick,
-                        onDeleteItemClick = onDeleteRideMenuClick
-                    )
                 }
             }
             Row(modifier = Modifier.padding(top = 8.dp)) {
