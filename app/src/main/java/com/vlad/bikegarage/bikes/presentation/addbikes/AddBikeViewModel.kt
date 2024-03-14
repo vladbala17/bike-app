@@ -53,7 +53,7 @@ class AddBikeViewModel @AssistedInject constructor(
                         id = bikeId,
                         name = _state.value.bikeName,
                         wheelSize = _state.value.wheelSize,
-                        serviceIn = _state.value.serviceIn,
+                        serviceIn = _state.value.serviceIn.toInt(),
                         isDefault = _state.value.isDefault,
                         bikeType = _state.value.bikePagerList[_state.value.selectedBike].type,
                         bikeColor = _state.value.bikePagerList[_state.value.selectedBike].color
@@ -95,7 +95,7 @@ class AddBikeViewModel @AssistedInject constructor(
 
             is AddBikeEvent.OnServiceIntervalAdded -> {
                 _state.update { newState ->
-                    newState.copy(serviceIn = event.serviceInterval.toInt())
+                    newState.copy(serviceIn = event.serviceInterval)
                 }
             }
 
@@ -131,7 +131,7 @@ class AddBikeViewModel @AssistedInject constructor(
                 bikeTitle = bike.bikeType.type,
                 bikeName = bike.name,
                 wheelSize = bike.wheelSize,
-                serviceIn = bike.serviceIn,
+                serviceIn = bike.serviceIn.toString(),
                 isDefault = bike.isDefault,
                 bikeType = bike.bikeType,
                 bikeColor = bike.bikeColor,

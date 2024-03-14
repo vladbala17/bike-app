@@ -5,7 +5,7 @@ import com.vlad.bikegarage.util.UiText
 data class AddRideState(
     val rideName: String = "",
     val bikeName: String = "",
-    val distance: Int = 0,
+    val distance: String = "",
     val durationHours: Int = 2,
     val durationMinutes: Int = 24,
     val date: Long = System.currentTimeMillis(),

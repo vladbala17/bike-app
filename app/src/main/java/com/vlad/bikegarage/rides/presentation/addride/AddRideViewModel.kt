@@ -59,7 +59,7 @@ class AddRideViewModel @AssistedInject constructor(
             is AddRideEvent.OnRideDateAdded -> {}
             is AddRideEvent.OnRideDistanceAdded -> {
                 _state.update { newState ->
-                    newState.copy(distance = event.distance.toInt())
+                    newState.copy(distance = event.distance)
                 }
             }
 
@@ -88,7 +88,7 @@ class AddRideViewModel @AssistedInject constructor(
                         bikeName = bikeName,
                         durationHours = durationHours,
                         durationMinutes = durationMinutes,
-                        distance = distance,
+                        distance = distance.toInt(),
                         date = date,
                         id = id
                     )
@@ -162,7 +162,7 @@ class AddRideViewModel @AssistedInject constructor(
             newState.copy(
                 rideName = ride.rideName,
                 bikeName = ride.bikeName,
-                distance = ride.distance,
+                distance = ride.distance.toString(),
                 durationHours = ride.durationHours,
                 durationMinutes = ride.durationMinutes,
                 date = ride.date
