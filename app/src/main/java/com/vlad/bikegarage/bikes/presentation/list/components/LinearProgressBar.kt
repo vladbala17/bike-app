@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,7 +24,7 @@ import com.vlad.bikegarage.ui.theme.GrayBlue
 @Preview
 @Composable
 fun LinearProgressBar(
-    progress: Float = 0.8f,
+    progress: Float = 0.9f,
     progressColor: Color = Blue,
     backgroundColor: Color = GrayBlue,
     modifier: Modifier = Modifier
@@ -57,7 +56,6 @@ fun LinearProgressBar(
                 contentDescription = "loading wrench",
                 modifier = Modifier
                     .fillMaxHeight()
-                    .offset((-6).dp)
             )
         }
 

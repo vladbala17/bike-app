@@ -103,7 +103,20 @@ fun BikeDetailScreen(
                 color = MaterialTheme.colors.onPrimary
             )
             Text(
-                text = state.value.totalRides.toString(),
+                text = if (state.value.totalRides == 0) {
+                    buildAnnotatedString {
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append(stringResource(id = R.string.no_rides_yet))
+                        }
+                    }
+                } else {
+                    buildAnnotatedString {
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append(state.value.totalRidesDistance.toString())
+                        }
+                        append(stringResource(id = R.string.km_label))
+                    }
+                },
                 style = MaterialTheme.typography.h2,
                 color = MaterialTheme.colors.onPrimary
             )
@@ -120,11 +133,19 @@ fun BikeDetailScreen(
                 color = MaterialTheme.colors.onPrimary
             )
             Text(
-                text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                        append(state.value.totalRidesDistance.toString())
+                text = if (state.value.totalRidesDistance == 0) {
+                    buildAnnotatedString {
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append(stringResource(id = R.string.no_rides_yet))
+                        }
                     }
-                    append(stringResource(id = R.string.km_label))
+                } else {
+                    buildAnnotatedString {
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append(state.value.totalRidesDistance.toString())
+                        }
+                        append(stringResource(id = R.string.km_label))
+                    }
                 },
                 style = MaterialTheme.typography.h2,
                 color = MaterialTheme.colors.onPrimary
