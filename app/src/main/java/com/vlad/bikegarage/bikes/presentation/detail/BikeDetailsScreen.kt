@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -42,7 +41,6 @@ fun BikeDetailScreen(
     }
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
-    val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -82,7 +80,7 @@ fun BikeDetailScreen(
             Text(
                 text = buildAnnotatedString {
                     withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                        append(state.value.remainingServiceKm)
+                        append(state.value.remainingServiceKm.toString())
                     }
                     append(stringResource(id = R.string.km_label))
                 },
@@ -91,7 +89,7 @@ fun BikeDetailScreen(
             )
         }
         LinearProgressBar(
-            progress = 0.4f,
+            progress = state.value.usageUntilService,
         )
         Row(
             modifier = Modifier

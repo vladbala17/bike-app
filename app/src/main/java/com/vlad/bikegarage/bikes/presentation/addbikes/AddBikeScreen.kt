@@ -92,9 +92,9 @@ fun AddBikesScreen(
         )
         Label(title = stringResource(R.string.service_in_label), isMandatory = true)
         NumericTextField(
-            value = state.value.serviceIn,
+            value = state.value.serviceIn.toString(),
             onServiceReminderAdded = { serviceInterval ->
-                viewModel.onEvent(AddBikeEvent.OnServiceIntervalAdded(serviceInterval))
+                viewModel.onEvent(AddBikeEvent.OnServiceIntervalAdded(serviceInterval.toInt()))
             })
         Row(modifier = Modifier.fillMaxWidth()) {
             Text(

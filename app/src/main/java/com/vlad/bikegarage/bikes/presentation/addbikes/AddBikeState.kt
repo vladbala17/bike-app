@@ -18,7 +18,7 @@ data class AddBikeState(
     val bikeNameError: UiText? = null,
     val bikeColor: Int = White.toArgb(),
     val wheelSize: String = "29'",
-    val serviceIn: String = "1000",
+    val serviceIn: Int = 1000,
     val defaultUnit: String = "KM",
     val isDefault: Boolean = false,
     val bikePagerList: List<PagerBike> = buildPagerBikeList(),

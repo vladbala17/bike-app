@@ -34,9 +34,10 @@ fun BikeCard(
     bikeId: Int = 0,
     bikeName: String = "Nukeproof Scout 290",
     wheelSize: String = "29'",
-    remainingServiceDistance: String = "170",
+    remainingServiceDistance: Int = 0,
     bikeType: BikeType = BikeType.Electric,
     bikeColor: Color = Color.DarkGray,
+    usageUntilService: Float = 0.8f,
     backgroundColor: Color = OceanBlue,
     onEditBikeMenuClick: (Int) -> Unit = {},
     onDeleteBikeMenuClick: (String) -> Unit = {},
@@ -99,13 +100,13 @@ fun BikeCard(
                     color = MaterialTheme.colors.onPrimary
                 )
                 Text(
-                    text = remainingServiceDistance,
+                    text = remainingServiceDistance.toString(),
                     style = MaterialTheme.typography.h2,
                     color = MaterialTheme.colors.onPrimary
                 )
             }
             LinearProgressBar(
-                progress = 0.4f
+                progress = usageUntilService
             )
         }
     }

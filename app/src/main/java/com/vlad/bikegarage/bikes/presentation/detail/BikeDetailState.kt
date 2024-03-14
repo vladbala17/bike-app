@@ -9,8 +9,9 @@ data class BikeDetailState(
     val bikeType: BikeType = BikeType.Electric,
     val bikeColor: Color = Color.Red,
     val wheelSize: String = "",
-    val remainingServiceKm: String = "",
+    val remainingServiceKm: Int = 0,
     val totalRides: Int = 0,
     val totalRidesDistance: Int = 0,
+    val usageUntilService: Float = 0.8f,
     val rideList: List<Ride> = emptyList()
 )

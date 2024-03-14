@@ -8,7 +8,7 @@ data class BikeEntity(
     @PrimaryKey(autoGenerate = true) val bikeId: Int = 0,
     val name: String,
     val wheelSize: String,
-    val serviceIn: String,
+    val serviceIn: Int,
     val isDefault: Boolean,
     val bikeType: String,
     val bikeColor: Int

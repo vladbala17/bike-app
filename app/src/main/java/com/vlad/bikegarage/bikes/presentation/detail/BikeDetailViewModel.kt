@@ -40,7 +40,9 @@ class BikeDetailViewModel @AssistedInject constructor(
                         bikeType = bike.bikeType,
                         rideList = rideList,
                         totalRides = rideList.size,
-                        totalRidesDistance = totalDistance
+                        remainingServiceKm = bike.serviceIn - totalDistance,
+                        totalRidesDistance = totalDistance,
+                        usageUntilService = totalDistance.toFloat() / bike.serviceIn.toFloat()
                     )
                 }
             }

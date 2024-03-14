@@ -4,7 +4,7 @@ data class Bike(
     val id: Int,
     val name: String,
     val wheelSize: String,
-    val serviceIn: String,
+    val serviceIn: Int,
     val isDefault: Boolean,
     val bikeType: BikeType,
     val bikeColor: Int,
