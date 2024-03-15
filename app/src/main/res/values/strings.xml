@@ -38,5 +38,8 @@
     <string name="ride_date_label">Date</string>
     <string name="ride_duration">%dh, %dmin</string>
     <string name="no_rides_yet">You have no rides yet</string>
+    <string name="chart_title">All Rides Statistics</string>
+    <string name="total_chart_label">"Total: "</string>
+    <string name="total_km_chart_label">%sKM</string>
 
 </resources>
