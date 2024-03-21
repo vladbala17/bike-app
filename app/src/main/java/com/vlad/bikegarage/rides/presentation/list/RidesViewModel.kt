@@ -70,6 +70,7 @@ class RidesViewModel @Inject constructor(
                 newState.copy(rides = groupedList)
             }
         }.launchIn(viewModelScope)
+
     }
 
 }

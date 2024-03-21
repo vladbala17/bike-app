@@ -47,7 +47,7 @@ fun RidesScreen(
                 onButtonClick = { onNavigateToScreen() }
             )
         } else {
-            BarChart()
+            BarChart(inputData = state.value.rideStatistic, totalKm = state.value.totalKm)
 
             state.value.rides.forEach { (month, ridesForMonth) ->
                 Text(text = month)

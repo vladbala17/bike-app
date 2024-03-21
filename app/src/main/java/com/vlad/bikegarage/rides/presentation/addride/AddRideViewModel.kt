@@ -3,6 +3,7 @@ package com.vlad.bikegarage.rides.presentation.addride
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vlad.bikegarage.bikes.domain.model.Bike
+import com.vlad.bikegarage.bikes.domain.model.BikeType
 import com.vlad.bikegarage.bikes.domain.use_case.GetBikes
 import com.vlad.bikegarage.bikes.domain.use_case.ValidateBikeName
 import com.vlad.bikegarage.rides.domain.model.Ride
@@ -52,7 +53,8 @@ class AddRideViewModel @AssistedInject constructor(
         when (event) {
             is AddRideEvent.OnBikeSelected -> {
                 _state.update { newState ->
-                    newState.copy(bikeName = event.bikeName)
+                    val getBikeByName = _state.value.bikeNamesList.find { event.bikeName == it.name }
+                    newState.copy(bikeName = event.bikeName, bikeType = getBikeByName!!.bikeType)
                 }
             }
 
@@ -78,6 +80,7 @@ class AddRideViewModel @AssistedInject constructor(
                     val id = rideId
                     val rideTitle = _state.value.rideName
                     val bikeName = _state.value.bikeName
+                    val bikeType = _state.value.bikeType
                     val durationHours = _state.value.durationHours
                     val durationMinutes = _state.value.durationMinutes
                     val distance = _state.value.distance
@@ -86,6 +89,7 @@ class AddRideViewModel @AssistedInject constructor(
                     val ride = Ride(
                         rideName = rideTitle,
                         bikeName = bikeName,
+                        bikeType = bikeType.type,
                         durationHours = durationHours,
                         durationMinutes = durationMinutes,
                         distance = distance.toInt(),
@@ -152,7 +156,7 @@ class AddRideViewModel @AssistedInject constructor(
         getRidesJob?.cancel()
         getRidesJob = getBikes.invoke().onEach { bikes: List<Bike> ->
             _state.update { newState ->
-                newState.copy(bikeNamesList = bikes.map { bike -> bike.name })
+                newState.copy(bikeNamesList = bikes)
             }
         }.launchIn(viewModelScope)
     }
@@ -162,6 +166,7 @@ class AddRideViewModel @AssistedInject constructor(
             newState.copy(
                 rideName = ride.rideName,
                 bikeName = ride.bikeName,
+                bikeType = BikeType.fromString(ride.bikeType),
                 distance = ride.distance.toString(),
                 durationHours = ride.durationHours,
                 durationMinutes = ride.durationMinutes,

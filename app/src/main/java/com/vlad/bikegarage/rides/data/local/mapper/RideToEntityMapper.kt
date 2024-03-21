@@ -8,6 +8,7 @@ fun Ride.toRideEntity(): RideEntity {
         id = id,
         rideName = rideName,
         bikeName = bikeName,
+        bikeType = bikeType,
         distance = distance,
         durationHours = durationHours,
         durationMinutes = durationMinutes,

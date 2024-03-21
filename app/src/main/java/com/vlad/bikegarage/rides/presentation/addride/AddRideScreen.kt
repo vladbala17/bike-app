@@ -70,7 +70,7 @@ fun AddRideScreen(
             modifier = Modifier.padding(bottom = 4.dp)
         )
         DropDownField(
-            listItems = state.value.bikeNamesList,
+            listItems = state.value.bikeNamesList.map { it.name },
             selectedItem = state.value.bikeName,
             onSelectedItem = { selectedItem ->
                 viewModel.onEvent(AddRideEvent.OnBikeSelected(selectedItem))
