@@ -3,11 +3,11 @@
 package com.vlad.bikegarage.rides.presentation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,6 +19,7 @@ import com.vlad.bikegarage.R
 import com.vlad.bikegarage.bikes.presentation.list.EmptyHeader
 import com.vlad.bikegarage.bikes.presentation.list.components.ConfirmationDialog
 import com.vlad.bikegarage.rides.domain.model.Ride
+import com.vlad.bikegarage.rides.presentation.detail.components.BarChart
 import com.vlad.bikegarage.rides.presentation.list.RidesEvent
 import com.vlad.bikegarage.rides.presentation.list.RidesViewModel
 import com.vlad.bikegarage.rides.presentation.list.components.RideListItem
@@ -33,10 +34,11 @@ fun RidesScreen(
 ) {
 
     val state = viewModel.state.collectAsStateWithLifecycle()
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(all = 8.dp),
+            .padding(all = 8.dp)
+            .verticalScroll(rememberScrollState())
     ) {
         if (state.value.rides.isEmpty()) {
             EmptyHeader(
@@ -44,14 +46,12 @@ fun RidesScreen(
                 showText = false,
                 onButtonClick = { onNavigateToScreen() }
             )
-        }
+        } else {
+            BarChart()
 
-        LazyColumn {
             state.value.rides.forEach { (month, ridesForMonth) ->
-                item {
-                    Text(text = month)
-                }
-                items(ridesForMonth, key = { ride: Ride -> ride.id }) { ride: Ride ->
+                Text(text = month)
+                ridesForMonth.forEach { ride: Ride ->
                     RideListItem(
                         ride = ride,
                         modifier = Modifier.padding(8.dp),

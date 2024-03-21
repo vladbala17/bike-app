@@ -29,20 +29,29 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.vlad.bikegarage.R
+import com.vlad.bikegarage.bikes.domain.model.BikeType
+import com.vlad.bikegarage.rides.domain.model.RideChartRow
+import com.vlad.bikegarage.ui.theme.DarkBlue
+import com.vlad.bikegarage.ui.theme.Gray
+import com.vlad.bikegarage.ui.theme.White
+import com.vlad.bikegarage.util.getColorByType
 
 @Preview
 @Composable
 fun BarChart(
-    inputData: List<Int> = listOf(100, 14, 50, 23),
+    inputData: List<RideChartRow> = previewList,
+    totalKm: Int = 25570,
     maxHeight: Dp = 200.dp,
+    titleColor: Color = White,
+    borderColor: Color = Gray,
+    barTextColor: Color = DarkBlue,
     modifier: Modifier = Modifier
 ) {
 
-    val borderColor = MaterialTheme.colors.primary
     val strokeWidth = 1.dp
 
 
-    Column {
+    Column(modifier = Modifier.background(DarkBlue)) {
         Row(modifier = Modifier.fillMaxWidth()) {
             Icon(
                 painter = painterResource(id = R.drawable.icon_stats),
@@ -51,7 +60,7 @@ fun BarChart(
             Text(
                 text = stringResource(R.string.chart_title),
                 style = MaterialTheme.typography.h2,
-                color = MaterialTheme.colors.onPrimary,
+                color = titleColor,
                 modifier = Modifier.padding(start = 16.dp)
             )
         }
@@ -80,12 +89,12 @@ fun BarChart(
                         )
                         repeat(11) {
 
-                        drawLine(
-                            color = borderColor,
-                            start = Offset(0f, size.height - it*size.height/10),
-                            end = Offset(size.width, size.height - it*size.height/10),
-                            strokeWidth = strokeWidth.toPx()
-                        )
+                            drawLine(
+                                color = borderColor,
+                                start = Offset(0f, size.height - it * size.height / 10),
+                                end = Offset(size.width, size.height - it * size.height / 10),
+                                strokeWidth = strokeWidth.toPx()
+                            )
                         }
                     },
             ),
@@ -94,23 +103,28 @@ fun BarChart(
         ) {
             inputData.forEach { item ->
                 Bar(
-                    value = item.toFloat(),
-                    color = MaterialTheme.colors.primary,
-                    maxHeight = maxHeight
+                    itemName = item.km.toString(),
+                    value = item.km,
+                    barColor = getColorByType(item.type),
+                    barTextColor = barTextColor,
+                    totalKm = totalKm,
+                    totalHeight = maxHeight
                 )
             }
         }
 
         Row(
-            modifier = Modifier.fillMaxWidth().border(width = 1.dp, Color.Red),
+            modifier = Modifier
+                .fillMaxWidth()
+                .border(width = 1.dp, borderColor),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.Bottom
         ) {
             inputData.forEach { item ->
                 Text(
-                    text = item.toString(),
+                    text = item.type.type,
                     style = MaterialTheme.typography.body2,
-                    color = MaterialTheme.colors.onSecondary,
+                    color = borderColor,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.weight(0.25f)
                 )
@@ -127,7 +141,7 @@ fun BarChart(
                 modifier = Modifier.padding(start = 16.dp)
             )
             Text(
-                text = stringResource(id = R.string.total_km_chart_label, "25.570"),
+                text = stringResource(id = R.string.total_km_chart_label, totalKm),
                 style = MaterialTheme.typography.body2,
                 color = MaterialTheme.colors.onPrimary,
             )
@@ -139,25 +153,36 @@ fun BarChart(
 
 @Composable
 private fun RowScope.Bar(
-    value: Float,
-    color: Color,
-    maxHeight: Dp
+    itemName: String,
+    value: Int,
+    barColor: Color,
+    barTextColor: Color,
+    totalKm: Int,
+    totalHeight: Dp
 ) {
 
-    val itemHeight = remember(value) { value * maxHeight.value / 100 }
+    val itemHeight = remember(value) { value * 100 / totalKm }
 
-        Box(
-            modifier = Modifier
-                .clip(shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
-                .padding(horizontal = 5.dp)
-                .weight(1f)
-                .height(itemHeight.dp)
-                .background(color)
-        ) {
-            Text(text = "test", Modifier.align(Alignment.BottomCenter))
-        }
+    val barHeight = (totalHeight * itemHeight / 100).value
+    Box(
+        modifier = Modifier
+            .clip(shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp))
+            .padding(horizontal = 5.dp)
+            .weight(1f)
+            .height(barHeight.dp)
+            .background(barColor)
+    ) {
+        Text(text = itemName, Modifier.align(Alignment.BottomCenter), color = barTextColor)
+    }
 }
 
+
+val previewList = listOf(
+    RideChartRow(BikeType.RoadBike, 8500),
+    RideChartRow(BikeType.MTB, 2650),
+    RideChartRow(BikeType.Hybrid, 3420),
+    RideChartRow(BikeType.Electric, 11000),
+)
 
 
 
