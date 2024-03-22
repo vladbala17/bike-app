@@ -6,7 +6,7 @@
     <string name="settings_title">Settings</string>
     <string name="distance_units_label">Distance Units</string>
     <string name="service_reminder_label">Service Reminder</string>
-    <string name="distance_unit_km">KM</string>
+    <string name="distance_unit_km">Km</string>
     <string name="distance_unit_miles">Miles</string>
     <string name="default_bike_label">Default Bike</string>
     <string name="add_bike_label">Add Bike</string>

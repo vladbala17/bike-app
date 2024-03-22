@@ -27,10 +27,10 @@ import com.vlad.bikegarage.bikes.presentation.addbikes.components.BikesPager
 import com.vlad.bikegarage.bikes.presentation.addbikes.components.HorizontalColorPicker
 import com.vlad.bikegarage.bikes.presentation.addbikes.components.TextTextField
 import com.vlad.bikegarage.bikes.presentation.list.components.ActionButton
-import com.vlad.bikegarage.settings.presentation.DefaultSwitch
-import com.vlad.bikegarage.settings.presentation.DropDownField
-import com.vlad.bikegarage.settings.presentation.Label
-import com.vlad.bikegarage.settings.presentation.NumericTextField
+import com.vlad.bikegarage.settings.presentation.components.DefaultSwitch
+import com.vlad.bikegarage.settings.presentation.components.DropDownField
+import com.vlad.bikegarage.settings.presentation.components.Label
+import com.vlad.bikegarage.settings.presentation.components.NumericTextField
 
 @Composable
 fun AddBikesScreen(
