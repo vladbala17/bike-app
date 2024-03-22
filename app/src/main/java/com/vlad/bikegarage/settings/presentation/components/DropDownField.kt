@@ -71,7 +71,6 @@ fun DropDownField(
                         text = selectedOption,
                         color = MaterialTheme.colors.onPrimary
                     )
-
                 }
             }
         }

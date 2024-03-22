@@ -1,21 +1,30 @@
 package com.vlad.bikegarage.settings.presentation
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.vlad.bikegarage.bikes.domain.model.Bike
+import com.vlad.bikegarage.bikes.domain.use_case.GetBikes
 import com.vlad.bikegarage.settings.domain.Preferences
 import com.vlad.bikegarage.settings.domain.use_vase.FilterOutDigits
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val preferences: Preferences,
-    private val filterOutDigits: FilterOutDigits
+    private val filterOutDigits: FilterOutDigits,
+    private val getBikes: GetBikes
 ) : ViewModel() {
     private val _state = MutableStateFlow(SettingsState())
     val state = _state.asStateFlow()
+
+    private var getBikesJob: Job? = null
 
     init {
         loadSettings()
@@ -56,13 +65,18 @@ class SettingsViewModel @Inject constructor(
     }
 
     private fun loadSettings() {
-        _state.update {
-            it.copy(
-                distanceUnit = preferences.getDistanceUnit(),
-                serviceIntervalReminder = preferences.getServiceInterval(),
-                isServiceNotifyEnabled = preferences.areNotificationsEnabled(),
-                defaultBike = preferences.getDefaultBikeName()
-            )
-        }
+        getBikesJob?.cancel()
+        getBikesJob = getBikes.invoke().onEach { bikes: List<Bike> ->
+            val bikeNames = bikes.map { it.name }
+            _state.update {
+                it.copy(
+                    distanceUnit = preferences.getDistanceUnit(),
+                    serviceIntervalReminder = preferences.getServiceInterval(),
+                    isServiceNotifyEnabled = preferences.areNotificationsEnabled(),
+                    defaultBike = preferences.getDefaultBikeName(),
+                    defaultBikeList = bikeNames
+                )
+            }
+        }.launchIn(viewModelScope)
     }
 }

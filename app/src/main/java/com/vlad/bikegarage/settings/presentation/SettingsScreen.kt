@@ -84,13 +84,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
             modifier = Modifier.padding(top = 16.dp, bottom = 4.dp)
         )
         DropDownField(
-            listOf(
-                "Bike 1",
-                "Bike 2",
-                "Bike 3",
-                "Bike 4",
-                "Bike 5",
-            ),
+            state.value.defaultBikeList,
             selectedItem = state.value.defaultBike,
             onSelectedItem = { selectedItem ->
                 viewModel.onEvent(SettingsEvent.OnDefaultBikeSet(selectedItem))
@@ -100,7 +94,6 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
         )
     }
 }
-
 
 
 @ExperimentalMaterialApi
