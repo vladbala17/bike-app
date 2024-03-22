@@ -23,4 +23,6 @@ interface BikeDao {
 
     @Query("select * from rides_table where bikeName = :bikeName ")
     suspend fun getAllRidesForBike(bikeName: String): List<RideEntity>
+    @Query("select * from bikes_table where name = :bikeName ")
+    suspend fun getBikeByName(bikeName: String): BikeEntity
 }

@@ -4,21 +4,26 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vlad.bikegarage.bikes.domain.model.Bike
 import com.vlad.bikegarage.bikes.domain.model.BikeType
+import com.vlad.bikegarage.bikes.domain.use_case.GetBikeByName
 import com.vlad.bikegarage.bikes.domain.use_case.GetBikes
+import com.vlad.bikegarage.bikes.domain.use_case.GetRidesForBike
 import com.vlad.bikegarage.bikes.domain.use_case.ValidateBikeName
 import com.vlad.bikegarage.rides.domain.model.Ride
 import com.vlad.bikegarage.rides.domain.use_case.AddRide
 import com.vlad.bikegarage.rides.domain.use_case.GetRideDetail
+import com.vlad.bikegarage.settings.domain.Preferences
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @HiltViewModel(assistedFactory = AddRideViewModel.AddRideViewModelFactory::class)
 class AddRideViewModel @AssistedInject constructor(
@@ -26,7 +31,10 @@ class AddRideViewModel @AssistedInject constructor(
     private val rideNameUseCase: ValidateBikeName,
     private val addRide: AddRide,
     private val getRideDetail: GetRideDetail,
-    private val getBikes: GetBikes
+    private val getBikes: GetBikes,
+    private val preferences: Preferences,
+    private val getRidesForBike: GetRidesForBike,
+    private val getBikeByName: GetBikeByName
 ) :
     ViewModel() {
     private val _state = MutableStateFlow(AddRideState())
@@ -53,7 +61,8 @@ class AddRideViewModel @AssistedInject constructor(
         when (event) {
             is AddRideEvent.OnBikeSelected -> {
                 _state.update { newState ->
-                    val getBikeByName = _state.value.bikeNamesList.find { event.bikeName == it.name }
+                    val getBikeByName =
+                        _state.value.bikeNamesList.find { event.bikeName == it.name }
                     newState.copy(bikeName = event.bikeName, bikeType = getBikeByName!!.bikeType)
                 }
             }
@@ -74,6 +83,8 @@ class AddRideViewModel @AssistedInject constructor(
 
             AddRideEvent.Submit -> {
                 if (rideNameIsValid()) {
+
+
                     _state.update { newState ->
                         newState.copy(isValidatedSuccessfully = true, rideNameError = null)
                     }
@@ -97,7 +108,21 @@ class AddRideViewModel @AssistedInject constructor(
                         id = id
                     )
 
-                    viewModelScope.launch { addRide(ride) }
+                    viewModelScope.launch {
+                        withContext(Dispatchers.IO) {
+                            if (preferences.getDefaultBikeName() == bikeName) {
+                                val totalKmForBike =
+                                    getRidesForBike.invoke(bikeName).sumOf { it.distance }
+                                val bikeServiceInDistance = getBikeByName(bikeName).serviceIn
+                                if (totalKmForBike - distance.toInt() <= bikeServiceInDistance) {
+                                    //showNotification
+
+                                }
+                            }
+                        }
+
+                        addRide(ride)
+                    }
                 }
             }
 

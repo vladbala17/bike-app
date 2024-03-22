@@ -6,6 +6,7 @@ import com.vlad.bikegarage.bikes.domain.model.Bike
 import com.vlad.bikegarage.bikes.domain.use_case.AddBike
 import com.vlad.bikegarage.bikes.domain.use_case.GetBikeDetail
 import com.vlad.bikegarage.bikes.domain.use_case.ValidateBikeName
+import com.vlad.bikegarage.settings.domain.Preferences
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -20,7 +21,8 @@ class AddBikeViewModel @AssistedInject constructor(
     @Assisted val bikeId: Int,
     private val bikeNameUseCase: ValidateBikeName,
     private val addBike: AddBike,
-    private val getBikeDetail: GetBikeDetail
+    private val getBikeDetail: GetBikeDetail,
+    private val preferences: Preferences
 ) : ViewModel() {
 
     @AssistedFactory
@@ -100,6 +102,9 @@ class AddBikeViewModel @AssistedInject constructor(
             }
 
             is AddBikeEvent.OnDefaultBikeAdded -> {
+                if (_state.value.bikeName.isNotEmpty()) {
+                    preferences.saveDefaultBike(_state.value.bikeName)
+                }
                 _state.update { newState ->
                     newState.copy(isDefault = event.isDefault)
                 }

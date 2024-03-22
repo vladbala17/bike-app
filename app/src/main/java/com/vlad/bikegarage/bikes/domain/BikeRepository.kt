@@ -14,5 +14,7 @@ interface BikeRepository {
 
     suspend fun getAllRidesForBike(bikeName: String): List<Ride>
 
+    suspend fun getBikeByName(bikeName: String): Bike
+
     fun getBikes(): Flow<List<Bike>>
 }

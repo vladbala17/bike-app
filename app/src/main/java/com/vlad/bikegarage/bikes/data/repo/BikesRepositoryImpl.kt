@@ -28,6 +28,10 @@ class BikesRepositoryImpl @Inject constructor(private val bikeDao: BikeDao) : Bi
         return bikeDao.getAllRidesForBike(bikeName).map { entities -> entities.toRide() }
     }
 
+    override suspend fun getBikeByName(bikeName: String): Bike {
+        return bikeDao.getBikeByName(bikeName).toBike()
+    }
+
     override fun getBikes(): Flow<List<Bike>> {
         return bikeDao.getBikes().map { entities ->
             entities.map { bikeEntity -> bikeEntity.toBike() }
