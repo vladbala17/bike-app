@@ -11,6 +11,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -18,14 +19,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.OutOfQuotaPolicy
+import androidx.work.WorkManager
 import com.vlad.bikegarage.R
 import com.vlad.bikegarage.bikes.presentation.addbikes.components.TextTextField
 import com.vlad.bikegarage.bikes.presentation.list.components.ActionButton
+import com.vlad.bikegarage.notifications.BikeServiceWorker
 import com.vlad.bikegarage.rides.presentation.addride.components.CustomDatePicker
 import com.vlad.bikegarage.rides.presentation.addride.components.TimeDurationPicker
 import com.vlad.bikegarage.settings.presentation.components.DropDownField
 import com.vlad.bikegarage.settings.presentation.components.Label
 import com.vlad.bikegarage.settings.presentation.components.NumericTextField
+import com.vlad.bikegarage.util.Constants
 import com.vlad.bikegarage.util.convertMillisToDateMonthNumber
 
 @Preview
@@ -39,6 +46,7 @@ fun AddRideScreen(
     onAddRide: () -> Unit = {}
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -163,5 +171,12 @@ fun AddRideScreen(
 
     if (state.value.isValidatedSuccessfully) {
         onAddRide()
+        val inputData = Data.Builder().putString(Constants.BIKE_NAME_KEY, state.value.bikeName)
+            .putString(Constants.BIKE_DISTANCE, state.value.distance).build()
+        val defaultBikeRequest =
+            OneTimeWorkRequestBuilder<BikeServiceWorker>().setInputData(inputData).setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST).build()
+        WorkManager.getInstance(context).cancelAllWork()
+        WorkManager.getInstance(context).enqueue(defaultBikeRequest)
+
     }
 }

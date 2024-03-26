@@ -102,12 +102,21 @@ class MainActivity : ComponentActivity() {
                     }
                 ) {
                     Box(modifier = Modifier.padding(it)) {
-                        NavigationScreen(this@MainActivity, navController, onAddBikeClick = {
+                        NavigationScreen(navController, onAddBikeClick = {
                             navController.navigate(Route.ADD_BIKES)
                             viewModel.onEvent(MainScreenEvent.PageChanged(Route.ADD_BIKES))
                         }, onAddRideClick = {
                             navController.navigate(Route.ADD_RIDES)
                             viewModel.onEvent(MainScreenEvent.PageChanged(Route.ADD_RIDES))
+                        }, onShouldRequestPermission = {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                shouldShowRequestPermissionRationale(
+                                    this@MainActivity,
+                                    android.Manifest.permission.POST_NOTIFICATIONS
+                                )
+                            } else {
+                                false
+                            }
                         })
                     }
                 }
@@ -120,10 +129,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun NavigationScreen(
-    activity: MainActivity,
     navController: NavHostController,
     onAddBikeClick: () -> Unit,
-    onAddRideClick: () -> Unit
+    onAddRideClick: () -> Unit,
+    onShouldRequestPermission: () -> Boolean
 ) {
     NavHost(navController, startDestination = Route.BIKES) {
         composable(Route.BIKES) {
@@ -150,18 +159,7 @@ fun NavigationScreen(
         }
         composable(Route.SETTINGS) {
             StatusBarColor(color = MaterialTheme.colors.secondaryVariant)
-
-            SettingsScreen(shouldShowRequestPermissionRationale = {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    shouldShowRequestPermissionRationale(
-                        activity,
-                        android.Manifest.permission.POST_NOTIFICATIONS
-                    )
-                } else {
-                    false
-                }
-            })
-
+            SettingsScreen(shouldShowRequestPermissionRationale = onShouldRequestPermission)
         }
         composable(route = Route.ADD_BIKES + "/{bikeId}",
             arguments = listOf(

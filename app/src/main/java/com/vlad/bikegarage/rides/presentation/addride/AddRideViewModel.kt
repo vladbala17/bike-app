@@ -16,14 +16,12 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @HiltViewModel(assistedFactory = AddRideViewModel.AddRideViewModelFactory::class)
 class AddRideViewModel @AssistedInject constructor(
@@ -109,18 +107,6 @@ class AddRideViewModel @AssistedInject constructor(
                     )
 
                     viewModelScope.launch {
-                        withContext(Dispatchers.IO) {
-                            if (preferences.getDefaultBikeName() == bikeName) {
-                                val totalKmForBike =
-                                    getRidesForBike.invoke(bikeName).sumOf { it.distance }
-                                val bikeServiceInDistance = getBikeByName(bikeName).serviceIn
-                                if (totalKmForBike - distance.toInt() <= bikeServiceInDistance) {
-                                    //showNotification
-
-                                }
-                            }
-                        }
-
                         addRide(ride)
                     }
                 }
