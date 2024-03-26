@@ -93,8 +93,8 @@ fun AddRideScreen(
         )
         NumericTextField(
             value = state.value.distance.toString(),
-            onServiceReminderAdded = { serviceInterval ->
-                viewModel.onEvent(AddRideEvent.OnRideDistanceAdded(serviceInterval))
+            onServiceReminderAdded = { rideDistance ->
+                viewModel.onEvent(AddRideEvent.OnRideDistanceAdded(rideDistance))
             }, modifier = Modifier.padding(bottom = 16.dp)
         )
         Label(
@@ -172,7 +172,7 @@ fun AddRideScreen(
     if (state.value.isValidatedSuccessfully) {
         onAddRide()
         val inputData = Data.Builder().putString(Constants.BIKE_NAME_KEY, state.value.bikeName)
-            .putString(Constants.BIKE_DISTANCE, state.value.distance).build()
+            .putString(Constants.RIDE_DISTANCE, state.value.distance).build()
         val defaultBikeRequest =
             OneTimeWorkRequestBuilder<BikeServiceWorker>().setInputData(inputData).setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST).build()
         WorkManager.getInstance(context).cancelAllWork()

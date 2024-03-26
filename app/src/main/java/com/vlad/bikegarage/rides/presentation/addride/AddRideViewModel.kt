@@ -68,7 +68,7 @@ class AddRideViewModel @AssistedInject constructor(
             is AddRideEvent.OnRideDateAdded -> {}
             is AddRideEvent.OnRideDistanceAdded -> {
                 _state.update { newState ->
-                    newState.copy(distance = event.distance)
+                    newState.copy(distance = event.rideDistance)
                 }
             }
 

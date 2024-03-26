@@ -27,16 +27,17 @@ class BikeServiceWorker @AssistedInject constructor(
 ) : CoroutineWorker(context, workerParameters) {
     override suspend fun doWork(): Result {
         val bikeName = inputData.getString(Constants.BIKE_NAME_KEY)
-        val distance = inputData.getString(Constants.BIKE_DISTANCE)
-        showNotification(context, bikeName!!, distance!!)
+        val rideDistance = inputData.getString(Constants.RIDE_DISTANCE)
         withContext(Dispatchers.IO) {
             if (preferences.getDefaultBikeName() == bikeName) {
                 val totalKmForBike =
                     getRidesForBike.invoke(bikeName).sumOf { it.distance }
-                val bikeServiceInDistance = getBikeByName(bikeName).serviceIn
-                if (totalKmForBike - distance!!.toInt() <= bikeServiceInDistance) {
+                val bike = getBikeByName(bikeName)
+                val bikeServiceInDistance = bike.serviceIn
+
+                if (bikeServiceInDistance - totalKmForBike <= 100) {
                     //showNotification
-                    showNotification(context, bikeName, distance)
+                    showNotification(context, bikeName, (bikeServiceInDistance - totalKmForBike).toString(), bike.bikeColor)
                 }
             }
         }
@@ -45,15 +46,15 @@ class BikeServiceWorker @AssistedInject constructor(
     override suspend fun getForegroundInfo(): ForegroundInfo {
         val notification = NotificationCompat.Builder(context, Constants.NOTIFICATION_CHANNEL_ID)
             .setContentTitle("")
-            .setContentText("Foreground info notif")
+            .setContentText("")
             .setSmallIcon(R.drawable.icon_dropdown)
             .setPriority(NotificationManager.IMPORTANCE_HIGH)
             .setAutoCancel(true)
             .build()
         return ForegroundInfo(1, notification)
     }
-    private fun showNotification(context: Context, bikeName: String, distance: String) {
+    private fun showNotification(context: Context, bikeName: String, distance: String, bikeColor: Int) {
         val notification = BikeServiceNotificationHandler(context)
-        notification.showBikeServiceNotification(bikeName, distance)
+        notification.showBikeServiceNotification(bikeName, distance, bikeColor)
     }
 }
