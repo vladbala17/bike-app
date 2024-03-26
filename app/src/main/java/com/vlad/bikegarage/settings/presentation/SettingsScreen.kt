@@ -5,6 +5,11 @@
 
 package com.vlad.bikegarage.settings.presentation
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,11 +19,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.vlad.bikegarage.R
@@ -33,6 +44,25 @@ import com.vlad.bikegarage.ui.theme.BikeGarageTheme
 fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
     val state = viewModel.state.collectAsStateWithLifecycle()
 
+    val context = LocalContext.current
+    var hasNotificationPermission by remember {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            mutableStateOf(
+                ContextCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_DENIED
+            )
+        } else {
+            mutableStateOf(true)
+        }
+    }
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { isGranted ->
+            hasNotificationPermission = isGranted
+        })
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -73,7 +103,12 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
             DefaultSwitch(
                 state.value.isServiceNotifyEnabled,
                 onCheckedChanged = {
-                    viewModel.onEvent(SettingsEvent.OnNotifyReminder)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    }
+                    if (hasNotificationPermission) {
+                        viewModel.onEvent(SettingsEvent.OnNotifyReminder)
+                    }
                 },
                 modifier = Modifier.align(Alignment.CenterVertically)
             )
