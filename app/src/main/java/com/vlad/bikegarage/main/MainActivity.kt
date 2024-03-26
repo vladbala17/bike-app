@@ -3,6 +3,7 @@
 package com.vlad.bikegarage.main
 
 import android.app.Activity
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -34,6 +35,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -100,7 +102,7 @@ class MainActivity : ComponentActivity() {
                     }
                 ) {
                     Box(modifier = Modifier.padding(it)) {
-                        NavigationScreen(navController, onAddBikeClick = {
+                        NavigationScreen(this@MainActivity, navController, onAddBikeClick = {
                             navController.navigate(Route.ADD_BIKES)
                             viewModel.onEvent(MainScreenEvent.PageChanged(Route.ADD_BIKES))
                         }, onAddRideClick = {
@@ -118,6 +120,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun NavigationScreen(
+    activity: MainActivity,
     navController: NavHostController,
     onAddBikeClick: () -> Unit,
     onAddRideClick: () -> Unit
@@ -147,7 +150,18 @@ fun NavigationScreen(
         }
         composable(Route.SETTINGS) {
             StatusBarColor(color = MaterialTheme.colors.secondaryVariant)
-            SettingsScreen()
+
+            SettingsScreen(shouldShowRequestPermissionRationale = {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    shouldShowRequestPermissionRationale(
+                        activity,
+                        android.Manifest.permission.POST_NOTIFICATIONS
+                    )
+                } else {
+                    false
+                }
+            })
+
         }
         composable(route = Route.ADD_BIKES + "/{bikeId}",
             arguments = listOf(

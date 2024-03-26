@@ -48,7 +48,7 @@ class SettingsViewModel @Inject constructor(
 
             is SettingsEvent.OnNotifyReminder -> {
                 _state.update { newState ->
-                    newState.copy(isServiceNotifyEnabled = _state.value.isServiceNotifyEnabled.not())
+                    newState.copy(isServiceNotifyEnabled = event.notifyReminder)
                 }
                 preferences.saveEnabledNotifications(_state.value.isServiceNotifyEnabled)
             }
@@ -60,6 +60,17 @@ class SettingsViewModel @Inject constructor(
                     newState.copy(serviceIntervalReminder = filterOutDigits(event.distanceIntervalReminder.toString()))
                 }
                 preferences.saveServiceInterval(filterOutDigits(event.distanceIntervalReminder.toString()))
+            }
+
+            SettingsEvent.OnShowPermissionDialog -> {
+                _state.update { newState ->
+                    newState.copy(showPermissionDialog = true)
+                }
+            }
+            SettingsEvent.OnDismissPermissionDialog -> {
+                _state.update { newState ->
+                    newState.copy(showPermissionDialog = false)
+                }
             }
         }
     }

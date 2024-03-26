@@ -6,8 +6,12 @@
 package com.vlad.bikegarage.settings.presentation
 
 import android.Manifest
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -36,12 +40,17 @@ import com.vlad.bikegarage.R
 import com.vlad.bikegarage.settings.presentation.components.DefaultSwitch
 import com.vlad.bikegarage.settings.presentation.components.DropDownField
 import com.vlad.bikegarage.settings.presentation.components.Label
+import com.vlad.bikegarage.settings.presentation.components.NotificationPermissionTextProvider
 import com.vlad.bikegarage.settings.presentation.components.NumericTextField
+import com.vlad.bikegarage.settings.presentation.components.PermissionDialog
 import com.vlad.bikegarage.ui.theme.BikeGarageTheme
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
+fun SettingsScreen(
+    viewModel: SettingsViewModel = hiltViewModel(),
+    shouldShowRequestPermissionRationale:() -> Boolean
+) {
     val state = viewModel.state.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
@@ -51,7 +60,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
                 ContextCompat.checkSelfPermission(
                     context,
                     Manifest.permission.POST_NOTIFICATIONS
-                ) == PackageManager.PERMISSION_DENIED
+                ) == PackageManager.PERMISSION_GRANTED
             )
         } else {
             mutableStateOf(true)
@@ -62,6 +71,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
         contract = ActivityResultContracts.RequestPermission(),
         onResult = { isGranted ->
             hasNotificationPermission = isGranted
+            viewModel.onEvent(SettingsEvent.OnNotifyReminder(isGranted))
         })
     Column(
         modifier = Modifier
@@ -103,11 +113,11 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
             DefaultSwitch(
                 state.value.isServiceNotifyEnabled,
                 onCheckedChanged = {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !hasNotificationPermission) {
+                        viewModel.onEvent(SettingsEvent.OnShowPermissionDialog)
                     }
                     if (hasNotificationPermission) {
-                        viewModel.onEvent(SettingsEvent.OnNotifyReminder)
+                        viewModel.onEvent(SettingsEvent.OnNotifyReminder(it))
                     }
                 },
                 modifier = Modifier.align(Alignment.CenterVertically)
@@ -127,6 +137,28 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
             R.drawable.icon_dropdown,
             modifier = Modifier.fillMaxWidth()
         )
+
+    }
+    if (state.value.showPermissionDialog) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && !hasNotificationPermission) {
+            PermissionDialog(
+                permissionTextProvider = NotificationPermissionTextProvider(),
+                isPermanentlyDeclined = shouldShowRequestPermissionRationale(),
+                permanentlyDeclinedText = stringResource(id = R.string.permission_permanently_declined),
+                permissionRationale = stringResource(id = R.string.permission_rationale),
+                onDismiss = {
+                    viewModel.onEvent(SettingsEvent.OnDismissPermissionDialog)
+                },
+                onOkClick = {
+                    permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    viewModel.onEvent(SettingsEvent.OnDismissPermissionDialog)
+                },
+                onGoToAppSettingsClick = {
+                    openAppSettings(context)
+                    viewModel.onEvent(SettingsEvent.OnDismissPermissionDialog)
+                }
+            )
+        }
     }
 }
 
@@ -152,4 +184,13 @@ fun Development2() {
             icon = R.drawable.icon_dropdown
         )
     }
+}
+
+fun openAppSettings(context: Context) {
+    val intent = Intent(
+        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+        Uri.fromParts("package", context.packageName, null)
+    )
+
+    context.startActivity(intent)
 }
