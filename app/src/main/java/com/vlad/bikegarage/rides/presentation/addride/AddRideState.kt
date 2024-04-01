@@ -13,6 +13,7 @@ data class AddRideState(
     val durationMinutes: Int = 24,
     val date: Long = System.currentTimeMillis(),
     val rideNameError: UiText? = null,
+    val distanceError: UiText? = null,
     val bikeNamesList: List<Bike> = emptyList(),
     val showDurationPicker: Boolean = false,
     val showDatePicker: Boolean = false,

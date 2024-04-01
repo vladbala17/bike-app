@@ -16,6 +16,7 @@ data class AddBikeState(
     val bikeName: String = "",
     val bikeTitle: String = BikeType.Electric.type,
     val bikeNameError: UiText? = null,
+    val distanceError: UiText? = null,
     val bikeColor: Int = White.toArgb(),
     val wheelSize: String = "29'",
     val serviceIn: String = "",

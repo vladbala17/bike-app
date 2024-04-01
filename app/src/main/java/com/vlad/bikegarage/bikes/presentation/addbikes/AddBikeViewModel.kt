@@ -6,6 +6,7 @@ import com.vlad.bikegarage.bikes.domain.model.Bike
 import com.vlad.bikegarage.bikes.domain.use_case.AddBike
 import com.vlad.bikegarage.bikes.domain.use_case.GetBikeDetail
 import com.vlad.bikegarage.bikes.domain.use_case.ValidateBikeName
+import com.vlad.bikegarage.bikes.domain.use_case.ValidateDistance
 import com.vlad.bikegarage.settings.domain.Preferences
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -20,6 +21,7 @@ import kotlinx.coroutines.launch
 class AddBikeViewModel @AssistedInject constructor(
     @Assisted val bikeId: Int,
     private val bikeNameUseCase: ValidateBikeName,
+    private val validDistance: ValidateDistance,
     private val addBike: AddBike,
     private val getBikeDetail: GetBikeDetail,
     private val preferences: Preferences
@@ -46,7 +48,7 @@ class AddBikeViewModel @AssistedInject constructor(
     fun onEvent(event: AddBikeEvent) {
         when (event) {
             is AddBikeEvent.Submit -> {
-                if (bikeNameIsValid()) {
+                if (bikeNameIsValid() && isServiceDistanceValid()) {
                     _state.update { newState ->
                         newState.copy(isValidatedSuccessfully = true, bikeNameError = null)
                     }
@@ -119,6 +121,14 @@ class AddBikeViewModel @AssistedInject constructor(
         }
 
         return bikeNameValidation.successful
+    }
+
+    private fun isServiceDistanceValid(): Boolean {
+        val distanceValidation = validDistance(_state.value.serviceIn)
+        _state.update { newState ->
+            newState.copy(distanceError = distanceValidation.errorMessage)
+        }
+        return distanceValidation.successful
     }
 
     private fun selectTypeFromPage(page: Int) {

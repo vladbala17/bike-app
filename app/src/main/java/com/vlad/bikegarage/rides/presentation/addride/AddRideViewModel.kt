@@ -4,14 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vlad.bikegarage.bikes.domain.model.Bike
 import com.vlad.bikegarage.bikes.domain.model.BikeType
-import com.vlad.bikegarage.bikes.domain.use_case.GetBikeByName
 import com.vlad.bikegarage.bikes.domain.use_case.GetBikes
-import com.vlad.bikegarage.bikes.domain.use_case.GetRidesForBike
 import com.vlad.bikegarage.bikes.domain.use_case.ValidateBikeName
+import com.vlad.bikegarage.bikes.domain.use_case.ValidateDistance
 import com.vlad.bikegarage.rides.domain.model.Ride
 import com.vlad.bikegarage.rides.domain.use_case.AddRide
 import com.vlad.bikegarage.rides.domain.use_case.GetRideDetail
-import com.vlad.bikegarage.settings.domain.Preferences
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -27,12 +25,10 @@ import kotlinx.coroutines.launch
 class AddRideViewModel @AssistedInject constructor(
     @Assisted val rideId: Int,
     private val rideNameUseCase: ValidateBikeName,
+    private val validDistance: ValidateDistance,
     private val addRide: AddRide,
     private val getRideDetail: GetRideDetail,
     private val getBikes: GetBikes,
-    private val preferences: Preferences,
-    private val getRidesForBike: GetRidesForBike,
-    private val getBikeByName: GetBikeByName
 ) :
     ViewModel() {
     private val _state = MutableStateFlow(AddRideState())
@@ -80,7 +76,7 @@ class AddRideViewModel @AssistedInject constructor(
             }
 
             AddRideEvent.Submit -> {
-                if (rideNameIsValid()) {
+                if (rideNameIsValid() && isServiceDistanceValid()) {
 
 
                     _state.update { newState ->
@@ -161,6 +157,14 @@ class AddRideViewModel @AssistedInject constructor(
         }
 
         return rideNameValidation.successful
+    }
+
+    private fun isServiceDistanceValid(): Boolean {
+        val distanceValidation = validDistance(_state.value.distance)
+        _state.update { newState ->
+            newState.copy(distanceError = distanceValidation.errorMessage)
+        }
+        return distanceValidation.successful
     }
 
     private fun loadBikesNames() {

@@ -52,6 +52,8 @@ object AppModule {
         return ValidateBikeName()
     }
 
+
+
     @Provides
     @Singleton
     fun provideBikesDatabase(@ApplicationContext context: Context): BikesDatabase {
