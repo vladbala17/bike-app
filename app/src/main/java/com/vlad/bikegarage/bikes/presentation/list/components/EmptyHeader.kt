@@ -1,8 +1,8 @@
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -27,7 +27,6 @@ fun EmptyHeader(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
     ) {
         Image(
@@ -43,7 +42,7 @@ fun EmptyHeader(
                 painter = painterResource(id = R.drawable.dotted_line),
                 contentDescription = "dotted line",
                 modifier = Modifier
-                    .padding(start = 20.dp)
+                    .padding(start = 20.dp).heightIn(min = 150.dp, max = 150.dp)
 
             )
             if (showText) {
