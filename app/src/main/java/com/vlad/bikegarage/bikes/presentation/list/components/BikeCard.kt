@@ -100,7 +100,7 @@ fun BikeCard(
                     color = MaterialTheme.colors.onPrimary
                 )
                 Text(
-                    text = remainingServiceDistance.toString(),
+                    text = "$remainingServiceDistance km",
                     style = MaterialTheme.typography.h2,
                     color = MaterialTheme.colors.onPrimary
                 )
