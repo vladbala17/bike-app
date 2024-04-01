@@ -93,6 +93,7 @@ fun AddBikesScreen(
         Label(title = stringResource(R.string.service_in_label), isMandatory = true)
         NumericTextField(
             value = state.value.serviceIn,
+            defaultSuffix = state.value.defaultUnit,
             isError = state.value.distanceError != null,
             errorMessage = state.value.distanceError,
             onServiceReminderAdded = { serviceInterval ->

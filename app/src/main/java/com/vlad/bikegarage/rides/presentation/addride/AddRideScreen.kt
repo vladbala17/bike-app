@@ -95,6 +95,7 @@ fun AddRideScreen(
             value = state.value.distance,
             isError = state.value.distanceError != null,
             errorMessage = state.value.distanceError,
+            defaultSuffix = state.value.defaultUnit,
             onServiceReminderAdded = { rideDistance ->
                 viewModel.onEvent(AddRideEvent.OnRideDistanceAdded(rideDistance))
             }, modifier = Modifier.padding(bottom = 16.dp)

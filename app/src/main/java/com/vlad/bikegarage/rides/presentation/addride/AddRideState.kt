@@ -11,6 +11,7 @@ data class AddRideState(
     val distance: String = "",
     val durationHours: Int = 2,
     val durationMinutes: Int = 24,
+    val defaultUnit: String = "",
     val date: Long = System.currentTimeMillis(),
     val rideNameError: UiText? = null,
     val distanceError: UiText? = null,

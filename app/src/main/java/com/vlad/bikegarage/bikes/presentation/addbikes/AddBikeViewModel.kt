@@ -41,7 +41,7 @@ class AddBikeViewModel @AssistedInject constructor(
         }
     }
 
-    private val _state = MutableStateFlow(AddBikeState())
+    private val _state = MutableStateFlow(AddBikeState(defaultUnit = preferences.getDistanceUnit()))
     val state = _state.asStateFlow()
 
 

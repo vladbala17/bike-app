@@ -10,6 +10,7 @@ import com.vlad.bikegarage.bikes.domain.use_case.ValidateDistance
 import com.vlad.bikegarage.rides.domain.model.Ride
 import com.vlad.bikegarage.rides.domain.use_case.AddRide
 import com.vlad.bikegarage.rides.domain.use_case.GetRideDetail
+import com.vlad.bikegarage.settings.domain.Preferences
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -29,9 +30,10 @@ class AddRideViewModel @AssistedInject constructor(
     private val addRide: AddRide,
     private val getRideDetail: GetRideDetail,
     private val getBikes: GetBikes,
+    preferences: Preferences
 ) :
     ViewModel() {
-    private val _state = MutableStateFlow(AddRideState())
+    private val _state = MutableStateFlow(AddRideState(defaultUnit = preferences.getDistanceUnit()))
     val state = _state
 
     private var getRidesJob: Job? = null
@@ -43,6 +45,7 @@ class AddRideViewModel @AssistedInject constructor(
 
     init {
         loadBikesNames()
+
         if (rideId > 0) {
             viewModelScope.launch {
                 val ride = getRideDetail(rideId = rideId)
