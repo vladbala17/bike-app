@@ -43,6 +43,7 @@ fun BikesScreen(
                     remainingServiceDistance = bike.remainingServiceDistance,
                     usageUntilService = bike.usageUntilService,
                     onEditBikeMenuClick = { onEditBike(bike.id) },
+                    defaultUnit = state.value.defaultUnit,
                     onDeleteBike = {
                         viewModel.onEvent(BikesEvent.OnDeleteBike(bike.name))
                     },

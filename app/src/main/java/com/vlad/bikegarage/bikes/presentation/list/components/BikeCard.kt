@@ -39,6 +39,7 @@ fun BikeCard(
     bikeColor: Color = Color.DarkGray,
     usageUntilService: Float = 0.8f,
     backgroundColor: Color = OceanBlue,
+    defaultUnit: String = "",
     onEditBikeMenuClick: (Int) -> Unit = {},
     onDeleteBikeMenuClick: (String) -> Unit = {},
     onBikeCardClick: (Int) -> Unit = {},
@@ -100,7 +101,7 @@ fun BikeCard(
                     color = MaterialTheme.colors.onPrimary
                 )
                 Text(
-                    text = "$remainingServiceDistance km",
+                    text = "$remainingServiceDistance $defaultUnit",
                     style = MaterialTheme.typography.h2,
                     color = MaterialTheme.colors.onPrimary
                 )

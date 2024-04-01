@@ -13,6 +13,7 @@ fun BikeListItem(
     onEditBikeMenuClick: (Int) -> Unit,
     onDeleteBike: (String) -> Unit,
     onBikeItemClick: (Int) -> Unit,
+    defaultUnit: String = "",
     modifier: Modifier
 ) {
     BikeCard(
@@ -23,6 +24,7 @@ fun BikeListItem(
         bikeColor = Color(bike.bikeColor),
         remainingServiceDistance = remainingServiceDistance,
         usageUntilService = usageUntilService,
+        defaultUnit = defaultUnit,
         modifier = modifier,
         onEditBikeMenuClick = onEditBikeMenuClick,
         onDeleteBikeMenuClick = onDeleteBike,

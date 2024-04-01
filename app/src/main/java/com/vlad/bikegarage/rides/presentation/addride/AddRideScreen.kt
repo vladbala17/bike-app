@@ -179,6 +179,5 @@ fun AddRideScreen(
             OneTimeWorkRequestBuilder<BikeServiceWorker>().setInputData(inputData).setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST).build()
         WorkManager.getInstance(context).cancelAllWork()
         WorkManager.getInstance(context).enqueue(defaultBikeRequest)
-
     }
 }

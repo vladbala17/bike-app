@@ -6,6 +6,7 @@ import com.vlad.bikegarage.bikes.domain.model.Bike
 import com.vlad.bikegarage.bikes.domain.use_case.DeleteBike
 import com.vlad.bikegarage.bikes.domain.use_case.GetBikes
 import com.vlad.bikegarage.bikes.domain.use_case.GetRidesForBike
+import com.vlad.bikegarage.settings.domain.Preferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +21,8 @@ import javax.inject.Inject
 class BikesViewModel @Inject constructor(
     private val getBikes: GetBikes,
     private val deleteBike: DeleteBike,
-    private val getRidesForBike: GetRidesForBike
+    private val getRidesForBike: GetRidesForBike,
+    private val preferences: Preferences
 ) : ViewModel() {
     private val _state = MutableStateFlow(BikesState())
     val state = _state.asStateFlow()
@@ -72,7 +74,7 @@ class BikesViewModel @Inject constructor(
                 )
             }
             _state.update { newState ->
-                newState.copy(bikes = bikeRidesList)
+                newState.copy(bikes = bikeRidesList, defaultUnit = preferences.getDistanceUnit())
             }
         }.launchIn(viewModelScope)
     }
